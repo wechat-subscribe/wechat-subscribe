@@ -8,7 +8,7 @@ class DB {
 	private $sql; // sql语句
 	private $result; // sql语句执行结果
 	                 // 构造函数
-	public function __construct($serverName = "localhost", $connectionInfo = array("Database"=>"cg_db","CharacterSet"=>"UTF-8")) {
+	public function __construct($serverName = "localhost", $connectionInfo = array("Database"=>"wx","CharacterSet"=>"UTF-8")) {
 		$this->serverName = $serverName;
 		$this->connectionInfo = $connectionInfo;
 		$this->connect (); // 实例化时即连接数据库
@@ -87,7 +87,7 @@ class DB {
 		return $rows;
 	}
 	//查询一条结果
-	public function getRow($sql){
+	public function getrow($sql){
 		$this->query ( $sql ); // 执行sql语句
 		if(MYSQL){
 			$row = mysql_fetch_assoc ( $this->result);
