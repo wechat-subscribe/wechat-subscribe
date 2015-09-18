@@ -29,7 +29,6 @@ class upload{
 		$this->allowExt=$allowExt;
 		$this->uploadPath=$uploadPath;
 		$this->imgFlag=$imgFlag;
-		$this->imgFlag=$imgFlag;
 		$this->fileInfo=$fileInfo;
 	}
 	/**
