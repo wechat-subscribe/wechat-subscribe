@@ -10,14 +10,16 @@ require_once $path.'/common/php/dbaccess.php';
 $moduleId=1;//获取模块ID
 // $type=$_GET['type'];//list:列表显示；details:具体内容显示
 // $type='list';
-$type='details';
+// $type='details';
+// $type='leaveword';
+$type='zan';
+session_start();
 $db=new DB();
 //从wx_info中查询出文章的基本信息
 $sql_info="select id,userId,title,content,picture,date,is_leaveword,is_zan from wx_info where moduleId=".$moduleId;
 $res_info=$db->execsql($sql_info);
-// echo $sql_info.'</br>';
-// print_r($res_info);die;
 if ($type=='list'){
+	/**************显示文章列表****************/
 // 	echo "test";
 	$list=array();
 	foreach ($res_info as $key_list=>$val_list){
@@ -42,7 +44,9 @@ if ($type=='list'){
 		$list[$key_list]['userName']=$res_user_name['userName'];
 	}
 // 	var_dump($list);
+	echo json_encode($list);
 }elseif ($type=='details') {
+	/**************显示某篇文章的具体内容****************/
 // 	 $infoId=$_GET['infoId'];//获取显示具体内容的文章ID
 	 $infoId=1;//获取显示具体内容的文章ID
 	 $sql_info_details="select userId,title,date,content,is_leaveword,is_zan from wx_info where id=".$infoId;
@@ -80,5 +84,63 @@ if ($type=='list'){
 	 $details['title']=$res_info_details['title'];
 	 $details['date']=$res_info_details['date'];
 	 $details['content']=$res_info_details['content'];
-	 var_dump($details);
+// 	 var_dump($details);
+	echo json_encode($details);
+}elseif ($type=='leaveword'){
+	/*******************用户评论***********************/
+	//$leaveword['infoId']=$_GET['infoId'];//获取显示具体内容的文章ID
+	$leaveword['infoId']=1;//获取显示具体内容的文章ID
+// 	$leaveword['content']=$_GET['content'];
+	$leaveword['content']='精彩！！！！！！';
+// 	$leaveword['userId']=$_SESSION['user']['id'];
+	$leaveword['userId']=1;
+	$leaveword['date']=date('Y-m-d H:i:s',time());
+	$insert=$db->insert('wx_leaveword', $leaveword);
+	if ($insert){
+		echo 1;//评论成功
+	}else{
+		echo 0;//评论失败
+	}
+}elseif ($type=='zan'){
+	/*******************用户点赞***********************/
+	//$zan['infoId']=$_GET['infoId'];//获取显示具体内容的文章ID
+	$zan['infoId']=2;//获取显示具体内容的文章ID
+	//$zan['userId']=$_SESSION['user']['id'];
+	$zan['userId']=1;
+	$sql_is_zan="select id from wx_zan where infoId=".$zan['infoId']." and userId=".$zan['userId'];
+	$res_is_zan=$db->getrow($sql_is_zan);
+// 	echo $sql_is_zan;die;
+// 	echo empty($res_is_zan);die;
+	if (!empty($res_is_zan)){
+		echo 2;//你已赞过该文章
+	}else {
+		$zan['date']=date('Y-m-d H:i:s',time());
+		$insert=$db->insert('wx_zan', $zan);
+		if ($insert){
+			echo 1;//评论成功
+		}else{
+			echo 0;//评论失败
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
