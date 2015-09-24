@@ -29,10 +29,10 @@ $moduleId = 1; // 获取模块ID
 // $type='list';
 // $type='details';
 // $type='leaveword';
-// $type = 'zan';
+$type = 'zan';
 // $type = 'deleteInfo';
 // $type = 'updateInfo';
-$type = 'deleteLeaveword';
+// $type = 'deleteLeaveword';
 // $type = 'updateLeaveword';
 session_start ();
 $db = new DB ();
@@ -91,16 +91,16 @@ if ($type == 'list') {
 		$res_leaveword = $db->execsql ( $sql_leaveword );
 		// 评论次数
 		$num_leaveword = count ( $res_leaveword );
-		$details [$key_list] ['num_leaveword'] = $num_leaveword;
+		$details ['num_leaveword'] = $num_leaveword;
 		if ($num_leaveword > 0) {
 			foreach ( $res_leaveword as $key_leaveword => $val_leaveword ) {
 				// 根据userId在wx_user中查询出作者的姓名
 				$sql_user_name = "select userName from wx_user where id='{$val_leaveword ['userId']}'";
 				$res_user_name = $db->getrow ( $sql_user_name );
-				$details [$key_leaveword] ['id'] = $val_leaveword ['id'];
-				$details [$key_leaveword] ['content'] = $val_leaveword ['content'];
-				$details [$key_leaveword] ['date'] = $val_leaveword ['date'];
-				$details [$key_leaveword] ['userName'] = $res_user_name ['userName'];
+				$details ['leaveword'][$key_leaveword] ['id'] = $val_leaveword ['id'];
+				$details ['leaveword'][$key_leaveword] ['content'] = $val_leaveword ['content'];
+				$details ['leaveword'][$key_leaveword] ['date'] = $val_leaveword ['date'];
+				$details ['leaveword'][$key_leaveword] ['userName'] = $res_user_name ['userName'];
 			}
 		}
 	}
@@ -108,13 +108,13 @@ if ($type == 'list') {
 		$sql_num_zan = "select id from wx_zan where infoId='{$infoId}'";
 		$res_num_zan = $db->execsql ( $sql_num_zan );
 		$num_zan = count ( $res_num_zan ); // 点赞次数
-		$details [$key_list] ['num_zan'] = $num_zan;
+		$details  ['num_zan'] = $num_zan;
 	}
 	$details ['userName'] = $res_user_name ['userName'];
 	$details ['title'] = $res_info_details ['title'];
 	$details ['date'] = $res_info_details ['date'];
 	$details ['content'] = $res_info_details ['content'];
-	// var_dump($details);
+// 	var_dump($details);
 	echo json_encode ( $details );
 } elseif ($type == 'leaveword') {
 	/**
@@ -155,9 +155,9 @@ if ($type == 'list') {
 		$zan ['date'] = date ( 'Y-m-d H:i:s', time () );
 		$insert = $db->insert ( 'wx_zan', $zan );
 		if ($insert) {
-			echo 1; // 评论成功
+			echo 1; // 点赞成功
 		} else {
-			echo 0; // 评论失败
+			echo 0; // 点赞失败
 		}
 	}
 } elseif ($type == 'deleteInfo') {
@@ -167,7 +167,7 @@ if ($type == 'list') {
 	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
 	$infoId = 2; // 获取显示具体内容的文章信息ID
 	if (empty($infoId)){
-		echo de0;//删除失败，请联系技术支持
+		echo 0;//删除失败，请联系技术支持
 	}else {
 		$sql_pic="select picture from wx_info where Id='{$infoId}'";
 		$res_pic=$db->getrow($sql_pic);

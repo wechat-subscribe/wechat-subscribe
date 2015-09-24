@@ -20,7 +20,7 @@ $regex = new regexTool();
 // $type='update';
 // $type='checkPage';
 // $type='checkFuzzy';
-   $type='checkone';
+   $type='checkOne';
 if ($type=='add'){
 	/**********************后台管理员新增子公司信息**************************/
 	$subcom=array();
@@ -68,7 +68,7 @@ if ($type=='add'){
 	if (mysql_affected_rows()){
 		echo 1;//删除成功
 	}else {
-		echo 0;//删除失败
+		echo 0;//删除失败，请联系技术支持
 	}
 }elseif ($type=='update'){
 	/**********************后台管理员更新子公司信息**************************/
@@ -121,8 +121,8 @@ if ($type=='add'){
 		$check_data['check']=$res_check;
 		$check_data['error']=1;//可以向下或向上翻页
 	}
-	var_dump($check_data);
-// 	echo json_encode($res_check);
+// 	var_dump($check_data);
+	echo json_encode($res_check);
 }elseif ($type=='checkFuzzy'){
 	/**********************模糊查询公司名称**************************/
 // 	$keyword=$_GET['keyword'];
@@ -131,13 +131,13 @@ if ($type=='add'){
 	$res_checkFuzzy=$db->execsql($sql_checkFuzzy);
 // 	echo $sql_checkFuzzy;die;
 // 	var_dump($res_checkFuzzy);
-	echo json_encode($res_check);
-}elseif ($type=='checkone'){
+	echo json_encode($res_checkFuzzy);
+}elseif ($type=='checkOne'){
 	/*********用户输入通过模糊查询输入完整的子公司名称后，显示该公司具体的信息*************/
 // 	$companyName=$_GET['companyName'];
 	$companyName='子公司名称5';
 	$sql_company="select * from wx_map";
 	$res_company=$db->getrow($sql_company);
-// 	var_dump($res_company);
-	echo json_encode($res_company);
+	var_dump($res_company);
+// 	echo json_encode($res_company);
 }
