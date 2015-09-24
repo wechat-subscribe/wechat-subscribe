@@ -37,11 +37,10 @@ function getFiles(){
 function uploadmulti($type){
 // 	print_r($_FILES);die;
 	$files=getFiles();
-	$path=dirname(dirname(__FILE__));//获取upload_image的上层目录的绝对路径
 	if ($type==0){
-		$uploadPath=$path.'/upload_image';
+		$uploadPath='../upload_image';
 	}else {
-		$uploadPath=$path.'/upload_video';
+		$uploadPath='../upload_video';
 	}
 	
 	foreach($files as $fileInfo){

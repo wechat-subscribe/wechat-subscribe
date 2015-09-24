@@ -80,6 +80,8 @@ if (  empty( $title ) || empty ( $content)) {
 	}
 }
 echo $error;
+echo '<br/>';
+var_dump($dest);
 
 
 
