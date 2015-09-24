@@ -75,7 +75,7 @@ class DB {
 		$keys = join ( ",", array_keys ( $array ) ); // 获取传过来的键名
 		$vals = "'" . join ( "','", array_values ( $array ) ) . "'"; // 获取传过来的值
 		$sql = "INSERT INTO {$table}({$keys}) VALUES ({$vals})";
-// 		echo $sql;
+// 		echo $sql;die;
 		$stmt=mysql_query ( $sql,$this->conn );
 		$res=mysql_affected_rows();
 		if ($res){
