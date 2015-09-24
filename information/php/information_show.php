@@ -19,7 +19,7 @@
  * $type='deleteLeaveword': 后台管理员删除某篇文章的评论
  * $type='updateLeaveword': 后台管理员编辑、修改文章信息的评论内容
  */
-header ( "content-type:text/html;charset=utf-8" );
+header ( "content-type:text/json;charset=utf-8" );
 $path = dirname ( dirname ( dirname ( __FILE__ ) ) );
 // echo $path;
 require_once $path . '/common/php/dbaccess.php';
@@ -46,14 +46,15 @@ if ($type == 'list') {
 	$num=3;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置
 	// 从wx_info中查询出文章信息的基本文章信息
-	$sql_info = "select id,userId,title,content,picture,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
+	$sql_info = "select id,userId,title,content,media,thumb,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
 // 	echo $sql_info;die;
 	$res_info = $db->execsql ( $sql_info );
 	$list = array ();
 	foreach ( $res_info as $key_list => $val_list ) {
-		// 根据userId在wx_user中查询出作者的姓名
+		/* // 根据userId在wx_user中查询出作者的姓名
 		$sql_user_name = "select userName from wx_user where id='{$val_list ['userId']}'";
-		$res_user_name = $db->getrow ( $sql_user_name );
+		$res_user_name = $db->getrow ( $sql_user_name ); */
+		
 		// 根据文章信息ID在wx_leaveword表中查询出该文章信息的评论次数，在wx_zan表中查询出该文章信息的点赞次数
 		if ($val_list ['is_leaveword'] == 1) {
 			$sql_num_leaveword = "select id from wx_leaveword where infoId='{$val_list ['id']}'";
@@ -68,9 +69,10 @@ if ($type == 'list') {
 			$list [$key_list] ['num_zan'] = $num_zan;
 		}
 		$list [$key_list] ['id'] = $val_list ['id'];
-		$list [$key_list] ['picture'] = $val_list ['picture'];
+		$list [$key_list] ['media'] = $val_list ['media'];
+		$list [$key_list] ['thumb'] = $val_list ['thumb'];
 		$list [$key_list] ['title'] = $val_list ['title'];
-		$list [$key_list] ['userName'] = $res_user_name ['userName'];
+// 		$list [$key_list] ['userName'] = $res_user_name ['userName'];
 	}
 // 	var_dump($list);
 	echo json_encode ( $list );
@@ -80,11 +82,13 @@ if ($type == 'list') {
 	 */
 	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
 	$infoId = 1; // 获取显示具体内容的文章信息ID
-	$sql_info_details = "select userId,title,date,content,is_leaveword,is_zan from wx_info where id='{$infoId}'";
+	$sql_info_details = "select userId,media,title,date,content,is_leaveword,is_zan from wx_info where id='{$infoId}'";
 	$res_info_details = $db->getrow ( $sql_info_details );
-	// 根据userId在wx_user中查询出作者的姓名
+	
+	/* // 根据userId在wx_user中查询出作者的姓名
 	$sql_user_name = "select userName from wx_user where id='{$res_info_details ['userId']}'";
-	$res_user_name = $db->getrow ( $sql_user_name );
+	$res_user_name = $db->getrow ( $sql_user_name ); */
+	
 	// 根据文章信息ID在wx_leaveword表中查询出该文章信息的评论次数和详情，在wx_zan表中查询出该文章信息的点赞次数
 	if ($res_info_details ['is_leaveword'] == 1) {
 		$sql_leaveword = "select id,userId,content,date from wx_leaveword where infoId='{$infoId}'";
@@ -94,13 +98,14 @@ if ($type == 'list') {
 		$details ['num_leaveword'] = $num_leaveword;
 		if ($num_leaveword > 0) {
 			foreach ( $res_leaveword as $key_leaveword => $val_leaveword ) {
-				// 根据userId在wx_user中查询出作者的姓名
-				$sql_user_name = "select userName from wx_user where id='{$val_leaveword ['userId']}'";
+				// 根据userId在wx_user中查询出作者的微信号和微信头像
+				$sql_user_name = "select wechatName, header from wx_user where id='{$val_leaveword ['userId']}'";
 				$res_user_name = $db->getrow ( $sql_user_name );
 				$details ['leaveword'][$key_leaveword] ['id'] = $val_leaveword ['id'];
 				$details ['leaveword'][$key_leaveword] ['content'] = $val_leaveword ['content'];
 				$details ['leaveword'][$key_leaveword] ['date'] = $val_leaveword ['date'];
-				$details ['leaveword'][$key_leaveword] ['userName'] = $res_user_name ['userName'];
+				$details ['leaveword'][$key_leaveword] ['wechatName'] = $res_user_name ['wechatName'];
+				$details ['leaveword'][$key_leaveword] ['header'] = $res_user_name ['header'];
 			}
 		}
 	}
@@ -110,10 +115,11 @@ if ($type == 'list') {
 		$num_zan = count ( $res_num_zan ); // 点赞次数
 		$details  ['num_zan'] = $num_zan;
 	}
-	$details ['userName'] = $res_user_name ['userName'];
+// 	$details ['userName'] = $res_user_name ['userName'];
 	$details ['title'] = $res_info_details ['title'];
 	$details ['date'] = $res_info_details ['date'];
 	$details ['content'] = $res_info_details ['content'];
+	$details ['media'] = $res_info_details ['media'];
 // 	var_dump($details);
 	echo json_encode ( $details );
 } elseif ($type == 'leaveword') {
@@ -169,13 +175,14 @@ if ($type == 'list') {
 	if (empty($infoId)){
 		echo 0;//删除失败，请联系技术支持
 	}else {
-		$sql_pic="select picture from wx_info where Id='{$infoId}'";
+		$sql_pic="select media,thumb from wx_info where Id='{$infoId}'";
 		$res_pic=$db->getrow($sql_pic);
 		$sql_del = "delete from wx_info where Id='{$infoId}'";
 		$res_del = $db->execsql ( $sql_del );
 		$res = mysql_affected_rows ();
 		if ($res) {
-			unlink($res_pic['picture']);
+			unlink($res_pic['media']);
+			unlink($res_pic['thumb']);
 			echo 1; // 删除成功
 		} else {
 			echo 0; // 删除失败，请联系技术支持
@@ -195,11 +202,12 @@ if ($type == 'list') {
 	$is_leaveword=1;
 // 	$is_zan=$_GET['is_zan'];
 	$is_zan=1;
-// 	$picture=$_GET['picture'];
-	if (empty($infoId)||empty($title)||empty($content)||empty($is_leaveword)||empty($is_zan)||empty($picture)){
+// 	$media=$_GET['media'];
+// 	$media=$_GET['thumb'];
+	if (empty($infoId)||empty($title)||empty($content)||empty($is_leaveword)||empty($is_zan)){
 		echo 2;//请检查空值
 	}else {
-		$sql_update="update wx_info set title='{$title}',content='{$content}',picture='{$picture}',is_leaveword='{$is_leaveword}',is_zan='{$is_zan}' where id='{$infoId}'";
+		$sql_update="update wx_info set title='{$title}',content='{$content}',media='{$media}',thumb='{$thumb}',is_leaveword='{$is_leaveword}',is_zan='{$is_zan}' where id='{$infoId}'";
 		// 	echo $sql_update;
 		$res_update=$db->execsql($sql_update);
 		$res=mysql_affected_rows();

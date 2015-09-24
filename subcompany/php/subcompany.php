@@ -9,7 +9,7 @@
  * $type='checkFuzzy':模糊查询公司名称
  * $type='checkone':用户输入通过模糊查询输入完整的子公司名称后，显示该公司具体的信息
  */
-header("content-type:text/html;charset=utf-8");
+header("content-type:text/json;charset=utf-8");
 require_once '../../common/php/dbaccess.php';
 require_once '../../common/php/regexTool.class.php';//正则表达式匹配的类文件
 $db=new DB();
@@ -108,7 +108,7 @@ if ($type=='add'){
 	/**********************分页查询公司信息**************************/
 // 	$page=$_GET['page'];
 	$page=5;
-	$num=5;//每页显示10条
+	$num=10;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置	
 	$sql_check="select * from wx_map limit ".$start.",".$num;
 	$res_check=$db->execsql($sql_check);
