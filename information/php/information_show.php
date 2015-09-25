@@ -20,9 +20,9 @@
  * $type='updateLeaveword': 后台管理员编辑、修改文章信息的评论内容
  */
 header ( "content-type:text/json;charset=utf-8" );
-$path = dirname ( dirname ( dirname ( __FILE__ ) ) );
 // echo $path;
-require_once $path . '/common/php/dbaccess.php';
+require_once '../../common/php/dbaccess.php';
+require_once '../../common/php/uploadFiles.php';
 // $moduleId=$_GET['moduleId'];//获取模块ID
 $moduleId = 1; // 获取模块ID
 // $type=$_GET['type'];//list:列表显示；details:具体内容显示
@@ -46,7 +46,7 @@ if ($type == 'list') {
 	$num=3;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置
 	// 从wx_info中查询出文章信息的基本文章信息
-	$sql_info = "select id,userId,title,content,media,thumb,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
+	$sql_info = "select id,userId,title,content,thumb,media,thumb,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
 // 	echo $sql_info;die;
 	$res_info = $db->execsql ( $sql_info );
 	$list = array ();
@@ -68,8 +68,8 @@ if ($type == 'list') {
 			$num_zan = count ( $res_num_zan ); // 点赞次数
 			$list [$key_list] ['num_zan'] = $num_zan;
 		}
+		
 		$list [$key_list] ['id'] = $val_list ['id'];
-		$list [$key_list] ['media'] = $val_list ['media'];
 		$list [$key_list] ['thumb'] = $val_list ['thumb'];
 		$list [$key_list] ['title'] = $val_list ['title'];
 // 		$list [$key_list] ['userName'] = $res_user_name ['userName'];
@@ -115,11 +115,16 @@ if ($type == 'list') {
 		$num_zan = count ( $res_num_zan ); // 点赞次数
 		$details  ['num_zan'] = $num_zan;
 	}
+	//将图片的多个url分离
+	$detail_media=explode(';', $res_info_details['media']);
+	foreach ($detail_media as $val_detail_media){
+		$details ['media'][] = $val_detail_media;
+	}
 // 	$details ['userName'] = $res_user_name ['userName'];
 	$details ['title'] = $res_info_details ['title'];
 	$details ['date'] = $res_info_details ['date'];
 	$details ['content'] = $res_info_details ['content'];
-	$details ['media'] = $res_info_details ['media'];
+	
 // 	var_dump($details);
 	echo json_encode ( $details );
 } elseif ($type == 'leaveword') {
@@ -177,20 +182,39 @@ if ($type == 'list') {
 	}else {
 		$sql_pic="select media,thumb from wx_info where Id='{$infoId}'";
 		$res_pic=$db->getrow($sql_pic);
+		
 		$sql_del = "delete from wx_info where Id='{$infoId}'";
 		$res_del = $db->execsql ( $sql_del );
 		$res = mysql_affected_rows ();
 		if ($res) {
-			unlink($res_pic['media']);
+			//将图片的多个url分离,并删除图片文件
+			$deleteInfo_media=explode(';', $res_pic['media']);
+			foreach ($deleteInfo_media as $val_deleteInfo_media){			
+				unlink($val_deleteInfo_media);
+			}
 			unlink($res_pic['thumb']);
 			echo 1; // 删除成功
 		} else {
 			echo 0; // 删除失败，请联系技术支持
 		}
 	}	
-} elseif ($type == 'updateInfo') {
+}elseif ($type == 'updateInfo') {
 	/**
-	 * *****************后台管理员编辑、修改文章信息的具体内容**********************
+	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“修改”按钮**********************
+	 */
+	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
+	$infoId = 1; // 获取显示具体内容的文章信息ID
+	$sql_updateInfo="select title,content,is_leaveword,is_zan,media,thumb from wx_info where id='{$infoId}'";
+	$res_updateInfo=$db->getrow($sql_updateInfo);
+	// 	将查询出的media的url根据“；”分开，单独存放
+	$updateInfo_media=explode(';', $res_updateInfo['media']);
+	foreach ($updateInfo_media as $val_updateInofo_media){
+		$res_updateInfo['media'][]=$val_updateInofo_media;
+	}
+	echo json_encode($res_updateInfo);
+}elseif ($type == 'updateInfoOK') {
+	/**
+	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“提交”按钮**********************
 	 */
 	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
 	$infoId = 1; // 获取显示具体内容的文章信息ID
@@ -202,8 +226,17 @@ if ($type == 'list') {
 	$is_leaveword=1;
 // 	$is_zan=$_GET['is_zan'];
 	$is_zan=1;
-// 	$media=$_GET['media'];
-// 	$media=$_GET['thumb'];
+	/*****获取上传图片的url****/
+	/*$dest=array();
+	$dest=uploadmulti(0);
+	// var_dump($dest);
+	$media_num=count($dest);
+	$dest_db=$dest[0];
+	for ($i=1;$i<$num;$i++){
+		$dest_db.=';'.$dest[$i];
+	}
+ 	 $media=$dest_db;
+ 	$thumb=$_GET['thumb']; */
 	if (empty($infoId)||empty($title)||empty($content)||empty($is_leaveword)||empty($is_zan)){
 		echo 2;//请检查空值
 	}else {
