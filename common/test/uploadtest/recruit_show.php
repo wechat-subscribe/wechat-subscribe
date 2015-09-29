@@ -5,23 +5,30 @@ $path=dirname(dirname(dirname(__FILE__)));
 require_once $path.'/common/php/dbaccess.php';
 $db=new DB();
 // $type=$_GET['type'];
-$sql_recruit="select id,positionName,address,ageRequire,sexRequire,eduRequire,other,salary,content,
-		num,date from wx_talent_recruit order by date desc";
-$res_recruit=$db->execsql($sql_recruit);
+
+
 
 $data=array();
 $i=0;
+// $page=$_GET['page'];
+$page=1;
+$num=3;
+$start=($page-1)*$num;
+$sql_recruit="select id,positionName,address,ageRequire,sexRequire,eduRequire,other,salary,content,
+		num,date from wx_talent_recruit order by date desc limit ".$start.",".$num;
+$res_recruit=$db->execsql($sql_recruit);
 foreach($res_recruit as $key_recruit =>$val_recruit){
-	$time_now=strtotime("-10 day");
-	$time_date=strtotime($val_recruit['date']);
+// 	$time_now=strtotime("-10 day");
+// 	$time_date=strtotime($val_recruit['date']);
 	/*********判断是否超过时限*****************/
-	if($time_date<=$time_now){
+// 	if($time_date<=$time_now){
 // 		$error=4 ;//超过时限
-		$sql="select id from wx_talent_recruit where date = ".$val_recruit['date'];
-		$res_sql=$db->getrow($sql);
-		$sql_del="delete from wx_talent_recruit where id=".$res_sql;//删除超时的招聘信息
-		$res_del=$db->execsql($sql_del);
-	}else{
+// 		$sql="select id from wx_talent_recruit where date = ".$val_recruit['date'];
+// 		$res_sql=$db->getrow($sql);
+// 		$sql_del="delete from wx_talent_recruit where id=".$res_sql;//删除超时的招聘信息
+// 		$res_del=$db->execsql($sql_del);
+// 	}else{
+		/********************把数据导入$data中**********************/
 		$data[$i]['id']=$val_recruit['id'];
 		$data[$i]['positionName']=$val_recruit['positionName'];
 		$data[$i]['address']=$val_recruit['address'];
@@ -34,10 +41,10 @@ foreach($res_recruit as $key_recruit =>$val_recruit){
 		$data[$i]['num']=$val_recruit['num'];
 		$data[$i]['date']=$val_recruit['date'];
 		$i++;
-	}
+// 	}
 }
 
-echo json_encode($data);
+
 
 
 

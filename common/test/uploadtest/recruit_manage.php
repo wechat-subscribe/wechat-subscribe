@@ -1,18 +1,22 @@
 <?php
 header("content-type:text/html;charset=utf-8");
-$path=dirname(dirname(dirname(__FILE__)));
+// $path=dirname(dirname(dirname(__FILE__)));
 // echo $path;
-require_once $path.'/common/php/dbaccess.php';
-require_once $path.'/common/php/regexTool.class.php';
+require_once '../../../common/php/dbaccess.php';
+require_once '../../../common/php/regexTool.class.php';
 $db=new DB();
-$sql="select * from wx_talent_recruit order by date desc";
+$page=$_GET['page'];
+// $page=1;
+$num=3;
+$start=($page-1)*$num;
+$sql="select * from wx_talent_recruit order by date desc limit ".$start.",".$num;
 $res=$db->execsql($sql);
 $data=array();
 if($res){
 	foreach($res as $key =>$val){
 		$data[]=$val;
-// 		var_dump($data);
 	}
+// 		var_dump($data);
 }else{
 	$error=2;//没有招聘信息
 }
