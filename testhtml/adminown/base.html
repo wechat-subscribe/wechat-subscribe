@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="./css/base.css"/>
+    <link rel="stylesheet" href="./css/index.css"/>
+    <link rel="stylesheet" href="./css/font-awesome.min.css"/>
+    <script src="./js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+    <!--头部-->
+    <!--<div class="header navbar clearfix">-->
+        <!--<div class="left">-->
+            <!--<i class="fa fa-globe"></i><h1>中慧集团</h1>-->
+        <!--</div>-->
+        <!--<div class="right clearfix">-->
+            <!--<ul class="nav clearfix">-->
+                <!--<li class="grey">-->
+                    <!--<a href="">-->
+                        <!--<i class="fa fa-tasks"></i>-->
+                        <!--<span class="badge badge-grey">4</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li class="purple">-->
+                    <!--<a href="">-->
+                        <!--<i class="fa fa-tasks"></i>-->
+                        <!--<span class="badge badge-purple">4</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li class="green">-->
+                    <!--<a href="">-->
+                        <!--<i class="fa fa-tasks"></i>-->
+                        <!--<span class="badge badge-green">4</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li class="light-blue">-->
+                    <!--<a href="#" class="useraction">-->
+                        <!--<img class="user-photo" src="./img/user.jpg" alt="Jason's Photo">-->
+                        <!--<span class="user-info">-->
+                            <!--<small>欢迎您,</small>Jason-->
+                        <!--</span>-->
+                        <!--<i class="fa fa-caret-down"></i>-->
+                    <!--</a>-->
+                    <!--<ul class="usermenu">-->
+                        <!--<li><a href=""><i class="fa fa-cog"></i>设置</a></li>-->
+                        <!--<hr/>-->
+                        <!--<li><a href=""><i class="fa fa-power-off"></i>退出</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--左边栏-->
+    <!--<div class="sidebar">-->
+        <!--&lt;!&ndash;快捷按钮组&ndash;&gt;-->
+        <!--<div class="sidebarshorcuts">-->
+            <!--<button class="btn btn-success"><i class="fa fa-signal"></i></button>-->
+            <!--<button class="btn btn-info"><i class="fa fa-pencil"></i></button>-->
+            <!--<button class="btn btn-warning"><i class="fa fa-group"></i></button>-->
+            <!--<button class="btn btn-danger"><i class="fa fa-cogs"></i></button>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;列表导航&ndash;&gt;-->
+        <!--<ul class="navlist">-->
+            <!--<li><a href=""><i class="fa fa-dashboard fatest"></i>控制台</a></li>-->
+            <!--<li>-->
+                <!--<a href=""><i class="fa fa-desktop fatest"></i>我们 <i class="fa fa-angle-down"></i></a>-->
+                <!--<ul class="submenu">-->
+                    <!--<li><a href="">公司简介</a></li>-->
+                    <!--<li>-->
+                        <!--<a href="">企业文化 <i class="fa fa-angle-down"></i></a>-->
+                        <!--<ul class="submenu">-->
+                            <!--<li><a href="">视频集</a></li>-->
+                            <!--<li><a href="">列表文章</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li><a href="">联系我们</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href=""><i class="fa fa-list fatest"></i>动态 <i class="fa fa-angle-down"></i></a>-->
+                <!--<ul class="submenu">-->
+                    <!--<li><a href="">行业动态</a></li>-->
+                    <!--<li>-->
+                        <!--<a href="">活动 <i class="fa fa-angle-down"></i></a>-->
+                        <!--<ul class="submenu">-->
+                            <!--<li><a href="">投票</a></li>-->
+                            <!--<li><a href="">图片互动</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li><a href="">公司新闻</a></li>-->
+                    <!--<li><a href="">往期回顾</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href=""><i class="fa fa-user fatest"></i>人才 <i class="fa fa-angle-down"></i></a>-->
+                <!--<ul class="submenu">-->
+                    <!--<li><a href="http://www.baidu.com">人才招聘</a></li>-->
+                    <!--<li><a href="">人才理念</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+
+    <!--头部-->
+    <script src="./js/head.js"></script>
+    <!--左边栏-->
+    <script src="./js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">测试</a></li>
+                <li class="breadcrumbactive">测试页</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        //用户设置选项
+        $(".useraction").bind("click",function(){
+            var $menu = $(this).parent().children(".usermenu");
+            var $upmenu = $(this).children("i");
+            if($menu.is(":visible")){
+                $menu.slideUp();
+                $upmenu.removeClass("upmenu");
+            }else {
+                $menu.slideDown();
+                $upmenu.addClass("upmenu");
+            }
+        });
+        //下拉框选项
+        $(".navlist li").bind("click",function(){
+            var $submenu = $(this).children(".submenu");
+            if($submenu.length != 0){
+                if($submenu.is(":visible")){
+                    $submenu.slideUp();
+                    return false;
+                }else{
+                    $submenu.slideDown();
+                    return false;
+                }
+            }else {
+                //这里设置的不对需要修改
+                $(this).siblings().removeClass("active");
+                $(this).parent().parent().siblings().removeClass("active");
+                $(this).parent().parent().siblings().children().removeClass("active");
+                $(this).addClass("active");
+                //event.stopPropagation();    //  阻止事件冒泡
+                return false;
+            }
+        });
+    });
+</script>
+</body>
+</html>

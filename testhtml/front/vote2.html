@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/vote2.css"/>
+    <script src="js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+    <!--投票图片-->
+    <div class="headpic">
+        <img src="img/votepic.jpg">
+    </div>
+    <!--投票内容-->
+    <div class="container">
+        <div class="votetitle"><h4>你认为下面那些词语能够描绘你此时的心情和状态？</h4></div>
+        <div class="voteinfo">
+            <!--<div class="starttime"><i class="fa fa-clock-o"></i>活动时间：2015-05-03 08:00:12 - 2015-05-13 23:00:22</div>-->
+            <div class="starttime">
+                <i class="fa fa-clock-o"></i>活动开始时间：<span>2015-05-13 23:00:22</span><br>
+                <i class="fa fa-clock-o"></i>活动结束时间：<span>2015-05-03 08:00:12</span>
+            </div>
+            <div class="rule"><i class="fa fa-exclamation-triangle"></i>投票规则：每人限投一票</div>
+            <div class="intro"><i class="fa fa-signal"></i>活动介绍<i class="fa fa-angle-double-down test"></i>
+                <p>解放军第九四医院是国家首批三级甲等医院，是一所有着69年光辉历史的大型综合性军队医院，也是江西省内最大的部队三级甲等医院。妇幼中心是医院的重点建设科室，也是南京军区优生优育计划生育技术中心。设有妇科、产科、儿科、计生和不孕不育治疗组，聚集了陈文玲、袁巧玲、潘凌云、王珍丽、刘江萍等数十名有着20—40年临床经验的资深专家，在妇科炎症、妇科肿瘤、妇科整形等专业，形成了一整套规范、有效的治疗方案，目前产科顺产率已经接近世界卫生组织给出的85%顺产率指标。同时开展了自然分娩、剖腹产、导乐式分娩、VIP产房等满足不同准妈妈需求，每年近万名婴儿诞生于此。</p>
+            </div>
+        </div>
+        <div class="votelist clearfix">
+            <ul class="voteul">
+                <li class="voteli">
+                    <div class="votecontent"><input class="inputradio"  name="" type="checkbox" value="" />1.高兴我对这件事情的看法比较好高兴我对这件事情的看法比较好</div>
+                    <div class="votecontinfo">
+                        <div class="color">69.21%</div>
+                    </div>
+                    <div class="votecontinfonum">
+                        <span>2944票</span>
+                    </div>
+                </li>
+
+                <li class="voteli">
+                    <div class="votecontent"><input class="inputradio" name="" type="checkbox" value="" />2. 忧桑</div>
+                    <div class="votecontinfo">
+                        <div class="color">69.21%</div>
+                    </div>
+                    <div class="votecontinfonum">
+                        <span>2944票</span>
+                    </div>
+                </li>
+
+                <li class="voteli">
+                    <div class="votecontent"><input class="inputradio" name="" type="checkbox" value="" />3. 愤怒</div>
+                    <div class="votecontinfo">
+                        <div class="color">69.21%</div>
+                    </div>
+                    <div class="votecontinfonum">
+                        <span>2944票</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="submit">
+            <a class="btn" href="">提交</a>
+        </div>
+</div>
+<!--底部页码导航-->
+<div class="footbar clearfix">
+    <div class="leftpre">
+        <a href="">« 上一页</a>
+    </div>
+    <div class="rightnex">
+        <a href="">下一页 »</a>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        //  切换导航条
+        $(".test").click(function(){
+            if( $(".intro > p").is(":visible")){
+                $(".intro > p").slideUp();
+                $(".test").removeClass("fa-angle-double-up");
+                $(".test").addClass("fa-angle-double-down");
+
+            }else{
+                $(".intro > p").fadeIn();
+                $(".test").removeClass("fa-angle-double-down");
+                $(".test").addClass("fa-angle-double-up");
+            }
+        });
+        $(".voteli").click(function(){
+//            $("this").children(".votecontent").children(".votecontent").attr("checked",true);//打勾
+        });
+
+    });
+</script>
+</body>
+</html>

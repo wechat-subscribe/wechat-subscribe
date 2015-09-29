@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="./css/login.css"/>
+    <link rel="stylesheet" href="./css/font-awesome.min.css"/>
+    <script src="./js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="bg-dot"></div>
+<div class="login-layout">
+    <div class="top">
+        <h2>中慧集团</h2>
+        <h6>|&nbsp;&nbsp;微信管理平台</h6>
+    </div>
+    <div class="box">
+        <form method="post" id="form_login">
+            <input type="hidden" name="formhash" value="r82xX7jvp7jSZ5YUaRuzvUsz36VwiIR">
+            <input type="hidden" name="form_submit" value="ok">
+            <span>
+                <label>帐号</label>
+                <input name="user_name" id="user_name" autocomplete="off" type="text" class="input-text" required="">
+            </span>
+            <span>
+                <label>密码</label>
+                <input name="password" id="password" class="input-password" autocomplete="off" type="password" required="" pattern="[\S]{6}[\S]*" title="密码不少于6个字符">
+            </span>
+            <span>
+                <div class="code">
+                    <div class="arrow"></div>
+                    <div class="code-img">
+                        <!--<img src="index.php?act=seccode&amp;op=makecode&amp;admin=1&amp;nchash=7300fa57" name="codeimage" id="codeimage" border="0"/>-->
+                        <img src="./img/verificode.png" alt=""/>
+                    </div>
+                    <a href="JavaScript:void(0);" id="hide" class="close" title="关闭">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <a href="JavaScript:void(0);" onclick="javascript:document.getElementById('codeimage').src='index.php?act=seccode&amp;op=makecode&amp;admin=1&amp;nchash=7300fa57&amp;t=' + Math.random();" class="change" title="看不清,点击更换验证码">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+                <input name="captcha" type="text" required="" class="input-code" id="captcha" placeholder="输入验证" pattern="[A-z0-9]{4}" title="验证码为4个字符" autocomplete="off" value="">
+            </span>
+            <span>
+                <input name="nchash" type="hidden" value="7300fa57">
+                <input name="" class="input-button" type="submit" value="登录">
+            </span>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        //随机背景图片
+        var random_bg=Math.floor(Math.random()*5+1);
+        var bg='url(./img/loginbg_'+random_bg+'.jpg)';
+        $("body").css("background-image",bg);
+
+        //移除验证码
+        $("#hide").click(function(){
+            $(".code").fadeOut("slow");
+        });
+        //显示验证码
+        $("#captcha").focus(function(){
+            $(".code").fadeIn("fast");
+        });
+    });
+</script>
+</body>
+</html>

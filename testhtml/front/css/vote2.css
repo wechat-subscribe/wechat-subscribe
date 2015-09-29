@@ -1,0 +1,176 @@
+html,body,div,ul,li,h1,h2,h3,h4,h5,p{
+    padding: 0;
+    margin: 0;
+}
+body {
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+ul,li{
+    list-style: none;
+}
+html{
+    font-size: 10px;
+}
+a{
+    text-decoration: none;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.clearfix{
+    *zoom:1;
+}
+/*投票头部图片*/
+.maxwrap .headpic{
+    /*text-align: center;*/
+}
+.maxwrap .headpic img{
+    /*max-width: 100%;*/
+    /*height: 100px;*/
+    width: 100%;
+}
+/*内容页面*/
+.container {
+    padding: 10px;
+}
+.votetitle {
+    font-size: 1.5rem;
+    /* margin-top: 10px; */
+}
+/*投票注意项*/
+.fa {
+    margin-right: 6px;
+}
+.voteinfo {
+    margin-top: 8px;
+    font-size: 1.3rem;
+    line-height: 2;
+    color: #333333;
+}
+span{
+    color: #999;
+}
+.test{
+    /*margin-left: 20px;*/
+    font-size: 1.6rem;
+    padding: 0 20px;
+    color: #999;
+}
+.intro p{
+    margin-top: 10px;
+    display: none;
+}
+/*投票人*/
+.votelist{
+    margin-top: 10px;
+}
+/*投票内容*/
+ul.voteul {
+    /*border: 1px solid;*/
+}
+ul.voteul .voteli{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    /*border: 1px solid;*/
+}
+.votecontent .inputradio{
+    margin-right: 6px;
+}
+.votecontinfo {
+    height: 20px;
+    line-height: 20px;
+    background: #F2F5F5;
+    width: 75%;
+    margin-top: 6px;
+}
+.votecontinfo>.color{
+    width: 65%;
+    padding-left: 4px;
+    color: #fff;
+    background-color: #996600;
+    /*    background-color: #336633;
+          background-color: #669900;
+          background-color: #CC9900;
+          background-color: #FF6600;
+          background-color: #CC0033;
+          background-color: #3399CC;
+    */
+    float: left;
+}
+.votecontinfonum{
+    float: right;
+    position: relative;
+    bottom: 20px;
+}
+.votecontinfonum span{
+    color: #666;
+}
+.votecontinfonum :nth-child(1){
+    float: right;
+    font-size: 1.4rem;
+    /*letter-spacing: 2px;*/
+    position: relative;
+    color: #996600;
+}
+.votecontent{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+/*提交*/
+.submit {
+    text-align: center;
+    margin-top: 40px;
+}
+.submit a{
+    padding: 8px 40px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    /*background-color: #2ecc71;*/
+    background-color: #ccc;
+    border-radius: 6px;
+}
+.submit a:hover{
+    background-color: #2ecc71;
+}
+
+/*底部页码部分*/
+.footbar {
+    margin-bottom: 50px;
+    line-height: 6.6;
+    padding: 0 20px;
+}
+.footbar div.leftpre {
+    float: left;
+    width: 40%;
+}
+.footbar div.rightnex {
+    float: right;
+}
+.footbar div a{
+    padding: .5em 1em;
+    text-decoration: none;
+    color: #0E90D2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    margin-bottom: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 6px;
+}
+/*两种样式*/
+.footbar div a:focus,.footbar div a:hover{
+    background-color: #eaeff2;
+}
+/*.footbar div a:focus,.footbar div a:hover{*/
+/*color: #999;*/
+/*background-color: #fff;*/
+/*border-color: #ddd;*/
+/*cursor: not-allowed;*/
+/*pointer-events: none;*/
+/*}*/
