@@ -33,18 +33,20 @@ function getFiles(){
  * @param int $type
  * $type为0：上传图片
  * $type为1：上传视频
+ * $type为2：上传缩略图
  */
-function uploadmulti($type){
+function uploadmulti($fileName,$type){
 // 	print_r($_FILES);die;
 	$files=getFiles();
 	if ($type==0){
 		$uploadPath='../upload_image';
-	}else {
+	}elseif ($type==1) {
 		$uploadPath='../upload_video';
+	}else {
+		$uploadPath='../upload_thumb';
 	}
-	
 	foreach($files as $fileInfo){
-		$upload=new upload($fileInfo,$uploadPath,false);
+		$upload=new upload($fileName,$fileInfo,$uploadPath,false);
 		$dest=$upload->uploadFile();
 		$uploadFiles[]=$dest;
 	}

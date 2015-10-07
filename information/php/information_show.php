@@ -23,15 +23,13 @@ header ( "content-type:text/json;charset=utf-8" );
 // echo $path;
 require_once '../../common/php/dbaccess.php';
 require_once '../../common/php/uploadFiles.php';
-// $moduleId=$_GET['moduleId'];//获取模块ID
-$moduleId = 1; // 获取模块ID
 // $type=$_GET['type'];//list:列表显示；details:具体内容显示
 // $type='list';
 // $type='details';
 // $type='leaveword';
-$type = 'zan';
+// $type = 'zan';
 // $type = 'deleteInfo';
-// $type = 'updateInfo';
+$type = 'updateInfo';
 // $type = 'deleteLeaveword';
 // $type = 'updateLeaveword';
 session_start ();
@@ -42,6 +40,8 @@ if ($type == 'list') {
 	 */
 	// echo "test";
 	// 	$page=$_GET['page'];
+	// $moduleId=$_GET['moduleId'];//获取模块ID
+	$moduleId = 1; // 获取模块ID
 	$page=2;
 	$num=3;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置
@@ -81,8 +81,8 @@ if ($type == 'list') {
 	 * ************显示某篇文章信息的具体内容***************
 	 */
 	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$infoId = 1; // 获取显示具体内容的文章信息ID
-	$sql_info_details = "select userId,media,title,date,content,is_leaveword,is_zan from wx_info where id='{$infoId}'";
+	$infoId = 5; // 获取显示具体内容的文章信息ID
+	$sql_info_details = "select media,title,date,content,is_leaveword,is_zan from wx_info where id='{$infoId}'";
 	$res_info_details = $db->getrow ( $sql_info_details );
 	
 	/* // 根据userId在wx_user中查询出作者的姓名
@@ -101,6 +101,8 @@ if ($type == 'list') {
 				// 根据userId在wx_user中查询出作者的微信号和微信头像
 				$sql_user_name = "select wechatName, header from wx_user where id='{$val_leaveword ['userId']}'";
 				$res_user_name = $db->getrow ( $sql_user_name );
+// 				echo $sql_user_name;
+// 				var_dump($res_user_name);die;
 				$details ['leaveword'][$key_leaveword] ['id'] = $val_leaveword ['id'];
 				$details ['leaveword'][$key_leaveword] ['content'] = $val_leaveword ['content'];
 				$details ['leaveword'][$key_leaveword] ['date'] = $val_leaveword ['date'];
@@ -125,14 +127,14 @@ if ($type == 'list') {
 	$details ['date'] = $res_info_details ['date'];
 	$details ['content'] = $res_info_details ['content'];
 	
-// 	var_dump($details);
-	echo json_encode ( $details );
+	var_dump($details);
+// 	echo json_encode ( $details );
 } elseif ($type == 'leaveword') {
 	/**
 	 * *****************用户评论**********************
 	 */
 	// $leaveword['infoId']=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$leaveword ['infoId'] = 1; // 获取显示具体内容的文章信息ID
+	$leaveword ['infoId'] = 5; // 获取显示具体内容的文章信息ID
 	// $leaveword['content']=$_GET['content'];
 	$leaveword ['content'] = '精彩！！！！！！';
 	// $leaveword['userId']=$_SESSION['user']['id'];
@@ -153,7 +155,7 @@ if ($type == 'list') {
 	 * *****************用户点赞**********************
 	 */
 	// $zan['infoId']=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$zan ['infoId'] = 2; // 获取显示具体内容的文章信息ID
+	$zan ['infoId'] = 5; // 获取显示具体内容的文章信息ID
 	// $zan['userId']=$_SESSION['user']['id'];
 	$zan ['userId'] = 1;
 	$sql_is_zan = "select id from wx_zan where infoId='{$zan ['infoId'] }' and userId='{$zan ['userId']}'";
@@ -203,57 +205,76 @@ if ($type == 'list') {
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“修改”按钮**********************
 	 */
 	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$infoId = 1; // 获取显示具体内容的文章信息ID
+	$infoId = 5; // 获取显示具体内容的文章信息ID
 	$sql_updateInfo="select title,content,is_leaveword,is_zan,media,thumb from wx_info where id='{$infoId}'";
 	$res_updateInfo=$db->getrow($sql_updateInfo);
 	// 	将查询出的media的url根据“；”分开，单独存放
 	$updateInfo_media=explode(';', $res_updateInfo['media']);
-	foreach ($updateInfo_media as $val_updateInofo_media){
-		$res_updateInfo['media'][]=$val_updateInofo_media;
+	foreach ($updateInfo_media as $val_updateInfo_media){
+		$updateInfo['media'][]=$val_updateInfo_media;
 	}
-	echo json_encode($res_updateInfo);
+	$updateInfo['title']=$res_updateInfo['title'];
+	$updateInfo['content']=$res_updateInfo['content'];
+	$updateInfo['is_leaveword']=$res_updateInfo['is_leaveword'];
+	$updateInfo['is_zan']=$res_updateInfo['is_zan'];
+	$updateInfo['thumb']=$res_updateInfo['thumb'];
+	var_dump($updateInfo);
+// 	echo json_encode($res_updateInfo);
 }elseif ($type == 'updateInfoOK') {
 	/**
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“提交”按钮**********************
 	 */
-	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$infoId = 1; // 获取显示具体内容的文章信息ID
-// 	$title=$_GET['title'];
-	$title='修改1';
-// 	$content=$_GET['content'];
-	$content='修改内容1';
-// 	$is_leaveword=$_GET['is_leaveword'];
-	$is_leaveword=1;
-// 	$is_zan=$_GET['is_zan'];
-	$is_zan=1;
-	/*****获取上传图片的url****/
-	/*$dest=array();
-	$dest=uploadmulti(0);
-	// var_dump($dest);
-	$media_num=count($dest);
-	$dest_db=$dest[0];
-	for ($i=1;$i<$num;$i++){
-		$dest_db.=';'.$dest[$i];
-	}
- 	 $media=$dest_db;
- 	$thumb=$_GET['thumb']; */
-	if (empty($infoId)||empty($title)||empty($content)||empty($is_leaveword)||empty($is_zan)){
-		echo 2;//请检查空值
-	}else {
-		$sql_update="update wx_info set title='{$title}',content='{$content}',media='{$media}',thumb='{$thumb}',is_leaveword='{$is_leaveword}',is_zan='{$is_zan}' where id='{$infoId}'";
-		// 	echo $sql_update;
-		$res_update=$db->execsql($sql_update);
-		$res=mysql_affected_rows();
-		if ($res){
-			echo 1;//修改成功
-		}else {
-			echo 0;//修改失败
+	if ($subtype=='thumb'){
+		$dest=array();
+		$dest=uploadmulti('thumbpic',2);/* 
+		// var_dump($dest);
+		$media_num=count($dest);
+		$dest_db=$dest[0];
+		for ($i=1;$i<$num;$i++){
+			$dest_db.=';'.$dest[$i];
+		} */
+		$_SESSION['thumb']=$dest;
+		echo $_SESSION['thumb'];
+	}else{
+		// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
+		$infoId = 5; // 获取显示具体内容的文章信息ID
+		// 	$title=$_GET['title'];
+		$title='修改1';
+		// 	$content=$_GET['content'];
+		$content='修改内容1';
+		// 	$is_leaveword=$_GET['is_leaveword'];
+		$is_leaveword=1;
+		// 	$is_zan=$_GET['is_zan'];
+		$is_zan=1;
+		/*****获取上传图片的url****/
+		$dest=array();
+		$dest=uploadmulti(0);
+		// var_dump($dest);
+		$media_num=count($dest);
+		$dest_db=$dest[0];
+		for ($i=1;$i<$num;$i++){
+			$dest_db.=';'.$dest[$i];
 		}
-	}	
+		$media=$dest_db;
+		if (empty($infoId)||empty($title)||empty($content)||empty($is_leaveword)||empty($is_zan)){
+			echo 2;//请检查空值
+		}else {
+			$sql_update="update wx_info set title='{$title}',content='{$content}',media='{$media}',thumb='{$_SESSION['thumb']}',is_leaveword='{$is_leaveword}',is_zan='{$is_zan}' where id='{$infoId}'";
+			// 	echo $sql_update;
+			$res_update=$db->execsql($sql_update);
+			$res=mysql_affected_rows();
+			if ($res){
+				echo 1;//修改成功
+			}else {
+				echo 0;//修改失败
+			}
+		}
+	}
+		
 }elseif ($type == 'deleteLeaveword') {
 	/**
 	 * *****************后台管理员删除某篇文章的评论**********************
-	 */
+	 */ 
 // 	$id=$_GET['id'];//评论ID
 	$id=1;
 	if (empty($id)){

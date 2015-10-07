@@ -16,14 +16,15 @@ class upload{
 	protected $ext;
 	/**
 	 * @param string $fileName
+	 * @param string $fileInfo
 	 * @param string $uploadPath
 	 * @param string $imgFlag
 	 * @param number $maxSize
 	 * @param array $allowExt
 	 * @param array $allowMime
 	 */
-	public function __construct($fileInfo,$uploadPath,$imgFlag=true,$maxSize=5242880,$allowExt=array('jpeg','jpg','png','gif','mp4'),$allowMime=array('image/jpeg','image/png','image/gif','video/mp4')){
-// 		$this->fileName=$fileName;
+	public function __construct($fileName,$fileInfo,$uploadPath,$imgFlag=true,$maxSize=5242880,$allowExt=array('jpeg','jpg','png','gif','mp4'),$allowMime=array('image/jpeg','image/png','image/gif','video/mp4')){
+		$this->fileName=$fileName;
 		$this->maxSize=$maxSize;
 		$this->allowMime=$allowMime;
 		$this->allowExt=$allowExt;
@@ -86,7 +87,8 @@ class upload{
 	protected function checkExt(){
 		$this->ext=strtolower(pathinfo($this->fileInfo['name'],PATHINFO_EXTENSION));
 		if (!in_array($this->ext, $this->allowExt)){
-			$this->error='不允许的扩展名';
+// 			$this->error='不允许的扩展名123';
+			$this->error=$this->fileInfo;
 			return false;
 		}
 		return true;
