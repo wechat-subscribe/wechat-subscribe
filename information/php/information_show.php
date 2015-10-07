@@ -23,13 +23,13 @@ header ( "content-type:text/json;charset=utf-8" );
 // echo $path;
 require_once '../../common/php/dbaccess.php';
 require_once '../../common/php/uploadFiles.php';
-// $type=$_GET['type'];//list:列表显示；details:具体内容显示
+$type=$_GET['type'];//list:列表显示；details:具体内容显示
 // $type='list';
 // $type='details';
 // $type='leaveword';
 // $type = 'zan';
 // $type = 'deleteInfo';
-$type = 'updateInfo';
+//$type = 'updateInfo';
 // $type = 'deleteLeaveword';
 // $type = 'updateLeaveword';
 session_start ();
@@ -39,14 +39,14 @@ if ($type == 'list') {
 	 * ************显示文章信息列表***************
 	 */
 	// echo "test";
-	// 	$page=$_GET['page'];
-	// $moduleId=$_GET['moduleId'];//获取模块ID
-	$moduleId = 1; // 获取模块ID
-	$page=2;
+	$page=$_GET['page'];
+	$moduleId=$_GET['moduleId'];//获取模块ID
+	//$moduleId = 1; // 获取模块ID
+	//$page=2;
 	$num=3;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置
 	// 从wx_info中查询出文章信息的基本文章信息
-	$sql_info = "select id,userId,title,content,thumb,media,thumb,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
+	$sql_info = "select id,title,thumb,date,is_leaveword,is_zan from wx_info where moduleId='{$moduleId}' limit ".$start.",".$num;
 // 	echo $sql_info;die;
 	$res_info = $db->execsql ( $sql_info );
 	$list = array ();
@@ -72,6 +72,7 @@ if ($type == 'list') {
 		$list [$key_list] ['id'] = $val_list ['id'];
 		$list [$key_list] ['thumb'] = $val_list ['thumb'];
 		$list [$key_list] ['title'] = $val_list ['title'];
+		$list [$key_list] ['date'] = $val_list ['date'];
 // 		$list [$key_list] ['userName'] = $res_user_name ['userName'];
 	}
 // 	var_dump($list);
@@ -80,8 +81,8 @@ if ($type == 'list') {
 	/**
 	 * ************显示某篇文章信息的具体内容***************
 	 */
-	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$infoId = 5; // 获取显示具体内容的文章信息ID
+	$infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
+	//$infoId = 5; // 获取显示具体内容的文章信息ID
 	$sql_info_details = "select media,title,date,content,is_leaveword,is_zan from wx_info where id='{$infoId}'";
 	$res_info_details = $db->getrow ( $sql_info_details );
 	
@@ -127,8 +128,8 @@ if ($type == 'list') {
 	$details ['date'] = $res_info_details ['date'];
 	$details ['content'] = $res_info_details ['content'];
 	
-	var_dump($details);
-// 	echo json_encode ( $details );
+	///var_dump($details);
+ 	echo json_encode ( $details );
 } elseif ($type == 'leaveword') {
 	/**
 	 * *****************用户评论**********************

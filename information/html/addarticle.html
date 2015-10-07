@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/addarticle.css"/>
+    <script src="../../common/js/jquery-2.0.3.min.js"></script>
+    <!--ueditor-->
+    <script type="text/javascript" charset="utf-8" src="../../common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../common/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="../../common/ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+    <!--头部-->
+    <script src="../../common/js/head.js"></script>
+    <!--左边栏-->
+    <script src="../../common/js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">我们</a></li> <li><a href="#">企业文化</a></li>
+                <li class="breadcrumbactive">列表文章</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+            <div class="alert">
+                <button type="button" class="close">
+                    <i class="fa fa-remove"></i>
+                </button>
+                <i class="fa fa-check"></i>  提示：
+                <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+            </div>
+            <div class="conlabel">
+                <span>文章标题</span>
+                <input type="text" id="title" autocomplete="off">
+            </div>
+            <div class="conlabelimg" id="uploadpic">
+                <span>缩略图</span>
+                <i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>
+                <input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >
+                <!--<div id="feedback"></div>-->
+            </div>
+            <div class="conlabel">
+                <span>文章设置</span>
+                <span class="normall">是否可评论<input type="checkbox" value="" name="" id="comment"></span>
+                <span class="normall">是否可点赞<input type="checkbox" value="" id='praise' name=""></span>
+            </div>
+            <div class="conlabel">
+                <span>文章内容</span>
+                <script id="editor" type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
+            </div>
+            <div class="ownbtngroup">
+                <a href="" id="submit"><i class="fa fa-check"></i>发布</a><a href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+            </div>
+    </div>
+    </div>
+</div>
+<script src="../../common/js/base.js"></script>
+<script src="../js/addarticle.js"></script>
+<script>
+    $(function(){
+        //提示框
+        $(".close").bind("click",function(){
+            var $parent = $(this).parent();
+            $parent.slideUp();
+            return false;
+        })
+
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('列表文章')").parent().addClass("active");
+    })
+</script>
+</body>
+</html>
