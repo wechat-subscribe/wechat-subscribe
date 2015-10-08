@@ -10,7 +10,7 @@ class DB {
 	}
 	// 连接数据库
 	protected function connect() {
-		$this->conn = mysql_connect ( $this->severname, 'root', '' ) or die ( print_r ( mysql_error (), true ) );
+		$this->conn = mysql_connect ( $this->severname, 'root', '123456zxc' ) or die ( print_r ( mysql_error (), true ) );
 		mysql_query ( "set names 'utf8'" ); // 数据库输出编码
 		$selectdb = mysql_select_db ( 'wx', $this->conn ); // 打开数据库
 		if (! $selectdb) {

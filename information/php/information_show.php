@@ -205,8 +205,8 @@ if ($type == 'list') {
 	/**
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“修改”按钮**********************
 	 */
-	// $infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	$infoId = 5; // 获取显示具体内容的文章信息ID
+	$infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
+	//$infoId = 5; // 获取显示具体内容的文章信息ID
 	$sql_updateInfo="select title,content,is_leaveword,is_zan,media,thumb from wx_info where id='{$infoId}'";
 	$res_updateInfo=$db->getrow($sql_updateInfo);
 	// 	将查询出的media的url根据“；”分开，单独存放
@@ -219,8 +219,8 @@ if ($type == 'list') {
 	$updateInfo['is_leaveword']=$res_updateInfo['is_leaveword'];
 	$updateInfo['is_zan']=$res_updateInfo['is_zan'];
 	$updateInfo['thumb']=$res_updateInfo['thumb'];
-	var_dump($updateInfo);
-// 	echo json_encode($res_updateInfo);
+	//var_dump($updateInfo);
+ 	echo json_encode($res_updateInfo);
 }elseif ($type == 'updateInfoOK') {
 	/**
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“提交”按钮**********************

@@ -9,9 +9,10 @@
     if (r != null) return unescape(r[2]); return null; 
 } 
 
-//实例化编辑器
+
+    /*//实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
+    //var ue = UE.getEditor('editor');
 
 
     function isFocus(e){
@@ -50,7 +51,7 @@
     function setContent(isAppendTo) {
         //var arr = [];
         //arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
-        UE.getEditor('editor').setContent('', isAppendTo);
+        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
         //alert(arr.join("\n"));
     }
     function setDisabled() {
@@ -119,9 +120,13 @@
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
     }
-
+    */
 
 $(function(){
+
+    var ue = UE.getEditor('editor');
+    
+    
     var articleid = GetQueryString("articleid") ;
     if(articleid != null){
          $.ajax({
@@ -130,26 +135,34 @@ $(function(){
             //type      :   'POST',         //默认为GET方式
             async       :   false,          //同步
             data        : {
-                'type'      : "details",
+                'type'      : "updateInfo",
                 'infoId'    : articleid,
             },
             success:function(data) {  
                 data = JSON.parse(data)
                 console.log(data);
-                console.log(data.title);
-                console.log(data.content);
+                console.log(data.is_leaveword);
+                console.log(data.is_zan);
 
+                //文章内容
                 $("#title").val(data.title);
+                ue.addListener("ready", function () {
+                    //ue.setContent(data.content);
+                    //UE.getEditor('editor').execCommand('insertHtml', data.content);
+                    UE.getEditor('editor').execCommand('insertHtml', data.content);
+                });
+
+                //缩略图
+                $("#uploadpic i").remove();                     //清除背景图
+                    var $img = $(" <img src='"+data.thumb+"' id='imgurl' alt='' onclick=\"getElementById('thumbpic').click()\" />");
+                $("#uploadpic input").before($img);
                 
-                setContent(data.content);
-
-
-                // $.each(JSON.parse(data), function(idx, obj) {
-                //    console.log(obj.title);
-                    
-                //     $("#tbody").append(str);
-                // });
-                           
+                if(data.is_leaveword){
+                      $("#leaveword").attr("checked","checked");
+                }
+                if(data.is_zan){
+                    $("#zan").attr("checked","checked");
+                }          
             },
             error:function(e){  
                 console.log("请求出错");
@@ -202,6 +215,5 @@ $(function(){
             }
         });
     });
-    
     
 });
