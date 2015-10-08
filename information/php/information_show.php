@@ -263,7 +263,6 @@ if ($type == 'list') {
 			}else{
 				$sql_update="update wx_info set title='{$title}',content='{$content}',is_leaveword='{$is_leaveword}',is_zan='{$is_zan}' where id='{$infoId}'";
 			}
-			
 			// 	echo $sql_update;
 			$res_update=$db->execsql($sql_update);
 			$res=mysql_affected_rows();

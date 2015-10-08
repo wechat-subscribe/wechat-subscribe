@@ -17,7 +17,6 @@ if (empty($res_user)){
 }else {
 	$_SESSION['admin']['id']=$res_user['id'];
 	$_SESSION['admin']['name']=$res_user['name'];
-
 	$login['adminName']=$res_user['name'];
 	$login['error']=1;//登录成功
 }
