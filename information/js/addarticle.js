@@ -10,12 +10,12 @@
 } 
 
 
-    /*//实例化编辑器
+    //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     //var ue = UE.getEditor('editor');
 
 
-    function isFocus(e){
+    /*function isFocus(e){
         alert(UE.getEditor('editor').isFocus());
         UE.dom.domUtils.preventDefault(e)
     }
@@ -124,8 +124,7 @@
 
 $(function(){
 
-    var ue = UE.getEditor('editor');
-    
+    var ue = UE.getEditor('editor');	//实例化UE编辑器
     
     var articleid = GetQueryString("articleid") ;
     if(articleid != null){
@@ -139,11 +138,7 @@ $(function(){
                 'infoId'    : articleid,
             },
             success:function(data) {  
-                data = JSON.parse(data)
-                console.log(data);
-                console.log(data.is_leaveword);
-                console.log(data.is_zan);
-
+                data = JSON.parse(data);
                 //文章内容
                 $("#title").val(data.title);
                 ue.addListener("ready", function () {
@@ -173,17 +168,45 @@ $(function(){
     $("#submit").bind("click",function(){
         //console.log(getAllHtml());
 
-        var title = $("#title").val();  //标题
-        var imgurl = $("#imgurl").attr("url");
-        var comment = $("#comment").attr("checked")=="checked";
-        var praise = $("#praise").attr("checked")=="checked";
-
-        console.log(title);
-        console.log(imgurl);
-        console.log(comment);
-        console.log(praise);
-        //$.each()
-        //alert("你好");
+        var title 		= $("#title").val();  //标题
+        //var thumb 		= $("#imgurl").attr("url");
+        var leaveword 	= ($("#leaveword").attr("checked")=="checked")?1:0;
+        var zan 		= ($("#zan").attr("checked")=="checked")?1:0;
+        var content 	= UE.getEditor('editor').getPlainTxt();    
+        //var content2 = UE.getEditor('editor').getAllHtml();
+        if(title == '' || content == ''){
+        	alert("请检查数据不能为空");
+        }else{
+        	$.ajax({
+	            url         :   "../php/information_show.php?type=updateInfoOK",
+	            datatype    :   "json", 
+	            async       :   true,          //异步
+	            data        : {
+	                'infoId'    	: articleid,
+	                "title"			: title,
+	                "is_leaveword" 	: leaveword,
+	                "is_zan"		: zan,
+	                "content"		: content
+	            },
+	            success:function(data) {  
+	            	console.log(data);
+	            	if(data == 1){
+	            		alert("更新成功");
+	            	}else if(data == 2){
+	            		alert("请检查数据不能为空");
+	            	}else if(data == 0){
+	            		alert("更新失败");
+	            	}
+	               
+	            },
+	            error:function(e){  
+	                console.log("请求出错");
+	            }
+	        });
+        }
+        
+       
+       
         return false;
     });
 
@@ -194,22 +217,22 @@ $(function(){
         $.each($('#thumbpic')[0].files, function(i, file) {
             data.append('upload_file', file);
         });
-        //console.log(data);
         $.ajax({
-            url:'./php/testSubmitThumbpic.php?type="upfile"',
+            url:'../php/information_show.php?type=updateInfoOK&subtype=thumb',
             type:'POST',
             data:data,
             cache: false,
             contentType: false,      //不可缺
             processData: false,      //不可缺
             success:function(data){
+            	console.log(data);
                 if($("#uploadpic").children('img').length == 0) {
                     $("#uploadpic i").remove();             //清除背景图
-                    var $img = $(" <img src='"+data.imgsrc+"' id='imgurl' alt='' onclick=\"getElementById('thumbpic').click()\" />");
+                    var $img = $(" <img src='"+data+"' id='imgurl' alt='' onclick=\"getElementById('thumbpic').click()\" />");
                     $("#uploadpic input").before($img);
                 } else {
                     $("#uploadpic img").remove();           //清除已存在图片
-                    var $img = $(" <img src='"+data.imgsrc+"' alt='' onclick=\"getElementById('thumbpic').click()\" />");
+                    var $img = $(" <img src='"+data+"' alt='' onclick=\"getElementById('thumbpic').click()\" />");
                     $("#uploadpic input").before($img);
                 }
             }

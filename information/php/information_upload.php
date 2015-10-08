@@ -2,7 +2,7 @@
 /*
  * 实现信息上传
  */
-header ( 'content-type:text/html;charset=utf-8' );
+header ( 'content-type:text/json;charset=utf-8' );
 $path = dirname ( dirname ( dirname ( __FILE__ ) ) ); // 获取总工程的绝对路径
                                                       // echo $path;
 require_once $path . '/common/php/uploadFiles.php';
@@ -36,8 +36,8 @@ if (  empty( $title ) || empty ( $content)) {
 	/**
 	 * ***判断是否评论*****
 	 */
-	// $leaveword=$_POST ['leaveword'];
-	$leaveword = 1;
+	$leaveword=$_POST ['leaveword'];
+	//$leaveword = 1;
 	if ($leaveword) {
 		$is_leaveWord = 1;
 	} else {
@@ -47,8 +47,8 @@ if (  empty( $title ) || empty ( $content)) {
 	/**
 	 * ***判断是够点赞******
 	 */
-	// $zan=$_POST ['zan'];
-	$zan = 1;
+	$zan=$_POST ['zan'];
+	//$zan = 1;
 	if ($zan) {
 		$is_zan = 1;
 	} else {
@@ -80,8 +80,9 @@ if (  empty( $title ) || empty ( $content)) {
 	}
 }
 echo $error;
-echo '<br/>';
-var_dump($dest);
+//echo '<br/>';
+//var_dump($dest);
+//echo 
 
 
 
