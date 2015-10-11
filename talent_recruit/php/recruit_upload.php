@@ -16,13 +16,17 @@ $file=array();
  * ***********招聘信息标题列表显示*********************
  */
 if($type=="list"){
+	
 // 	$page=$_GET['page'];    //获取页码
 	$page=1;
-	$num=3;                //每页的容量
+	$num=10;                //每页的容量
 	$start=($page-1)*$num;
-	$sql_list="select title from wx_talent_recruit order by date desc limit ".$start.",".$num;
+	$sql = "SELECT * FROM wx_talent_recruit";
+	$result = mysql_query($sql);
+	$sql_list="select title,date from wx_talent_recruit order by date desc limit ".$start.",".$num;
 	$res_list=$db->execsql($sql_list);
 	$file['list']=$res_list;
+	$file['num']=mysql_num_rows($result);
 // 	var_dump($res_list);die;
 
 	echo json_encode($file);

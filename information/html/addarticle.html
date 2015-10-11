@@ -30,36 +30,80 @@
         </div>
         <!--内容区域-->
         <div class="container">
-            <div class="alert">
-                <button type="button" class="close">
+
+            <ul class="navtable" >
+                <li class=""> <a data-toggle="tab" href="article" class="active">文章管理</a></li>
+                <li class=""><a data-toggle="tab" href="comment" class="">评论管理</a></li>
+            </ul>
+            <div class="tabcontent article">
+
+                <div class="alert word">
+                    <button type="button" class="close">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                </div>
+
+                <div class="conlabel">
+                    <span>文章标题</span>
+                    <input type="text" id="title" autocomplete="off">
+                </div>
+                <div class="conlabelimg" id="uploadpic">
+                    <span>缩略图</span>
+                    <i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>
+                    <input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >
+                    <!--<div id="feedback"></div>-->
+                </div>
+                <div class="conlabel">
+                    <span>文章设置</span>
+                    <span class="normall">是否可评论<input type="checkbox" value="" name="" id="comment"></span>
+                    <span class="normall">是否可点赞<input type="checkbox" value="" id='praise' name=""></span>
+                </div>
+                <div class="conlabel">
+                    <span>文章内容</span>
+                    <script id="editor" type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
+                </div>
+                <div class="ownbtngroup">
+                    <a href="" id="submit"><i class="fa fa-check"></i>发布</a><a href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+                </div>
+            </div>
+
+            <div class="tabcontent comment">
+
+                <div class="alert nocomment">
+                    <button type="button" class="close">
                     <i class="fa fa-remove"></i>
-                </button>
-                <i class="fa fa-check"></i>  提示：
-                <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>暂无评论</strong>
+                </div>
+
+                <div class="tablediv">
+                    <table class="atticletable">
+                        <thead>
+                        <tr class="trheader">
+                            <th class="checkbox" ><input type="checkbox" id="checkedall"/></th>
+                            <th>评论内容</th>
+                            <th>评论时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="commenttbody">
+                            
+                        </tbody>
+                    </table>
+                    <div class="footbar">
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#">上一页</a></li>
+                            <li><input type="text" class="pageinput" ></li>
+                            <li><a href="#">下一页</a></li>
+                        </ul>
+                        <div class="allpagecomment">共8页</div>
+                    </div>
+                </div>
             </div>
-            <div class="conlabel">
-                <span>文章标题</span>
-                <input type="text" id="title" autocomplete="off">
-            </div>
-            <div class="conlabelimg" id="uploadpic">
-                <span>缩略图</span>
-                <i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>
-                <input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >
-                <!--<div id="feedback"></div>-->
-            </div>
-            <div class="conlabel">
-                <span>文章设置</span>
-                <span class="normall">是否可评论<input type="checkbox" value="" name="" id="leaveword"></span>
-                <span class="normall">是否可点赞<input type="checkbox" value="" id='zan' name=""></span>
-            </div>
-            <div class="conlabel">
-                <span>文章内容</span>
-                <script id="editor" type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
-            </div>
-            <div class="ownbtngroup">
-                <a href="JavaScript:void(0);" id="submit"><i class="fa fa-check"></i>发布</a><a href="" id="reset"><i class="fa fa-undo"></i>取消</a>
-            </div>
-    </div>
+        </div>
     </div>
 </div>
 <script src="../../common/js/base.js"></script>
@@ -71,7 +115,9 @@
             var $parent = $(this).parent();
             $parent.slideUp();
             return false;
-        })
+        });
+
+      
 
         $("li a:contains('我们')").siblings(".submenu").show();
         $("li a:contains('企业文化')").siblings(".submenu").show();

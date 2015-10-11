@@ -45,7 +45,10 @@
                         <td class="checkbox"><input type="checkbox"/></td>
                         <td><a href="" name="2">青春健康同伴教育在校区有序开展</a></td>
                         <td>2007-12-03</td>
-                        <td class="actionicon"><i class="fa fa-pencil blue editarticle"></i><i class="fa fa-trash red"></i></td>
+                        <td class="actionicon">
+                            <a href="addarticle.html?articleid='+obj.id+'"> <i class="fa fa-pencil blue editarticle"></i></a> 
+                            <i class="fa fa-trash red remove"></i>
+                        </td>;
                     </tr>
                     
                     <tr>
@@ -63,15 +66,15 @@
                     <i class="fa fa-search orange"></i>
                 </div>
                 <div class="pagegroup">
-                    <span class="fa fa-angle-double-left disable"></span>
-                    <span class="fa fa-angle-left disable"></span>
-                    <input type="text" size="2" maxlength="7" value="0" role="textbox">
-                    共<small id="allpage">8</small>页
-                    <span class="fa fa-angle-right "></span>
-                    <span class="fa fa-angle-double-right"></span>
+                    <span class="fa fa-angle-double-left disable" id="firstpage"></span>
+                    <span class="fa fa-angle-left disable" id="prepage"></span>
+                    <input type="text" size="2" maxlength="7" value="1" role="textbox" id="pageconnum">
+                    共<small id="allpage"></small>页
+                    <span class="fa fa-angle-right " id="nextpage"></span>
+                    <span class="fa fa-angle-double-right" id="lastpage"></span>
                 </div>
                 <div class="pageinfo">
-                    <small id="nowprenum">1</small>-<small id="nownextnum">12</small>　共<small id="allnum">12</small>条
+                    <!-- <small id="nowprenum">1</small>-<small id="nownextnum">12</small>　共<small id="allnum">12</small>条 -->
                 </div>
             </div>
         </div>
