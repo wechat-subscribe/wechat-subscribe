@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/addarticle.css"/>
+    <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+    <!--ueditor-->
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+
+     <!--头部-->
+    <script src="../../../common/js/head.js"></script>
+    <!--左边栏-->
+    <script src="../../../common/js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">我们</a></li> <li><a href="#">企业文化</a></li>
+                <li class="breadcrumbactive">列表文章</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+
+            <ul class="navtable" >
+                <li class=""> <a data-toggle="tab" href="article" class="active">文章管理</a></li>
+                <li class=""><a data-toggle="tab" href="comment" class="">评论管理</a></li>
+            </ul>
+            <div class="tabcontent article">
+
+                <div class="alert word">
+                    <button type="button" class="close">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                </div>
+
+                <div class="conlabel">
+                    <span>文章标题</span>
+                    <input type="text" id="title" autocomplete="off">
+                </div>
+                <div class="conlabelimg" id="uploadpic">
+                    <span>缩略图</span>
+                      <img src=""/>
+					  <input type="hidden" name="thumb" value="">
+                    <!--<div id="feedback"></div>-->
+                </div>
+							<div class="conlabel" >
+				 <span>视频展示</span>
+					<video id="videoShow" controls="controls" width="500px" > 
+				        </video>
+						
+				</div>
+				
+				<div class="conlabelimg"  >
+                    <span >选择视频</span>
+					<label >
+					点击上传视频
+					<input  type="file" onchange="" name="video" style="display:none;">
+					</label>
+                      	  <a id="capture"   style=" ">选择缩略图</a> 
+					 <!--
+					  <a id="upFiles" style=" padding:0;" >点击上传视频</a> 
+					
+					 -->
+					  
+					  </div>
+					 
+				 
+			
+	
+                <div class="conlabel">
+                    <span>文章设置</span>
+                    <span class="normall">是否可评论<input type="checkbox" value="" name="" id="comment"></span>
+                    <span class="normall">是否可点赞<input type="checkbox" value="" id='praise' name=""></span>
+                </div>
+                <div class="conlabel">
+                    <span>文章内容</span>
+                    <script id="editor" type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
+                </div>
+                <div class="ownbtngroup">
+                    <a href="" id="submit"><i class="fa fa-check"></i>发布</a><a href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+                </div>
+            </div>
+
+            <div class="tabcontent comment">
+
+                <div class="alert nocomment">
+                    <button type="button" class="close">
+                    <i class="fa fa-remove"></i>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>暂无评论</strong>
+                </div>
+
+                <div class="tablediv">
+                    <table class="atticletable">
+                        <thead>
+                        <tr class="trheader">
+                            <th class="checkbox" ><input type="checkbox" id="checkedall"/></th>
+                            <th>评论内容</th>
+                            <th>评论时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="commenttbody">
+                            
+                        </tbody>
+                    </table>
+                    <div class="footbar">
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#">上一页</a></li>
+                            <li><input type="text" class="pageinput" ></li>
+                            <li><a href="#">下一页</a></li>
+                        </ul>
+                        <div class="allpagecomment">共8页</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../../common/js/base.js"></script>
+<script src="../js/addvideo.js"></script>
+<script>
+    $(function(){
+        //提示框
+        $(".close").bind("click",function(){
+            var $parent = $(this).parent();
+            $parent.slideUp();
+            return false;
+        });
+
+      
+
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('列表文章')").parent().addClass("active");
+    })
+</script>
+</body>
+</html>

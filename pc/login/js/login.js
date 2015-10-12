@@ -18,6 +18,8 @@ $(document).ready(function(){
         return false;
     });
 
+    var loginUrl = "";
+
     $("#user_name,#password,#captcha").focus(function(){
         $(".usernameinfo,.pwdinfo,.modiinfo,.modifierror,.pwderror").hide(200);
     });
@@ -26,6 +28,9 @@ $(document).ready(function(){
         var username = $("#user_name").val();
         var password = $("#password").val();
         var modifi = $("#captcha").val();
+        
+        console.log(username);
+        console.log(password);
 
         if(username == ''){
             $(".usernameinfo").show(200);
@@ -65,5 +70,4 @@ $(document).ready(function(){
         });
     });
 
-    console.log(config.basePath);
 });

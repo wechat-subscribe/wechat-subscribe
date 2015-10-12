@@ -1,0 +1,89 @@
+.container{
+	background-color: #fff;
+	height: 900px;
+}
+.container .menu_wrap {
+    border: 1px solid #e5e5e5;
+    margin: 10px;
+    height: 800px;
+}
+
+/*表格头样式*/
+.menu_head {
+    height: 50px;
+    line-height: 50px;
+	color: #777;
+
+   
+    background: #f2f2f2;
+    background-image: -webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec));
+    background-image: -webkit-linear-gradient(top,#f8f8f8 0,#ececec 100%);
+    background-image: -moz-linear-gradient(top,#f8f8f8 0,#ececec 100%);
+    background-image: linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff8f8f8',endColorstr='#ffececec',GradientType=0);
+    
+    border-bottom: 1px solid #D7D7D7;
+}
+.menu_left {
+    float: left;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #3E65AD;
+}
+.menu_right {
+    float: right;
+}
+.menu_right>span {
+    padding: 4px 6px;
+    color: #000;
+    font-weight: 400;
+    background-color: #DDDDDD;
+    color: #468fcc; 
+    border-radius: 10px;
+    cursor: pointer;
+}
+.menu_right>span:hover{
+ 	padding: 6px 8px;
+}
+
+/*栏目列表*/
+li.menu_li {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border-top: 1px dotted #e5e5e5;
+    border-bottom: 1px dotted #e5e5e5;
+    margin-top:-1px; 
+}
+li.submenu_li{
+	padding-left: 20px;
+}
+
+li.menu_li:nth-child(odd) {
+    background-color: #F7F7F7;
+}
+li.menu_li:nth-child(even) {
+    background-color: #fff;
+}
+
+.menu_lileft {
+    float: left;
+}
+.menu_liright {
+    float: right;
+}
+
+
+
+
+/*加减图标*/
+.fa{
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+.menu_liright>span>a{
+	color: #3788B6;
+}

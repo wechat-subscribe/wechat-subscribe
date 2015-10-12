@@ -1,6 +1,6 @@
 <?php
 header("content-type:text/json;charset=utf-8");
-require_once '../../common/php/dbaccess.php';
+require_once '../../../common/php/dbaccess.php';
 $db=new DB();
 session_start();
 $number=$_GET['number'];

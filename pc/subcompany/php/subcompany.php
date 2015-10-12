@@ -10,8 +10,8 @@
  * $type='checkone':用户输入通过模糊查询输入完整的子公司名称后，显示该公司具体的信息
  */
 header("content-type:text/json;charset=utf-8");
-require_once '../../common/php/dbaccess.php';
-require_once '../../common/php/regexTool.class.php';//正则表达式匹配的类文件
+require_once '../../../common/php/dbaccess.php';
+require_once '../../../common/php/regexTool.class.php';//正则表达式匹配的类文件
 $db=new DB();
 $regex = new regexTool();
 // $type=$_GET['type'];
