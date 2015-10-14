@@ -26,13 +26,7 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 			/*
 			 * 文章列表类型
 			 */
-			$sql_table="update wx_wechat_module set table='wx_article_module;wx_info;wx_leaveword;wx_zan' where id='{$menuId}'";
-			$res_table=$db1->execsql($sql_table);
-			if (mysql_affected_rows()){
-				$ferror=1;
-			}else {
-				$ferror=0;
-			}
+			
 			switch ($menusecondType){
 				case 'picture':
 					$mediaType=0;
@@ -48,52 +42,53 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 			}
 			$sql_insert_second="insert into wx_article_module (name,type) values ('{$menuName}','{$mediaType}')";
 			$res_insert_second=$db1->execsql($sql_insert_second);
+			
 			if (mysql_affected_rows()){
-				$serror=1;
+				$tableId=mysql_insert_id();//返回插入的ID
+				$serror=1;//插入成功
 			}else {
-				$serror=0;
+				$serror=0;//插入失败
+			}
+			//更新微信菜单表wx_wechat_module中的相关数据
+			$sql_table="update wx_wechat_module set tableId='{$tableId}',table='wx_article_module;wx_info;wx_leaveword;wx_zan' where id='{$menuId}'";
+			$res_table=$db1->execsql($sql_table);
+			if (mysql_affected_rows()){
+				$ferror=1;//更新成功
+			}else {
+				$ferror=0;//更新失败
 			}
 			if ($ferror && $serror){
-				return true;
+				return true;//操作成功
 			}else {
-				return false;
+				return false;//操作失败
 			}
 				
 		}elseif ($menuFirstType=='activity'){
 			/*
-			 * 活动类型
+			 * 活动类型:互动
 			 */
-			
-			switch ($menusecondType){
-				case 'vote':
-					$reviewTable='wx_vote_project';
-					$table='wx_activity_module;wx_vote_project;wx_vote_option;wx_vote_interact';
-					break;
-				case 'interact':
-					$reviewTable='wx_activity_interact_project';
-					$table='wx_activity_module;wx_activity_interact_project;wx_activity_interact;wx_activity_leaveword;wx_activity_zan';
-					break;
-				default:
-					break;
-			}
-			$sql_insert_second="insert into wx_activity_module (name,reviewTable) values ('{$menuName}','{$reviewTable}')";
+			$reviewTable='wx_activity_interact_project';//存放往期回顾标识字段的表名
+			//该活动相关的表名
+			$table='wx_activity_module;wx_activity_interact_project;wx_activity_interact;wx_activity_leaveword;wx_activity_zan';
+		    $sql_insert_second="insert into wx_activity_module (name,reviewTable) values ('{$menuName}','{$reviewTable}')";
 			$res_insert_second=$db1->execsql($sql_insert_second);
 			if (mysql_affected_rows()){
-				$serror=1;
+				$tableId=mysql_insert_id();//返回插入的ID
+				$serror=1;//插入成功
 			}else {
-				$serror=0;
+				$serror=0;//插入失败
 			}
-			$sql_table="update wx_wechat_module set table='{$table}' where id='{$menuId}'";
+			$sql_table="update wx_wechat_module set tableId='{$tableId}',table='{$table}' where id='{$menuId}'";
 			$res_table=$db1->execsql($sql_table);
 			if (mysql_affected_rows()){
-				$ferror=1;
+				$ferror=1;//更新成功
 			}else {
-				$ferror=0;
+				$ferror=0;//更新失败
 			}
 			if ($ferror && $serror){
-				return true;
+				return true;//操作成功
 			}else {
-				return false;
+				return false;//操作失败
 			}
 		}
 	}
@@ -161,7 +156,7 @@ if ($type=="showmenu"){
 	$menuName=$_GET['menuName'];//所添加菜单的名称
 	$menuFirstType=$_GET['menuFirstType'];//选择的菜单一级类型。"articlelist":文章列表；"activity":活动
 	$menusecondType=$_GET['menusecondType'];//选择的菜单二级类型。若一级为文章列表，则"picture":图文；"video":视频；"voice":音频
-	                                       //若一级为活动，则"vote":投票；"interact":图片互动
+	                                       //若一级为活动，则"interact":图片互动
 	$menuParent=$_GET['parentName'];//所添加菜单的父类菜单名称，若为空，则表示该菜单为一级菜单
 	if (empty($menuParent)){
 		/*
@@ -247,7 +242,41 @@ if ($type=="showmenu"){
 	}
 }elseif ($type=='deletemenu'){
 	$menuId=$_GET['menuId'];//要删除的菜单的moduleId
-	$sql_delete_table;
+	$menuName=$_GET['menuName'];//要删除的菜单的名称
+	$menuType=$_GET['menuType'];//菜单的类型。文章列表为articlelist”;活动为"activity",其他为“other”
+	//查找该菜单的子菜单是否存在
+	$sql_subMenu="select id from wx_wechat_module where parentId='{$menuId}'";
+	$res_subMenu=$db->execsql($sql_subMenu);
+	if (empty($res_subMenu)){
+		/*
+		 * 没有子菜单，只删除目前菜单的数据库
+		 */
+		//查出与该菜单相关的数据库表
+		$sql_table="select table from wx_wechat_module where id='{$menuName}'";
+		$res_table=$db->getrow($sql_table);
+		$table=array();
+		$table=explode(';', $res_table);
+		if (empty($table)){
+			/*
+			 * 没有要删除的相关数据库表
+			 */
+		}else {
+			/*
+			 * 删除相关的数据库表中的数据
+			 */
+			if ($menuType=='articlelist'){
+					
+			}elseif ($menuType=="activity"){
+					
+			}else{
+				foreach ($table as $val_table){
+					$sql_drop="drop table '{$val_table}'";
+					$res_drop=$db->execsql($sql_drop);
+				}	
+			}
+		}
+		
+	}
 }elseif ($type=='deleteculture'){
     	
 }
