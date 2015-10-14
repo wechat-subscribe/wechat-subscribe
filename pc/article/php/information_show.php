@@ -260,9 +260,9 @@ if ($type == 'list') {
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“提交”按钮**********************
 	 */
 	$subtype=$_GET['subtype'];
-	$mediatype=$_GET['mediatype'];//0：图片；1：视频；2：缩略图
+// 	$mediatype=$_GET['mediatype'];//0：图片；1：视频；2：缩略图
 	if ($subtype=='thumb'){
-		$dest=uploadmulti('thumbpic',$mediatype); 
+		$dest=uploadmulti('thumbpic',2); 
 		$_SESSION['thumb']=$dest[0];
 		echo $dest[0];
 	}

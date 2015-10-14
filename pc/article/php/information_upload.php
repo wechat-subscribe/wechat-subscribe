@@ -15,14 +15,17 @@ $title= $_POST ['title'];
 $content= $_POST ['content'];
 $moduleId= $_POST ['moduleId'];
 $subtype=$_GET['subtype'];
-$mediatype=$_GET['mediatype'];//0：图片；1：视频；2：缩略图
+// echo $subtype;die;
+// $mediatype=$_GET['mediatype'];//0：图片；1：视频；2：缩略图
 	
 if($subtype=='upvideo'){
 		/**
 		 * ***视频上传功能***
 		 */
+// 	echo "82";die;
 		$dest=uploadmulti('video',1);
 		$_SESSION['upvideo']=$dest[0];
+// 		var_dump($dest);
 		echo $dest[0];
 	}
 else if (  empty( $title ) || empty ( $content)) {
@@ -45,7 +48,7 @@ if ($subtype=='thumb'){
 		/**
 		 * ***缩略图上传功能***
 		 */
-		$dest=uploadmulti('thumbpic',$mediatype);
+		$dest=uploadmulti('thumbpic',2);
 		$_SESSION['thumb']=$dest[0];
 		echo $dest[0];
 	}
