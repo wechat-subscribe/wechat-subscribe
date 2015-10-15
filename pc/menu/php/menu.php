@@ -292,13 +292,13 @@ if ($type=="showmenu"){
 	 * 将菜单按级别输出名字和ID
 	 */
 	//获取一级模块名称
-	$sql_menu="select id,name from wx_wechat_module where parentId=0";
+	$sql_menu="select id,name from wx_wechat_module where parentId=0 order by seq asc";
 	$res_menu=$db->execsql($sql_menu);
 	//遍历获取二级模块名称
 	foreach ($res_menu as $key_First=>$val_First){
 		//自身连接查询
 		$sql_second="select s.id,s.name from wx_wechat_module as s left join wx_wechat_module as p
-				on s.parentId=p.id where p.id='{$val_First['id']}'";
+				on s.parentId=p.id where p.id='{$val_First['id']}' order by s.seq asc";
 		$res_second=$db->execsql($sql_second);
 		$res_menu[$key_First]['sub']=$res_second;
 	}
@@ -322,13 +322,14 @@ if ($type=="showmenu"){
 		 * 添加一级菜单
 		 */
 		//判断目前一级菜单的个数
-		$sql_firstId="select id from wx_wechat_module where parentId=0";
+		$sql_firstId="select id from wx_wechat_module where parentId=0 ";
 		$res_firstId=$db->execsql($sql_firstId);
 		$firstMenuNum=count($res_firstId);
 		//若一级菜单的个数不足3个，则添加菜单；若已存在3个，则报错
 		if ($firstMenuNum<3){
 			//将菜单信息保存在wx_wechat_module表中
-			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}',0,'{$firstMenuNum}')";
+			$seq=$firstMenuNum+1;//菜单排序默认为自增一
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}',0,'{$seq}')";
 			$res_insert_first=$db->execsql($sql_insert_first);
 			if (mysql_affected_rows()){
 				$menuId=mysql_insert_id();//添加的菜单的moduleId
@@ -359,7 +360,8 @@ if ($type=="showmenu"){
 		//若二级菜单的个数不足5个，则添加菜单；若已存在5个，则报错
 		if ($secondMenuNum<5){
 			//将菜单信息保存在wx_wechat_module表中
-			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}','{$menuParentId}','{$secondMenuNum}')";
+			$seq=$secondMenuNum+1;//菜单排序默认为自增一
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}','{$menuParentId}','{$seq}')";
 			$res_insert_first=$db->execsql($sql_insert_first);
 			$menuId=mysql_insert_id();//添加的菜单的moduleId
 			if (mysql_affected_rows()){
