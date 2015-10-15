@@ -57,6 +57,12 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 			switch ($menusecondType){
 				case 'vote':
 					$reviewTable='wx_vote_project';
+					//判断是否存在投票类型的按钮，若存在，则不能添加
+					$sql_isset="select id from wx_activity_module where reviewTable='wx_vote_project'";
+					$res_isset=$db1->execsql($sql_isset);
+					if (!empty($res_isset)){
+						return false;
+					}
 					break;
 				case 'interact':
 					$reviewTable='wx_activity_interact_project';
@@ -82,25 +88,205 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 		return true;
 	}
 }
+
 /*
- * 删除带数据库表的菜单
+ * 按菜单类型，删除带数据库表的菜单
+ * @$menuType:菜单类型
+ * @$menuId:菜单的ID
  */
-function delmenu(){
-	
+function delmenu($menuType,$menuId) {
+	if ($menuType == "activity") {
+		/*
+		 * 若要删除的菜单按钮为活动类型,则活动的模块表为wx_activity_module
+		 */
+		// 查找出存储活动数据的表
+		$sql_table = "select b.id,reviewTable from wx_wechat_module as a left join wx_activity_module as b on a.id=b.menuid where a.id='{$menuId}'";
+		$res_table = $db->getrow ( $sql_table );
+		if ($res_table ['reviewTable'] == 'wx_activity_interact_project') {
+			/*
+			 * 图片互动类型的活动
+			 */
+			$sql_delete_interact = "DELETE a,b,c,d from wx_activity_interact as b left join wx_activity_interact_project as a on a.id=b.projectId
+			left join wx_activity_leaveword as c on c.activityId=b.id
+			left join wx_activity_zan as d on d.activityId=b.id
+			where a.moduleId='{$res_table['id']}'";
+			$res_delete_interact = $db->execsql ( $sql_delete_interact );
+			if (mysql_affected_rows ()) {
+				$error1=1;//删除成功
+			} else {
+				$error1=0;//删除失败
+			}
+		} elseif ($res_table ['reviewTable'] == 'wx_vote_project') {
+			/*
+			 * 投票类型的活动
+			 */
+			$sql_delete_vote = "delete a,b,c from wx_vote_project as a left join wx_vote_option as b on b.voteId=a.id
+					                                                  left join wx_vote_interact as c on c.voteId=a.id";
+			$res_delete_vote = $db->execsql ( $sql_delete_vote );
+			if (mysql_affected_rows ()) {
+				$error1=1;//删除成功
+			} else {
+				$error1=0;//删除失败
+			}
+		}
+		// 删除菜单数据库表
+		$sql_delete_menu = "delete a,b from wx_wechat_menu as a left join wx_activity_module as b on a.id=b.menuId where a.id='{$menuId}'";
+		$res_delete_menu = $db->execsql ( $sql_delete_menu );
+		if (mysql_affected_rows ()) {
+			$error2 = 1; // 删除成功
+		} else {
+			$error2 = 0; // 删除失败
+		}
+		if ($error1 && $error2){
+			$del['error']="删除成功";
+		} else {
+			$del['error']="删除失败";
+		}
+	} elseif ($menuType == "articlelist") {
+		/*
+		 * 若要删除的菜单按钮为文章列表类型,则活动的模块表为wx_activity_module
+		 */
+		// 判断要删除的是否是菜单
+		if ($menuId != 0) {
+			/*
+			 * 是菜单类型
+			 */
+			// 删除相关文件
+			$sql_file = "select thumb,media from wx_info as b left join wx_articlelist_module as a on a.id=b.moduleId";
+			$res_file = $db->execsql ( $sql_file );
+			foreach ( $res_file as $val_file ) {
+				if (! empty ( $val_file ['thumb'] )) {
+					unlink ( $val_file ['thumb'] );
+				}
+				if (! empty ( $val_file ['media'] )) {
+					$media = explode ( ';', $val_file ['media'] );
+					foreach ( $media as $val_media ) {
+						unlink ( $val_media );
+					}
+				}
+			}
+			// 删除数据库中的数据
+			$sql_delete_articlelist = "DELETE a,b,c,d from wx_info as b left join wx_articlelist_module as a on a.id=b.moduleId
+			left join wx_leaveword as c on c.infoId=b.id
+			left join wx_zan as d on d.infoId=b.id
+			where a.menuId='{$menuId}'";
+			$res_delete_articlelist = $db->execsql ( $sql_delete_articlelist );
+			if (mysql_affected_rows ()) {
+				$error1=1;//删除成功
+			} else {
+				$error1=0;//删除失败
+			}
+			// 删除菜单数据库表
+			$sql_delete_menu = "delete a,b from wx_wechat_menu as a left join wx_articlelist_module as b on a.id=b.menuId where a.id='{$menuId}'";
+			$res_delete_menu = $db->execsql ( $sql_delete_menu );
+			if (mysql_affected_rows ()) {
+				$error2 = 1; // 删除成功
+			} else {
+				$error2 = 0; // 删除失败
+			}
+			if ($error1 && $error2) {
+				$del ['error'] = "删除成功";
+			} else {
+				$del ['error'] = "删除失败";
+			}
+		} else {
+			$del ['error'] = "不是菜单类型，不能删除";
+		}
+	} elseif ($menuType == "talent") {
+		/*
+		 * 菜单类型为人才
+		 */
+		$sql_delete_talent1 = "delete from wx_talent_recruit";
+		$res_delete_talent1 = $db->execsql ( $sql_delete_talent1 );
+		if (mysql_affected_rows ()) {
+			$errortalent1 = 1; // 删除成功
+		} else {
+			$errortalent1 = 0; // 删除失败
+		}
+		$sql_delete_talent2 = "delete from wx_talent_philosophy";
+		$sql_delete_talent2 = $db->execsql ( $sql_delete_talent2 );
+		if (mysql_affected_rows ()) {
+			$errortalent2 = 1; // 删除成功
+		} else {
+			$errortalent2 = 0; // 删除失败
+		}
+		// 删除菜单数据库表
+		$sql_delete_menu = "delete from wx_wechat_menu  where id='{$menuId}'";
+		$res_delete_menu = $db->execsql ( $sql_delete_menu );
+		if (mysql_affected_rows ()) {
+			$errortalent3 = 1; // 删除成功
+		} else {
+			$errortalent3 = 0; // 删除失败
+		}
+		if ($errortalent1 && $errortalent2 &&$errortalent3) {
+			$del ['error'] = "删除成功";
+		} else {
+			$del ['error'] = "删除失败";
+		}
+	} elseif ($menuType == "profile") {
+		/*
+		 * 菜单类型为企业简介
+		 */
+		// 删除相关文件
+		$sql_file = "select picture from wx_profile";
+		$res_file = $db->execsql ( $sql_file );
+		foreach ( $res_file as $val_file ) {
+			unlink ( $val_file ['picture'] );
+		}
+		// 删除数据库中的数据
+		$sql_delete_profile = "delete from wx_profile";
+		$res_delete_profile = $db->execsql ( $sql_delete_profile );
+		if (mysql_affected_rows ()) {
+			$error1=1; // 删除成功
+		} else {
+			$error1=0; // 删除失败
+		}
+		// 删除菜单数据库表
+		$sql_delete_menu = "delete from wx_wechat_menu  where id='{$menuId}'";
+		$res_delete_menu = $db->execsql ( $sql_delete_menu );
+		if (mysql_affected_rows ()) {
+			$error2=1; // 删除成功
+		} else {
+			$error2=0; // 删除失败
+		}
+		if ($error1 && $error2) {
+			$del ['error'] = "删除成功";
+		} else {
+			$del ['error'] = "删除失败";
+		}
+	} elseif ($menuType == "map") {
+		/*
+		 * 菜单类型为地图导航
+		 */
+		// 删除数据库中的数据
+		$sql_delete_map = "delete from wx_map";
+		$res_delete_map = $db->execsql ( $sql_delete_map );
+		if (mysql_affected_rows ()) {
+			$error1 = 1; // 删除成功
+		} else {
+			$error1 = 0; // 删除失败
+		}
+		// 删除菜单数据库表
+		$sql_delete_menu = "delete from wx_wechat_menu  where id='{$menuId}'";
+		$res_delete_menu = $db->execsql ( $sql_delete_menu );
+		if (mysql_affected_rows ()) {
+			$error2 = 1; // 删除成功
+		} else {
+			$error2 = 0; // 删除失败
+		}
+		if ($error1 && $error2) {
+			$del ['error'] = "删除成功";
+		} else {
+			$del ['error'] = "删除失败";
+		}
+	}
+	return $del;
 }
 
 /*
  * 菜单编辑
  */
-// $parent=$_GET['parent'];
-// $type=$_GET['type'];
-//  $type="showmenu";
-//  $type="showculture";
-//  $type="addmenu";
- $type="updatemenu";
-//  $type="updateculture";
-//  $type="deletemenu";
-//  $type="deleteculture";
+$type=$_GET['type'];
 if ($type=="showmenu"){
 	/*
 	 * 将菜单按级别输出名字和ID
@@ -131,8 +317,7 @@ if ($type=="showmenu"){
 	$menusecondType=$_GET['menusecondType'];//选择的菜单二级类型。若一级为文章列表，则"picture":图文；"video":视频；"voice":音频
 	                                       //若一级为活动，则"interact":图片互动;"vote":投票;"review";"往期回顾"
 	$menuParentId=$_GET['parentId'];//所添加菜单的父类菜单名称，若为0，则表示该菜单为一级菜单
-	$menuParentId=0;
-	if ($menuParent==0){
+	if ($menuParentId==0){
 		/*
 		 * 添加一级菜单
 		 */
@@ -142,7 +327,8 @@ if ($type=="showmenu"){
 		$firstMenuNum=count($res_firstId);
 		//若一级菜单的个数不足3个，则添加菜单；若已存在3个，则报错
 		if ($firstMenuNum<3){
-			$sql_insert_first="insert into wx_wechat_module (name,parentId) values ('{$menuName}',0)";
+			//将菜单信息保存在wx_wechat_module表中
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}',0,'{$firstMenuNum}')";
 			$res_insert_first=$db->execsql($sql_insert_first);
 			if (mysql_affected_rows()){
 				$menuId=mysql_insert_id();//添加的菜单的moduleId
@@ -150,28 +336,30 @@ if ($type=="showmenu"){
 			}else{
 				$firstError=false;//添加失败
 			}
-			$secondeError=true;
-			$secondeError=addmenu($menuName, $menuFirstType, $menusecondType,$menuId);
-			if ($firstError && $secondeError){
+			//为菜单添加功能
+			$secondError=true;
+			$secondError=addmenu($menuName, $menuFirstType, $menusecondType,$menuId);
+			if ($firstError && $secondError){
 				$add['id']=$menuId;//添加的菜单的moduleId
 				$add['error']=1;//添加成功
 			}else {
 				$add['error']=0;//添加失败
 			}
 		}else {
-			$add['error']=2;//一级菜单最多只能有三个
+			$add['error']=3;//一级菜单最多只能有三个
 		}
 	}else {
 		/*
 		 * 添加二级菜单
 		 */
-		$sql_menuParentId="select id from wx_wechat_module where name='{$menuParent}'";
-		$res_menuParentId=$db->getrow($sql_menuParentId);
-		$sql_secondMenu="select id,parentId from wx_wechat_module where parentId='{$res_menuParentId['id']}'";
-		$res_secondMenu=$db->execsql($sql_secondMenu);
-		$secondMenuNum=count($res_secondMenu);
+		//判断目前一级菜单下二级菜单的个数
+		$sql_secondId="select id from wx_wechat_module where parentId='{$menuParentId}'";
+		$res_secondId=$db->execsql($sql_secondId);
+		$secondMenuNum=count($res_secondId);
+		//若二级菜单的个数不足5个，则添加菜单；若已存在5个，则报错
 		if ($secondMenuNum<5){
-			$sql_insert_first="insert into wx_wechat_module (name,parentId) values ('{$menuName}','{$res_menuParentId['id']}')";
+			//将菜单信息保存在wx_wechat_module表中
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq) values ('{$menuName}','{$menuParentId}','{$secondMenuNum}')";
 			$res_insert_first=$db->execsql($sql_insert_first);
 			$menuId=mysql_insert_id();//添加的菜单的moduleId
 			if (mysql_affected_rows()){
@@ -179,8 +367,10 @@ if ($type=="showmenu"){
 			}else{
 				$firstError=false;//添加失败
 			}
-			$secondeError=addmenu($menuName, $menuFirstType, $menusecondType,$menuId);
-			if ($firstError && $secondeError){
+			//为菜单添加功能
+			$secondError=true;
+			$secondError=addmenu($menuName, $menuFirstType, $menusecondType,$menuId);
+			if ($firstError && $secondError){
 				$add['id']=$menuId;//添加的菜单的moduleId
 				$add['error']=1;//添加成功
 			}else {
@@ -213,45 +403,61 @@ if ($type=="showmenu"){
 	}
 }elseif ($type=='deletemenu'){
 	$menuId=$_GET['menuId'];//要删除的菜单的moduleId
+// 	$menuId=6;
 	$menuName=$_GET['menuName'];//要删除的菜单的名称
-	$menuType=$_GET['menuType'];//菜单的类型。文章列表为articlelist”;活动为"activity",其他为“other”
-	//查找该菜单的子菜单是否存在
-	$sql_subMenu="select id from wx_wechat_module where parentId='{$menuId}'";
-	$res_subMenu=$db->execsql($sql_subMenu);
-	if (empty($res_subMenu)){
+// 	$menuName="企业文化";
+	//核对菜单的moduleId和名称
+	$sql_isset="select id from wx_wechat_module where id='{$menuId}' and name='{$menuName}'";
+// 	echo $sql_isset;die;
+	$res_isset=$db->getrow($sql_isset);
+	if (!empty($res_isset)){
 		/*
-		 * 没有子菜单，只删除目前菜单的数据库
+		 * 菜单存在，进行删除操作
 		 */
-		//查出与该菜单相关的数据库表
-		$sql_table="select table from wx_wechat_module where id='{$menuName}'";
-		$res_table=$db->getrow($sql_table);
-		$table=array();
-		$table=explode(';', $res_table);
-		if (empty($table)){
+		$menuType=$_GET['menuType'];//菜单的类型。文章列表为"articlelist";活动为"activity";人才为“talent”;地址导航为“map”;公司简介:"profile"
+// 		$menuType="articlelist";
+		//查找该菜单的子菜单是否存在
+		$sql_subMenuId="select id from wx_wechat_module where parentId='{$menuId}'";
+		$res_subMenuId=$db->execsql($sql_subMenuId);
+		if (empty($res_subMenuId)){
 			/*
-			 * 没有要删除的相关数据库表
+			 * 没有子菜单，只删除目前菜单的数据库
 			 */
+			$del=delmenu($menuType, $menuId);//调用删除功能菜单的函数，返回的是数组，里面存放的是错误代码
 		}else {
 			/*
-			 * 删除相关的数据库表中的数据
+			 * 有子菜单
 			 */
-			if ($menuType=='articlelist'){
-					
-			}elseif ($menuType=="activity"){
-					
-			}else{
-				foreach ($table as $val_table){
-					$sql_drop="drop table '{$val_table}'";
-					$res_drop=$db->execsql($sql_drop);
-				}	
+			//删除子菜单
+			foreach ($res_subMenuId as $key_subMenuId=>$val_subMenuId){
+				$del2=delmenu($menuType,$val_subMenuId['id']);//调用删除功能菜单的函数，先将子菜单删除
+				if ($del2['error']!="删除成功"){
+					break;
+				}
+			}
+			// 删除本菜单
+			$sql_delete_menu = "delete from wx_wechat_menu  where id='{$menuId}'";
+			$res_delete_menu = $db->execsql ( $sql_delete_menu );
+			if (mysql_affected_rows ()) {
+				$error2 = 1; // 删除成功
+			} else {
+				$error2 = 0; // 删除失败
+			}
+			if ($del2['error'] && $error2) {
+				$del ['error'] = "删除成功";
+			} else {
+				$del ['error'] = "删除失败";
 			}
 		}
-		
+	}else {
+		/*
+		 * 菜单不存在
+		 */
+		$del ['error'] = "菜单信息不存在，请联系技术支持";
 	}
-}elseif ($type=='deleteculture'){
-    	
+	echo json_encode($del);
 }
-
+	
 
 
 
