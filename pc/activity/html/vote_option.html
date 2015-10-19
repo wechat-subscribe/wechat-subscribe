@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+     <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/addarticle.css"/>
+	
+    <script src="../js/jquery-2.0.3.min.js"></script>
+	<!--引入baidu ue-->
+   <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.all.min.js"> </script> 
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<!--引入baidu ue-->
+</head>
+<body>
+<div class="maxwrap"> 
+    <!--头部-->
+    <script src="../js/head.js"></script>
+    <!--左边栏-->
+    <script src="../js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">活动</a></li>
+                <li class="breadcrumbactive">投票</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+		<div class="container">
+				<ul class="navtable" >
+              
+               <!-- <li class=""><a data-toggle="tab" href="comment" class="">评论管理</a></li>--->
+            </ul>
+            <div class="tabcontent article">
+              <form>
+                <div class="alert word">
+                    <button type="button" class="close">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                </div>
+
+                <div class="conlabel">
+                    <span>标题</span>
+					<input type="hidden" name="id">
+					<input type="hidden" name="voteId">
+                    <input type="text" name="name" autocomplete="off">
+                </div>
+                <div class="conlabelimg" id="uploadpic">
+                    <span>缩略图</span>
+                    <i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>
+                    <input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >
+                     <input type="hidden" name="picture"/>                   
+				   <!--<div id="feedback"></div>-->
+                </div>
+            
+			   <!--
+			    <div class="conlabel">
+                    <span>活动栏目</span>
+                    <select name="type" class="column">
+                        <option value="0">准备中</option> 
+                    </select>
+                </div>
+			   --->
+				  <!--
+                <div class="conlabel">
+                    <span>活动设置</span>
+                    <span class="normall">是否可评论<input type="checkbox" value="" name="" id="comment"></span>
+                    <span class="normall">是否可点赞<input type="checkbox" value="" id='praise' name=""></span>
+                </div>
+			  -->
+                </div>
+                <div class="conlabel">
+                    <span>内容</span>
+                    <input type="hidden" name="content">
+					<script id="editor"  type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
+                </div>
+					</form>
+                <div class="ownbtngroup">
+                    <a href="" id="submit"  onclick ="return false;"><i class="fa fa-check"></i>发布</a><a  onclick ="return false;" href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+                </div>
+			
+            </div>
+	</div>
+</div>
+
+                
+		
+		 
+<script type="text/javascript" src="../js/vote_option.js"></script>
+</body>
+</html>

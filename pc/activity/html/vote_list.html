@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../css/base.css"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <script src="../js/jquery-2.0.3.min.js"></script>
+	<link rel="stylesheet" href="../css/articlelist.css"/>
+</head>
+<body>
+<div class="maxwrap">
+    <!--头部-->
+    <script src="../js/head.js"></script>
+    <!--左边栏-->
+    <script src="../js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">活动管理</a></li>
+                <li class="breadcrumbactive">投票管理</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container"> 
+           <div class="tablediv">
+                <table class="atticletable">
+                    <caption class="tableheader">投票列表
+                        <span onClick="edit(false)">添加投票</span>
+                    </caption>
+                    <thead>
+                    <tr class="trheader">
+                        <th class="checkbox" > </th>
+                        <th>投票标题</th>
+                        <th>更新时间</th>
+                        <th>操作</th> 
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                     
+                  <!--
+				     
+                    <tr>
+                        <td class="checkbox"><input type="checkbox"/></td>
+                        <td><a href="" name="7">青春健康同伴教育在校区有序开展</a></td>
+                        <td>2007-12-03</td>
+                        <td class="actionicon"><i class="fa fa-pencil blue"></i><i onClick="del(2)" class="fa fa-trash red"></i></td>
+                    </tr>
+				  -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="tfoot">
+               
+                <div class="pagegroup">
+                    <span class="fa fa-angle-double-left disable"></span>
+                    <span class="fa fa-angle-left disable"></span>
+                    <input type="text" size="2" maxlength="7" value="0" role="textbox">
+                    共<small id="allpage">8</small>页
+                    <span class="fa fa-angle-right "></span>
+                    <span class="fa fa-angle-double-right"></span>
+                </div>
+                <div class="pageinfo">
+                    <small id="nowprenum">1</small>-<small id="nownextnum">12</small>　共<small id="allnum">12</small>条
+                </div>
+            </div>
+
+        </div>
+    </div>
+	<!--模态html--->
+	<div class="hideContent"></div>
+    <div class="comtent">
+        <div class="conheader"><span>删除</span></div>
+        <div class="contextarea">
+            删除所选记录？
+        </div>
+        <div class="btna">
+            <a  onClick="truedel()"  class="btnleft ">确定</a>
+            <a onClick="cancel()"  class="btnright">取消</a>
+        </div>
+    </div>
+</div>
+ 
+<!--自定义js-->
+<script type="text/javascript" src="../js/vote_list.js"></script> 
+</body>
+</html>

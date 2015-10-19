@@ -1,0 +1,5 @@
+activity.php?handle=activitylist
+post请求
+1.post[id]                 #请求返回一条数据
+2.post[type]、post[page]   #请求返回一类数据
+3.post[page]   			   #请求返回全部数据
