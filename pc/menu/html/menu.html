@@ -27,83 +27,140 @@
         <!--内容区域-->
         <div class="container">
              <div class="menu_wrap">
-                 <div class="menu_head">
-                     <div class="menu_left">网站栏目管理</div>
-                     <div class="menu_right">
-                         <span>增加顶级栏目</span>
-                     </div>
-                 </div>
-                 <div class="menu_body">
-                     <ul class="menu_ul">
-                         <li class="menu_li">
-                             <div class="menu_lileft"><i class="fa fa-minus-square-o"></i>学生组织</div>
-                             <div class="menu_liright">
-                                <span><a href="javascript:void(0)">增加子类</a></span>
-                                <span><a href="javascript:void(0)">更改</a></span>
-                                <span><a href="javascript:void(0)">删除</a></span>
-                             </div>
+                <div class="alert word">
+                    <button type="button" class="close"> </button>
+                    <i class="fa fa-info-circle"></i>  提示：
+                    <strong>可创建最多3个一级菜单，每个一级菜单下可创建最多5个二级菜单</strong>
+                </div>
+                <div class="menucontainer">
+                    <div class="innerside">
+                        <div class="bd">
+                            <div class="menu_manage">
+                                <div class="sub_title_bar light">
+                                    <h4>微信菜单管理</h4>
+                                    <div class="opr_wrp">
+                                        <a href="javascript:void(0);" id="" class="addMenu fir btninfo" name='添加' style="position: relative;"><i class="fa fa-plus"></i>  
+                                        </a>
+                                        <a href="javascript:void(0);" id="orderBt" class=" " name='排序'><i class="fa fa-sort"></i></a>
+                                        <a href="javascript:void(0);" id="finishBt" class="" style="display:none">完成</a>
+                                        <a href="javascript:void(0);" id="cancelBt" class="opr_meta btn btn_default btn_sorting" style="display:none">取消</a>
+                                    </div>
+                                </div>
+                                <div class="menuList" id="menuListId">
+                                    
+                                    <!-- <dl class="menuListsub">
+                                        <dt class="menuListsublight" id="">
+                                        <a href="javascript:void(0);" class=" "><strong>精彩图文2</strong></a>
+                                        <span class="menu_opr">
+                                          <a href="javascript:void(0);" id="" class="addMenu sec" name='添加'><i class="fa fa-plus"></i></a>
+                                            <a href="javascript:void(0);" id="orderBt" class=" " name='排序' style="display:none"><i class="fa fa-sort"></i></a>
+                                        </span>
+                                        </dt>
+                                        
+                                        <dd class=" " id="subMenu_menu_1_1">
+                                            <i class="icon_dot">●</i>
+                                            <a href="javascript:void(0);" class=""><strong>测试二级菜单</strong></a>
+                                            <span class="menu_opr">
+                                               <a href="javascript:void(0);" id="orderBt" class=" " name='排序' style="display:none"><i class="fa fa-sort"></i></a>
+                                            </span>
+                                        </dd>
+                                        
+                                         <dd class=" " id="subMenu_menu_1_1">
+                                            <i class="icon_dot">●</i>
+                                            <a href="javascript:void(0);" class=""><strong>测试二级菜单</strong></a>
+                                            <span class="menu_opr">
+                                               <a href="javascript:void(0);" id="orderBt" class=" " name='排序' style="display:none"><i class="fa fa-sort"></i></a>
+                                            </span>
+                                        </dd>
+                                    </dl>  -->
 
-                            <li class="menu_li submenu_li">
-                                 <div class="menu_lileft"><i class="fa fa-plus-square-o"></i>学生会</div>
-                                 <div class="menu_liright">
-                                    <span><a href="javascript:void(0)">增加子类</a></span>
-                                    <span><a href="javascript:void(0)">更改</a></span>
-                                    <span><a href="javascript:void(0)">删除</a></span>
-                                 </div>
-                            </li>
-                            <li class="menu_li submenu_li">
-                                 <div class="menu_lileft"><i class="fa fa-plus-square-o"></i>自律会</div>
-                                 <div class="menu_liright">
-                                    <span><a href="javascript:void(0)">增加子类</a></span>
-                                    <span><a href="javascript:void(0)">更改</a></span>
-                                    <span><a href="javascript:void(0)">删除</a></span>
-                                 </div>
-                            </li>
-                         </li>
-                         
-                         <li class="menu_li">
-                             <div class="menu_lileft"><i class="fa fa-plus-square-o"></i>支部生活</div>
-                             <div class="menu_liright">
-                                <span><a href="javascript:void(0)">增加子类</a></span>
-                                <span><a href="javascript:void(0)">更改</a></span>
-                                <span><a href="javascript:void(0)">删除</a></span>
-                             </div>
-                        </li>
-                        <li class="menu_li">
-                             <div class="menu_lileft"><i class="fa fa-plus-square-o"></i>支部生活</div>
-                             <div class="menu_liright">
-                                <span><a href="javascript:void(0)">增加子类</a></span>
-                                <span><a href="javascript:void(0)">更改</a></span>
-                                <span><a href="javascript:void(0)">删除</a></span>
-                             </div>
-                        </li>
-                        <li class="menu_li">
-                             <div class="menu_lileft"><i class="fa fa-plus-square-o"></i>支部生活</div>
-                             <div class="menu_liright">
-                                <span><a href="javascript:void(0)">增加子类</a></span>
-                                <span><a href="javascript:void(0)">更改</a></span>
-                                <span><a href="javascript:void(0)">删除</a></span>
+
+                                </div>
                             </div>
-                        </li>
-                     </ul>
-                 </div>
+                        </div>
+                    </div>
+                    <div class="innermain">
+                        <div class="bd">
+                            <div class="sub_title_bar light" id="righttitle">
+                                <h4>一级菜单：精彩图文</h4>
+                                <div class="opr_wrp">
+                                    <a href="javascript:void(0);"  class="editmenubtn"  >重命名 </a>
+                                    <a href="javascript:void(0);"  class="delmenubtn"  >删除</a>
+                                </div>
+                            </div>
+                            <div class="innermaincon">
+                                <div class="innermaincon_wrapinfo">
+                                    <i class="fa fa-info-circle"></i>
+                                    你可以点击左侧菜单或添加一个新菜单，然后设置菜单内容
+                                </div>
+
+                                <div class="innermaincon_wrap blue textbtn disable">
+                                    <i class="fa fa-envelope"></i>
+                                    <p>发消息</p>
+                                </div>
+                                 <div class="innermaincon_wrap blue addbtn  addMenu contain disable">
+                                    <i class="fa fa-plus"></i>
+                                    <p>添加二级菜单</p>
+                                </div>
+                                <div class="innermaincon_wrap red delbtn delmenubtn disable">
+                                    <i class="fa fa-trash"></i>
+                                    <p>删除</p>
+                                </div>
+                                <div class="innermaincon_wrap green editbtn editmenubtn disable " >
+                                    <i class="fa fa-refresh"></i>
+                                    <p>重命名</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ownbtngroup">
+                    <a href="" id="submit"><i class="fa fa-check"></i>保存并发布</a><a href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+                </div>
              </div>
         </div>
     </div>
+
+<!--菜单弹出框-->
+<!-- <div class="hideContent"  style="display: block;"></div>
+<div class="comtent"  style="display: block;"> -->
+<div class="hideContent" ></div>
+<div class="comtent" >
+    <div class="conheader">
+        <span id="dialog_head">添加一级菜单</span>
+        <a href="javascript:;" onclick="return false" class="icon16_opr closed pop_closed"><i class="fa fa-remove closealert"></i></a>
+    </div>
+    <div class="contextarea">
+        <!-- 添加菜单 -->
+        <!-- <div class="contextareawrap add disable"> -->
+        <div class="contextareawrap add disable">
+            
+        </div>
+        <!-- 重命名菜单 -->
+        <div class="contextareawrap edit disable">
+        </div>
+        <!-- 删除菜单 -->
+        <div class="contextareawrap del disable">
+            
+        </div>
+
+    </div>
+    <div class="btna">
+        <a href="javascript:void(0);" class="btnleft">确定</a>
+        <a href="javascript:void(0);" class="btnright closealert">取消</a>
+    </div>
+</div>
 </div>
 <script src="../../../common/js/base.js"></script>
-<!-- <script src="../js/addTalent.js"></script> -->
+<script src="../js/menu.js"></script>
 <script>
-    $(function(){
-        $(".fa").on("click",function(){
-            $(this).toggleClass("fa-minus-square-o");
-            $(this).toggleClass("fa-plus-square-o");
-        });
+    
 
 
-        // $("li a:contains('人才')").siblings(".submenu").show();
-        // $("li a:contains('人才招聘')").parent().addClass("active");
-    });
+    // $("li a:contains('人才')").siblings(".submenu").show();
+    // $("li a:contains('人才招聘')").parent().addClass("active");
+     
 </script>
 </body>
 </html>

@@ -21,6 +21,8 @@ $(function(){
     getPageContent(1);      //获取第一页数据
 
     function getPageContent(page){
+		var type=GetQueryString('type');
+		
         $.ajax({
             url         :   "../php/activity.php?handle=activitylist",
             datatype    :   "json",
@@ -28,9 +30,11 @@ $(function(){
             async       :   false,          //同步
             data        : {
                 'handle'      : "activitylist", 
-                "page"      : page
+                "page"      : page,
+				"type"		:  type
             },
-            success:function(data) {  
+            success:function(data) { 
+console.log(data);			
                 data = JSON.parse(data);
                 // console.log(data);
                 $("#tbody").html('');
@@ -39,18 +43,19 @@ $(function(){
                 $.each(data, function(idx, obj) {
                     if(obj.id != undefined){
                          var  str = '<tr><td class="checkbox">'+ i++ +'</td>';
-                        str += '<td><span onClick="typeToUrl('+obj.type+','+obj.id+')">'+obj.title+'</span></td>';
-                        str += '<td> '+typeToString(obj.type)+'</td>';
+                        str += '<td><span onClick="typeToUrl('+obj.moduleId+','+obj.id+')">'+obj.title+'</span></td>';
+                        str += '<td onClick="typeToHref('+obj.moduleId+')"> '+typeToString(obj.moduleId)+'</td>';
                         str += '<td>'+obj.date+'</td>';
                         str += '<td class="actionicon"><a href="addactivity.html?activityid='+obj.id+'" name="'+obj.id+'"> <i title="编辑" class="fa fa-pencil blue editarticle"></i></a>';
-						str += '<i onClick="typeToUrl('+obj.type+','+obj.id+')" class="fa fa-list yellow " title="管理下一级"></i> ';
-						str += '<i onClick="typeToFront('+obj.type+','+obj.id+')" class="fa fa-paypal yellow " title="查看"></i> ';
+						str += '<i onClick="typeToUrl('+obj.moduleId+','+obj.id+')" class="fa fa-list yellow " title="管理下一级"></i> ';
+						str += '<i onClick="typeToFront('+obj.moduleId+','+obj.id+')" class="fa fa-paypal yellow " title="查看"></i> ';
 						str += '<i class="fa fa-trash red remove" title="删除"></i></td>';
                          
                         $("#tbody").append(str);
-                    }
+                    } 
                    
                 });
+			 
                 // 设置页数
 				allpage=data.sum;
                 $("#allpage").html(data.sum);
@@ -251,6 +256,7 @@ function typeToString(id){
 	 }) ;
 	 return restring;
 }
+ 
 function typeToUrl(t,id){
 	 var restring;
 	 $.each(type,function(k,v){
@@ -262,7 +268,11 @@ function typeToUrl(t,id){
 	 location.href=restring;
 	 // window.open(restring); 
 } 
-
+function typeToHref(id){
+	 
+	 location.href=location.href+"?type="+id;
+	 // window.open(restring); 
+} 
 function typeToFront(t,id){
 	 var restring;
 	 $.each(type,function(k,v){
@@ -273,4 +283,10 @@ function typeToFront(t,id){
 	 }) ;
 	 window.open(restring); 
 	 //location.href=restring;
+} 
+//获取url信息
+ function GetQueryString(name) { 
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg); 
+    if (r != null) return unescape(r[2]); return null; 
 } 

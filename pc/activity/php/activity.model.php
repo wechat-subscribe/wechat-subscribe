@@ -10,7 +10,7 @@ Class activity extends DB{
         $this->filter="*"; 
         $this->where="1"; 
         $this->limit="0 , 10"; 
-        $this->table=$first."activity";
+        $this->table=$first."activity_module";
     }
 	//select操作
     public function get(){
@@ -23,7 +23,7 @@ Class activity extends DB{
     }
     public function where($array){
         foreach ($array as $k => $v){
-            $this->where=$this->where." and ".$k."=".$v." ";    
+            $this->where=$this->where." and ".$k."='".$v."' ";    
         }
         return $this;
     }
@@ -37,12 +37,12 @@ Class activity extends DB{
 	}
 	//insert操作
     public function add($array){ 
-        $array['date']=date('Y-m-d H:i:s');
+       // $array['date']=date('Y-m-d H:i:s');
         $this->insert($this->table,$array); 
     }
 	//update操作
     public function update($array,$condition){
-		$array['date']=date('Y-m-d H:i:s');
+		//$array['date']=date('Y-m-d H:i:s');
         if( !is_array($array) || count($array)<=0) {
             return false;
         }

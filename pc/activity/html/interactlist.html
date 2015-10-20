@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/articlelist.css"/>
+    <link rel="stylesheet" href="../css/lybase.css"/>
+    <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+    <!--头部-->
+    <script src="../../../common/js/head.js"></script>
+    <!--左边栏-->
+    <script src="../../../common/js/sidebar.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li> 
+                <li class="breadcrumbactive">活动列表</li>
+                <li class="breadcrumbactive">互动管理</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+            <div class="interactarea">
+                
+                    <span><h2>互动管理    </h2> </span>					
+					<div class="list">
+						 
+						 
+						
+					</div>
+                     <div id="load"><img src="../img/load.gif"></div>
+					 
+            </div>
+           
+                
+                
+           
+        </div>
+    </div>
+    <!--发表评论模态框-->
+    <div class="hideContent"></div>
+    <div class="comtent">
+        <div class="conheader"><span>删除</span></div>
+        <div class="contextarea">
+            删除所选记录？
+        </div>
+        <div class="btna">
+            <a href="" class="btnleft">确定</a>
+            <a href="" class="btnright">取消</a>
+        </div>
+    </div>
+</div>
+<script src="../../../common/js/base.js"></script>
+<script src="../js/interactlist.js"></script>
+<script>
+    $(function(){
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('列表活动')").parent().addClass("active");
+    })
+</script>
+</body>
+</html>

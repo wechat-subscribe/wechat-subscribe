@@ -130,7 +130,7 @@ if ($type == 'list') {
 	echo $zan->zanAdd($infoId);
 } elseif ($type == 'deleteInfo') {
 	/**
-	 * *****************后台管理员删除某篇文章**********************
+	 * *****************后台管理员删除某篇文章，以及用户对其的评论和点赞**********************
 	 */
 	$infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
 // 	$infoId = 2; // 获取显示具体内容的文章信息ID
@@ -141,10 +141,13 @@ if ($type == 'list') {
 			$sql_pic="select media,thumb from wx_info where Id='{$infoId}'";
 			$res_pic=$db->getrow($sql_pic);
 		
-			$sql_del = "delete from wx_info where Id='{$infoId}'";
+// 			$sql_del = "delete from wx_info where Id='{$infoId}'";
+			$sql_del="delete a,b,c from wx_info as a left join wx_leaveword as b on a.id=b.infoId
+					                                 left join wx_zan as c on a.id=c.infoId
+												     where a.id='{$infoId}'";
 			$res_del = $db->execsql ( $sql_del );
 			$res = mysql_affected_rows ();
-			if ($res) {
+			if ($res>0) {
 				/* //将图片的多个url分离,并删除图片文件
 					$deleteInfo_media=explode(';', $res_pic['media']);
 					foreach ($deleteInfo_media as $val_deleteInfo_media){
@@ -230,7 +233,7 @@ if ($type == 'list') {
 				// 	echo $sql_update;
 				$res_update=$db->execsql($sql_update);
 				$res=mysql_affected_rows();
-				if ($res){
+				if ($res>0){
 					$_SESSION['thumb'] = '';
 					echo 1;//修改成功
 				}else {

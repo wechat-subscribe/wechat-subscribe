@@ -2,7 +2,7 @@
 /*
  * activitylist
  */
- $first="wx_"; 
+$first="wx_"; 
 header ( 'content-type:text/json;charset=utf-8' );
 require_once '../../../common/php/dbaccess.php'; 
 require_once './activity.model.php';
@@ -12,7 +12,6 @@ require_once '../../../common/php/uploadFiles.php';
 session_start (); 
 $AIP = new activity_interact_project();
 $A=new activity();
-
 ///$n=$AIP->num();
 ///echo $n['COUNT(*)'];
 	
@@ -53,8 +52,8 @@ switch( @$_GET['handle']){
 			global $A; 
        	    $param=$_POST;     
 			if(!empty($param['id'])){
-				$d=$A->where(array("id"=>$param['id']))->get();
-							
+				$Model=$A->where(array("id"=>$param['id']));
+				$d=$Model->get();			
 				echo json_encode($d); 
 			}
 			else{ 
@@ -69,7 +68,7 @@ switch( @$_GET['handle']){
 	 global $AIP; 
 	 $pagesize=10;
 	 $param=$_POST; 
-	   
+	   //var_dump($param);die;
 	  if(!empty($param['id'])){
              $d=$AIP->where(array("id"=>$param['id']))->get(); 
 		    echo json_encode($d);
@@ -77,9 +76,9 @@ switch( @$_GET['handle']){
 		}
 		else  if(!empty($param['type'])){
             $page=$param['page']; 
-			$d=$AIP->where(array("type"=>$param['type']))->limit($page,$pagesize)->gets();
-			$n=$AIP->num();	
-			$d['sum']=ceil($n['COUNT(*)']/$pagesize) ;
+			$d=$AIP->where(array("type"=>$param['type']))->limit($pagesize*($page-1),$pagesize)->gets();
+			$n=$AIP->where(array("type"=>$param['type']))->num();	
+			$d['sum']=ceil($n/$pagesize) ;
 			$d['page']=$page;
 			echo json_encode($d);
 		
@@ -88,7 +87,7 @@ switch( @$_GET['handle']){
 			$page=@$param['page']; 
 			$d=$AIP->limit($pagesize*($page-1),$pagesize)->gets();
 			$n=$AIP->num();	
-			$d['sum']=ceil($n['COUNT(*)']/$pagesize);
+			$d['sum']=ceil($n/$pagesize);
 			$d['page']=$page;
 			echo json_encode($d);
 		}

@@ -29,7 +29,7 @@ class LWD{
 		}elseif ($this->table==$this->first."activity_leaveword") {
 			/*
 			 * 对活动评论，默认为可评论
-			 */
+			 */ 
 			$this->is_leaveword=1;
 			$this->dbIdName='activityId';
 		}
@@ -96,7 +96,7 @@ class LWD{
 		global $db;
 		global $regex;
 		$this->dbId=$dbId;
-		$this->isLwd();
+		$this->isLwd(); 
 		$leaveword=array();
 		if($this->is_leaveword){
 			if ($regex->isNumber($this->dbId)){

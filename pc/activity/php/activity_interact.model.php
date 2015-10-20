@@ -1,23 +1,19 @@
 <?php  
-/*
-活动列表模型
-*/
-Class activity_interact_project extends DB{
+//activity_interact数据表模型
+Class activity_interact extends DB{
     private $table; 
     private $filter;
     private $limit;
     private $where;
-	private $order;
-	private $condition; 
+    private $condition; 
     public function __construct(){   
         global $first; 
         parent::__construct();  
         $this->filter="*"; 
         $this->where="1"; 
+        $this->condition=" ";  
         $this->limit="0 , 10"; 
-		$this->condition=" ";
-		$this->order="date desc";
-        $this->table=$first."activity_interact_project";
+        $this->table=$first."activity_interact";
     }
 	//统计所有数据条数
 	public function num(){
@@ -25,57 +21,41 @@ Class activity_interact_project extends DB{
 		 $num=$this->execsql($sql); 
         return count($num);
     }
-	//获取一条数据
+	//select操作
     public function get(){
-        $sql="select ".$this->filter." from ".$this->table." where "."".$this->where."";
+        $sql="select ".$this->filter." from ".$this->table." where ".$this->where;
         return $this->getrow($sql);
     }
-	//获取所有数据
     public function gets(){
-        $sql="select ".$this->filter." from ".$this->table." where "." ".$this->where ."" ." order by ".$this->order." limit ".$this->limit ;
-	
+         $sql="select ".$this->filter." from ".$this->table." where ".$this->where ." ". $this->condition ." limit ".$this->limit ;
 		 return  $this->execsql($sql); 
     }
-	 public function condition($condition){
-		 $this->condition=$condition;
-		 return $this;
-	}
-	//where 条件
     public function where($array){
         foreach ($array as $k => $v){
             $this->where=$this->where." and ".$k."='".$v."' ";    
         }
         return $this;
     }
-	//字段条件
+	public function condition($condition){
+		 $this->condition=$condition;
+		 return $this;
+	}
     public function filter($array){ 
         $this->filter=" ".join(",",$array)." ";
 		return $this;
     }
-	//limit 条件
 	public function limit($a,$b){
 		$this->limit="".$a.",".$b."";
-		return $this;
-	}
-	//order by 条件
-	public function order($condition){
-		$this->order=$condition;
 		return $this;
 	}
 	//insert操作
     public function add($array){ 
         $array['date']=date('Y-m-d H:i:s');
-		             global $file;
-					fwrite($file,"+_+_+_+".$this->table);
-					foreach($array as $k=>$v){
-						fwrite($file,$k."=>".$v."______");
-					}
-					unset($array["id"]);
-       return $this->insert($this->table,$array); 
+        $this->insert($this->table,$array); 
     }
 	//update操作
     public function update($array,$condition){
-		//$array['date']=date('Y-m-d H:i:s');
+		$array['date']=date('Y-m-d H:i:s');
         if( !is_array($array) || count($array)<=0) {
             return false;
         }

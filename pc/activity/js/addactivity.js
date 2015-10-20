@@ -21,7 +21,7 @@ $.post(
 				$.each(type,function(k,v){
 					str+=" <option value="+v.id+">"+v.name+"</option> "; 
 				});
-				$("select[name='type']").html(str);
+				$("select[name='moduleId']").html(str);
 			}
 	);
 	
@@ -29,7 +29,7 @@ $(function(){
 
     var ue = UE.getEditor('editor');	//实例化UE编辑器
     $("input[name='voteId']").val(GetQueryString("voteId"));//设置voteid
-    var activityid = GetQueryString("activityid") ;//alert(activityid);
+    var activityid = GetQueryString("activityid") ; //alert(activityid);
     if(activityid != null){
            
         // 请求文章内容
@@ -43,6 +43,7 @@ $(function(){
 				"id"           :  activityid, 
             },
             success:function(data) { // alert(data);
+			console.log(data);
                 data = JSON.parse(data);
                 //文章内容
                 $("input[name='id']").val(data.id);

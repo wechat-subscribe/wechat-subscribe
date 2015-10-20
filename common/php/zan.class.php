@@ -67,16 +67,17 @@ class ZAN{
 		$this->isZan();
 		$zandata=array();
 		if($this->is_zan){
-			if ($regex->isNumber($this->dbId)){
+			if ($regex->isNumber($this->dbId)){ 
 				$zandata['userId']=$_SESSION['user']['id'];
 				$zandata[$this->dbIdName]=$this->dbId;
-				$sql_is_zan = "select id from ".$this->table." where infoId='{$this->dbId}' and userId='{$zan ['userId']}'";
+				$sql_is_zan = "select id from ".$this->table." where ".$this->dbIdName."='{$this->dbId}' and userId='{$zandata['userId']}'";
 				$res_is_zan = $db->getrow ( $sql_is_zan );
+// 				echo $sql_is_zan;die;
 				if (! empty ( $res_is_zan )) {
 					return 2; // 你已赞过该文章信息
 				} else {
 					$zandata ['date'] = date ( 'Y-m-d H:i:s', time () );
-					$insert = $db->insert ( 'wx_zan', $zandata );
+					$insert = $db->insert ( $this->table, $zandata );
 					if ($insert) {
 						return 1; // 点赞成功
 					} else {
