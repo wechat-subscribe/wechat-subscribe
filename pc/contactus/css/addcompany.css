@@ -1,0 +1,123 @@
+/*添加文章*/
+.container{
+    position: relative;
+    margin: 10px;
+    min-width: 1000px;
+}
+.conlabel{
+    padding-left: 200px;
+    line-height: 45px;
+    height: 45px;
+    min-width: 850px;
+    /*border-top: 1px solid #D5D5D5;*/
+    border-bottom: 1px dashed #d5d5d5;
+    margin-bottom: -1px;
+}
+.conlabel span {
+    display: inline-block;
+    text-align: right;
+    padding-right: 20px;
+    width: 120px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #656565;
+    border-right:1px dashed #DEDEDE;
+}
+.conlabel input[type="file"],.conlabel input[type="text"]{
+    margin-left: 20px;
+}
+
+/*上传图片*/
+.conlabelimg{
+    height: 100px;
+    line-height: 100px;
+    min-width: 850px;
+    border-top: 1px solid #D5D5D5;
+    position:relative;
+}
+.conlabelimg span {
+    display: inline-block;
+    width: 120px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #656565;
+    border-right:1px dashed #DEDEDE;
+}
+.conlabelimg .fa{
+    margin-left: 20px;
+    font-size: 25px;
+    color: rgba(0, 0, 0, 0.77);
+    padding: 15px;
+    background: #EAEAEA;
+}
+.conlabelimg img {
+    height: 50px;
+    top:50%;
+    margin-top: -25px;
+    /*width: 90px;*/
+    position: absolute;
+    margin-left: 20px;
+
+}
+/*评论设置 点赞设置*/
+.conlabel span.normall{
+    display: inline-block;
+    margin-left: 20px;
+    /*width: 120px;*/
+    font-size: 13px;
+    font-weight: 500;
+    color: #656565;
+}
+.conlabel span.normall input[type=checkbox]{
+   margin-left: 8px;
+}
+
+.conlabel input[type="text"]{
+    border-radius: 5px;
+    color: #858585;
+    /*min-width: 650px;*/
+    width: 400px;
+    background-color: #fff;
+    border: 1px solid #d5d5d5;
+    padding: 5px 4px;
+    line-height: 1.2;
+    font-size: 13px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition-duration: .1s;
+    transition-duration: .1s;
+}
+
+/*底部提交按钮*/
+.ownbtngroup{
+    /*position: relative;*/
+    /*top: 600px;*/
+    /*right: 10px;*/
+
+    text-align: center;
+    margin: 40px 0;
+}
+.ownbtngroup a {
+    font-size: 12px;
+    padding: 6px 18px;
+    background-color: #4090ff;
+    margin-right: 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+}
+.ownbtngroup a .fa{
+    margin-right: 3px;
+}
+.ownbtngroup a:hover{
+    background-color: #136BD9;
+}
+.ownbtngroup a:nth-child(2){
+    background-color: #ec6738;
+}
+.ownbtngroup a:nth-child(2):hover{
+    background-color: #de4f1c;
+}

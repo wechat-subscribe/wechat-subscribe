@@ -20,7 +20,8 @@ $(function(){
         }
     });
     //左侧导航下拉框选项
-    $(".navlist li").bind("click",function() {
+    // $(".navlist li").bind("click",function() {
+    $("body").delegate(".navlist li","click",function(){
         var $submenu = $(this).children(".submenu");
         if ($submenu.length != 0) {
             if ($submenu.is(":visible")) {

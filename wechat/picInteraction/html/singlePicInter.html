@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../../common/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/singlePicInter.css"/>
+    <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="maxwrap">
+    <!--图片互动栏目图-->
+    <div class="headpic">
+        <img src="../img/picInteractionbg.jpg">
+    </div>
+    <!--图片活动-->
+    <div class="container">
+		<div class="comment">
+		    <div class="comheader">
+		        热门图片
+		    </div>
+		    <div class="commentbox">
+		        <ul>
+		            <li class="comli">
+		                <div class="comnametime">
+		                    <span class="comname">小鸡微软</span>
+		                    <span class="comtime">1天前</span>
+		                </div>
+		                <p class="comtext">我爱这美丽的校园！</p>
+		                <div class="imgcontain">
+		                	<a href="javascript:void(0);"><img src="../img/1.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/2.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/3.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/4.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/5.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/6.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/7.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/8.jpg" alt=""></a>
+		                	<a href="javascript:void(0);"><img src="../img/9.jpg" alt=""></a>
+		                </div>
+		                <div class="comlitoolbar">
+		                	<a href="javascript:void(0);"><span class="fir wrapspan"><i class="fa fa-commenting-o"></i><span class="massgetext"></span>3</span></a>
+		                	<a href="javascript:void(0);"><span class="wrapspan"><i class="fa fa-thumbs-o-up"></i><span class="zantext"></span>3</span></a>
+		                </div>
+		            </li> 
+		        </ul>
+		    </div>
+		    <div class="subcomment">
+			    <div class="subcomheader">
+			        评论
+			    </div>
+			    <div class="commentbox">
+			        <ul>
+			            <li class="comli">
+			                <div class="comnametime">
+			                    <span class="comname">小鸡微软</span>
+			                    <span class="comtime">1天前</span>
+			                </div>
+			                <p class="comtext">这个世界上只有两把屠龙 一把在巴萨 一把在皇马 其他都是裁决之类的 巴洛特利也是裁决 可惜诅咒加了5</p>
+			            </li>
+			            <li class="comli">
+			                <div class="comnametime">
+			                    <span class="comname">兵哥哥</span>
+			                    <span class="comtime">1天前</span>
+			                </div>
+			                <p class="comtext">C罗在皇马证明了什么？证明了自己在世界身价第一 能力第一的大皇马七年拿到一个联赛冠军吗？</p>
+			            </li>
+			        </ul>
+			    </div>
+		     </div>
+		    <div class="loadmorepic">
+		    	<a href="javascript:void(0);">点击加载更多</a>
+		    </div>
+		</div>
+    </div>
+</div><!--底部评论-->
+<div class="wraperbg" id="contentid">
+    <div class="wrap">
+        <div class="bgleft">
+            <p>发表你的评论</p>
+        </div>
+        <div class="bgcenter">
+            <i class="fa fa-paper-plane-o"></i>
+        </div>
+        <!--<div class="bgright"></div>-->
+    </div>
+</div>
+<!--显示图片模态框-->
+<div class="hidePicwrap"></div>
+<div class="hidePic"></div>
+<!-- 上传评论 -->
+<div class="hideContentwrap"></div>
+ <div class="hideContent">
+    <div class="conheader"><span>发布评论</span></div>
+    <div class="contextarea">
+        <textarea class="newarea" name="" placeholder="说说你的看法"></textarea>
+    </div>
+    <div class="btna">
+        <a href="" class="btnleft">确定</a>
+        <a href="" class="btnright">取消</a>
+    </div>
+</div>
+
+<script>
+    $(function(){
+    	
+    	var width   = $(window).width();                //获取屏幕宽度
+    	var height   = $(window).height();                //获取屏幕宽度
+    	// $(".imgcontain img").css("width",width/3-20);	// 设置图片宽度
+    	$(".imgcontain img").css("width",85);	// 设置图片宽度
+
+     
+        //图片显示模态框
+	    $("body").delegate(".imgcontain img","click",function(){
+	    	var picsrc = $(this).attr("src");
+	    	var str = '<img src="'+picsrc+'" style="width:100%;" alt="">';
+	    	$(".hidePic").html(str);
+	        $(".hidePicwrap,.hidePic").fadeIn();
+	        return false;
+	    });
+	    //图片隐藏模态框
+	    $("body").delegate(".hidePic img,.hidePicwrap","click",function(){
+	        $(".hidePicwrap,.hidePic").fadeOut();
+	        return false;
+	    });
+	    // 评论
+	    $("#contentid").bind("click",function(){
+	    	$(".hideContentwrap,.hideContent").show();
+	    	 return false;
+	    });
+	    // 上传评论
+	    $(".submit").bind("click",function(){
+	    	$(".hideContentwrap,.hideContent").hide();
+	    	return false;
+	    });
+	    // 取消评论
+	    $(".cancel").bind("click",function(){
+	    	$(".hideContentwrap,.hideContent").hide();
+	    	return false;
+	    });
+    });
+</script>
+</body>
+</html>

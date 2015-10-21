@@ -1,0 +1,60 @@
+html,body,div{
+	margin: 0;
+	padding: 0;
+}
+
+/*内容块*/
+.containerwrap{
+	overflow: visible;
+    border: 1px solid #cccccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+	margin: 10px;
+}
+.container{
+    position: relative;
+    min-height: 5em;
+    /*max-height: 25em; */
+    padding: 10px;
+    overflow: auto;
+    outline: none;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 14px;	
+}
+.toolbar {
+    border-top: 1px solid #cccccc;
+   
+}
+.toolbar i.fa{
+	padding: 5px 10px;
+    color: #5E5E5E;
+}
+.toolbar i.fa:hover{
+	background: #B5D5FF;
+}
+
+/*按钮区域*/
+.btnbar{
+	margin: 0 10px;
+}
+.btnbar a{
+	padding: 3px 15px;
+    text-decoration: none;
+    color: #0E90D2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.btnbar a:hover{
+    background-color: #eaeff2;
+}
+.btnbar a.submit{
+	float: left;
+}
+.btnbar a.cancel{
+	float:right;
+}

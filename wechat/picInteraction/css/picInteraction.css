@@ -1,0 +1,318 @@
+html,body,div,ul,li,h1,h2,h3,h4,h5,p{
+    padding: 0;
+    margin: 0;
+}
+html{
+    font-size: 10px;
+}
+ul li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.clearfix{
+    *zoom:1;
+}
+body {
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+/*图片互动头部图片*/
+.maxwrap .headpic img{
+    /*max-width: 100%;*/
+    /*height: 100px;*/
+    width: 100%;
+}
+/*内容页面*/
+.container {
+    padding: 10px;
+}
+.picIntertitle {
+    font-size: 1.5rem;
+    /* margin-top: 10px; */
+}
+/*图片互动注意项*/
+.fa {
+    margin-right: 6px;
+}
+.picInterinfo {
+    margin-top: 8px;
+    font-size: 1.3rem;
+    line-height: 2;
+    color: #333333;
+}
+span{
+    color: #999;
+}
+.fatest{
+    font-size: 1.6rem;
+    padding: 0 20px;
+    color: #999;
+}
+.intro p{
+    /*margin-top: 10px;*/
+    /*display: none;*/
+}
+
+/*图片互动展示*/
+div.comment .comheader {
+    border-top: 1px solid #dcdcdc;
+    height: 35px;
+    line-height: 35px;
+    color: #444;
+    background: #f9f9f9;
+    font-size: 1.55rem;
+    font-weight: 600;
+    /*padding:0 20px;*/
+}
+div.comment .commentbox{
+    /*padding: 0 20px;*/
+    margin-bottom: 20px;
+}
+div.comment .commentbox ul li{
+    margin-top: 10px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 0 0 5px;
+}
+span.comname {
+    font-size: 1.4rem;
+    color: #888;
+}
+span.comtime {
+    float: right;
+    font-size: 1.2rem;
+    color: #888;
+}
+p.comtext {
+        margin: 15px 0;
+    font-size: 1.45rem;
+    color: #494545;
+}
+.imgcontain img{
+    width: 100px;
+    margin-left:5px;
+}
+/*点赞评论*/
+.comlitoolbar {
+   /* height: 30px;
+    line-height: 30px;*/
+    /* border-top: 1px solid #dedede; */
+}
+.comlitoolbar span.wrapspan{
+    width: 47%;
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0;
+}
+.comlitoolbar span.wrapspan.fir{
+    border-right: 1px solid #dedede;
+}
+.comment .loadmorepic{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 20px;
+    padding: .5em 0;
+    color: #0E90D2;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom:90px; 
+}
+.comment .loadmorepic a{
+ 
+    text-decoration: none;
+    color: #0E90D2;
+}
+/*.comment .loadmorepic a:hover {
+    background-color: #eaeff2;
+}*/
+
+/*底部上传图片固定部分*/
+div.wraperbg {
+    width: 100%;
+    border-top: 1px solid #cdcdcd;
+    background: rgba(249,249,249,.9);
+    height: 50px;
+    z-index: 1001;
+    /*opacity: .8;*/
+    position: fixed;
+    bottom: 0px;
+    /*text-align: center;*/
+}
+div.wraperbg .wrap {
+     padding: 9px 0 9px 20px;
+}
+div.wraperbg .wrap .bgleft{
+    height: 28px;
+    line-height: 28px;
+    width: 70%;
+    border: 1px solid #ccc;
+    background-color:#fff;
+    color: #666;
+    border-radius: 6px;
+    padding-left: 5px;
+    float: left;
+}
+div.wraperbg .wrap .bgleft:hover{
+    color: #ccc;
+    cursor:pointer;
+}
+div.wraperbg .wrap .bgcenter {
+    text-align: center;
+    /* color: #ccc; */
+    color: #3990e6;
+    font-size: 1.9rem;
+}
+div.wraperbg .wrap .bgcenter:hover{
+    color: #ccc;
+    cursor:pointer;
+}
+
+/*底部页码部分*/
+.footbar {
+    margin-bottom: 50px;
+    line-height: 6.6;
+    padding: 0 20px;
+}
+.footbar div.leftpre {
+    float: left;
+    width: 40%;
+}
+.footbar div.rightnex {
+    float: right;
+}
+.footbar div a{
+    padding: .5em 1em;
+    text-decoration: none;
+    color: #0E90D2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    margin-bottom: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 6px;
+}
+/*两种样式*/
+.footbar div a:focus,.footbar div a:hover{
+    background-color: #eaeff2;
+}
+/*.footbar div a:focus,.footbar div a:hover{*/
+/*color: #999;*/
+/*background-color: #fff;*/
+/*border-color: #ddd;*/
+/*cursor: not-allowed;*/
+/*pointer-events: none;*/
+/*}*/
+
+
+/*显示图片模态框*/
+.hideContent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2001;
+    background-color: #000;
+    /*opacity: 0.4;*/
+    display:none;
+}
+.comtent {
+    position: fixed;
+    margin:auto;
+    left:0; right:0; top:0; bottom:0;
+    width:240px;
+    height: 140px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 2002;
+    overflow: hidden;
+    display:none;
+}
+
+/*上传图片互动*/
+.hidePicwrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2001;
+    background-color: #000;
+    opacity: 0.6;
+    display:none;
+}
+.uploadpicwrap{
+    position: fixed;
+    height: 450px;
+    width: 100%;
+    bottom: 0;
+    left:0;
+    z-index: 2002;
+    background: #fff;
+    display: none;
+}
+/*内容块*/
+.containerwrap{
+    overflow: visible;
+    border: 1px solid #cccccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    margin: 10px;
+}
+.uploadpiccontainer{
+    position: relative;
+    /*min-height: 5em;*/
+    /*max-height: 25em; */
+    padding: 10px;
+    overflow: auto;
+    outline: none;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 14px;
+    /*display: none;    */
+}
+.toolbar {
+    border-top: 1px solid #cccccc;
+   
+}
+.toolbar i.fa{
+    padding: 5px 10px;
+    color: #5E5E5E;
+}
+.toolbar i.fa:hover{
+    background: #B5D5FF;
+}
+
+/*按钮区域*/
+.btnbar{
+    margin: 0 10px;
+}
+.btnbar a{
+    padding: 3px 15px;
+    text-decoration: none;
+    color: #0E90D2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.btnbar a:hover{
+    background-color: #eaeff2;
+}
+.btnbar a.submit{
+    float: left;
+}
+.btnbar a.cancel{
+    float:right;
+}

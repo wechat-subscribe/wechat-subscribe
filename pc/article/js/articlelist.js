@@ -1,7 +1,63 @@
 /**
  * Created by sun on 2015/9/29.
  */
+//获取url信息
+function GetQueryString(name) { 
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg); 
+    if (r != null) return unescape(r[2]); return null; 
+} 
+// 模块拖拽  
+$(function(){  
+	var _move=false;//移动标记  
+	var _x,_y;//鼠标离控件左上角的相对位置
+	
+    $(".conheader").click(function(){  
+        	//alert("click");//点击（松开后触发）  
+        }).mousedown(function(e){  
+        _move=true;  
+        _x=e.pageX-parseInt($(".comtent").css("left"));  
+        _y=e.pageY-parseInt($(".comtent").css("top"));  
+        $(".comtent").fadeTo(20, 0.7);//点击后开始拖动并透明显示  
+        return false;
+    });  
+    $(".hideContent").mousemove(function(e){  
+        if(_move){  
+            var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置  
+            var y=e.pageY-_y;  
+            $(".comtent").css({top:y,left:x});//控件新位置  
+        }  
+    }).mouseup(function(){  
+		_move=false;  
+		$(".comtent").fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明 
+	});  
+});  
 $(function(){
+
+    var config = {
+        articleid:"",	//文章ID
+        tr_artilce:""	//表格行父元素
+    }
+    if(GetQueryString('type') === "video"){
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('视频集')").parent().addClass("active");
+    }else if(GetQueryString('type') === "article"){
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('列表文章')").parent().addClass("active");
+    }else if(GetQueryString('type') === "story"){
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('企业文化')").siblings(".submenu").show();
+        $("li a:contains('故事集')").parent().addClass("active");
+    }else if(GetQueryString('type') === "industry"){
+        $("li a:contains('动态')").siblings(".submenu").show();
+        $("li a:contains('行业动态')").parent().addClass("active");
+    }else if(GetQueryString('type') === "companyNews"){
+        $("li a:contains('动态')").siblings(".submenu").show();
+        $("li a:contains('公司新闻')").parent().addClass("active");
+    }
+
     var page = 1;           //页码标识符
     var allpage = 1;        //总页码标识符
     
@@ -12,7 +68,7 @@ $(function(){
             url         :   "../php/information_show.php",
             datatype    :   "json",
             //type      :   'POST',         //默认为GET方式
-            async       :   false,          //同步
+            async       :   true,          //同步
             data        : {
                 'type'      : "list",
                 'moduleId'  : 1,
@@ -157,48 +213,48 @@ $(function(){
     });
     
     //删除模态框
-    $("#delid,tr td .fa-trash").click(function(){
+    $("body").delegate("#delid,tr td .fa-trash","click",function(){
         $(".hideContent,.comtent").css("display","block");
-        //获取文章id
-        var articleid = $(this).siblings().prop("name");
-        var $tr_artilce = $(this).parent().parent();
-        console.log(articleid);
+        
+        config.articleid = $(this).siblings().prop("name");
+        config.tr_artilce = $(this).parent().parent();
+    });
 
-        //删除操作
-        $(".btnleft").click(function(){
-            // 取消模态框
-            $(".hideContent,.comtent").css("display","none");
+    //删除操作
+    $(".btnleft").click(function(){
+        // 取消模态框
+        $(".hideContent,.comtent").css("display","none");
 
-            $.ajax({
-                url         :   "../php/information_show.php",
-                datatype    :   "json",
-                //type      :   'POST',         //默认为GET方式
-                async       :   false,          //同步
-                data        : {
-                    'type'      : "deleteInfo",
-                    "infoId"      : articleid
-                },
-                success:function(data) {    
-                    data = JSON.parse(data);
-                    if(data == 1){
-                        //将页面里文章删除
-                        $tr_artilce.hide();
-                        alert("删除成功");
-                    }else {
-                        alert("删除失败");
-                    }
-                },
-                error:function(e){  
-                    console.log("请求出错");
-                } 
-            });
-            return false;
+        $.ajax({
+            url         :   "../php/information_show.php",
+            datatype    :   "json",
+            //type      :   'POST',         //默认为GET方式
+            async       :   true,          //异步
+            data        : {
+                'type'      : "deleteInfo",
+                "infoId"      : config.articleid
+            },
+            success:function(data) {    
+                data = JSON.parse(data);
+                console.log();
+                if(data == 1){
+                    //将页面里文章删除
+                    config.tr_artilce.hide();
+                    alert("删除成功");
+                }else {
+                    alert("删除失败");
+                }
+            },
+            error:function(e){  
+                console.log("请求出错");
+            } 
         });
-        //取消操作
-        $(".btnright").click(function(){
-            $(".hideContent,.comtent").css("display","none");
-            return false;
-        });
+        return false;
+    });
+    //取消操作
+    $(".btnright").click(function(){
+        $(".hideContent,.comtent").css("display","none");
+        return false;
     });
 
 

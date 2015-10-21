@@ -18,7 +18,7 @@ $(function(){
         },
         success:function(data) {  
             // data = JSON.parse(data);
-            // console.log(data);
+             console.log(data);
             $.each(data,function(i,item){
                 // console.log(item);
                 var str = '<dl class="menuListsub"><dt class="menuListsublight" name="'+item.id+'">';
@@ -55,8 +55,7 @@ $(function(){
                 $(".contextareawrap.add").html(str);
             }else{
                 config.error = false;
-                //var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>'+ (3-num) +'</strong>个一级菜单，请输入名称（4个汉字或8个字母以内）</p><input type="text" id="addmenuInputId" class="frm_input" name="popInput" value="">';
-                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>3</strong>个一级菜单，请输入名称（4个汉字或8个字母以内）</p>';
+                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>'+ (3-num) +'</strong>个一级菜单，请输入名称（4个汉字或8个字母以内）</p>';
                 str +=  '<input type="text" id="addmenuInputId"  class="frm_input" name="popInput" value=""><div><p class="frm_label"><i class="fa fa-info-circle"></i>选择菜单类型</p>';
                 str += '<form class="contextareawrapradio" >一级目录：<input type="radio" checked="checked" name="contextareawrapradio" value="null" />&nbsp;&nbsp;功能菜单：<input type="radio" name="contextareawrapradio" value="menu" /></form></div>';
                 str += '<div class="select_addmenu_div" style="display: none;"><select class="select_addmenu_sel" id="select_addmenu_selIdpar"><option value ="0">请选择栏目类型</option><option value ="articlelist">文章列表</option><option value ="activity">活动</option></select>';
@@ -66,7 +65,7 @@ $(function(){
             }
         }else if($(this).hasClass("sec")){
             config.parent = $(this).parent().parent().parent();    //二级菜单的父节点
-            config.isFir = false;                                   //二级菜单
+            config.isFir = false;                                  //二级菜单
             config.curelemId = $(this).attr("name");               //二级菜单ID 
 
             $("#dialog_head").html("添加二级菜单");
@@ -77,14 +76,16 @@ $(function(){
                 $(".contextareawrap.add").html(str);
             }else{
                 config.error = false;
-
-                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>3</strong>个二级菜单，请输入名称（4个汉字或8个字母以内）</p><input type="text" id="addmenuInputId"  class="frm_input" name="popInput" value=""><p class="frm_label"><i class="fa fa-info-circle"></i>选择菜单类型</p><div class="select_addmenu_div"><select class="select_addmenu_sel" id="select_addmenu_selIdpar"><option value ="0">请选择栏目类型</option><option value ="articlelist">文章列表</option><option value ="activity">活动</option></select><select class="select_addmenu_sel" id="select_addmenu_selIdchil"><option value ="0">请选择栏目类型</option></select></div>';
+                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>'+(5-num)+'</strong>个二级菜单，请输入名称（4个汉字或8个字母以内）</p><input type="text" id="addmenuInputId"  class="frm_input" name="popInput" value=""><p class="frm_label"><i class="fa fa-info-circle"></i>选择菜单类型</p><div class="select_addmenu_div"><select class="select_addmenu_sel" id="select_addmenu_selIdpar"><option value ="0">请选择栏目类型</option><option value ="articlelist">文章列表</option><option value ="activity">活动</option></select><select class="select_addmenu_sel" id="select_addmenu_selIdchil"><option value ="0">请选择栏目类型</option></select></div>';
 
                 $(".contextareawrap.add").html(str);
             }
         }else if($(this).hasClass("contain")){
+        	// alert(config.parent.attr("name"));
+        	config.curelemId = config.parent.attr("name");          //二级菜单ID 	
             config.parent = config.parent.parent();                 //二级菜单的父节点
             config.isFir = false;                                   //二级菜单
+            
 
             $("#dialog_head").html("添加二级菜单");
             var num = config.parent.find("dd").size();
@@ -94,7 +95,7 @@ $(function(){
                 $(".contextareawrap.add").html(str);
             }else{
                 config.error = false;
-                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>'+ (5-num) +'</strong>个二级菜单，请输入名称（4个汉字或8个字母以内）</p><input type="text" id="addmenuInputId"  class="frm_input" name="popInput" value="">';
+                var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>还能添加<strong>'+(5-num)+'</strong>个二级菜单，请输入名称（4个汉字或8个字母以内）</p><input type="text" id="addmenuInputId"  class="frm_input" name="popInput" value=""><p class="frm_label"><i class="fa fa-info-circle"></i>选择菜单类型</p><div class="select_addmenu_div"><select class="select_addmenu_sel" id="select_addmenu_selIdpar"><option value ="0">请选择栏目类型</option><option value ="articlelist">文章列表</option><option value ="activity">活动</option></select><select class="select_addmenu_sel" id="select_addmenu_selIdchil"><option value ="0">请选择栏目类型</option></select></div>';
                 $(".contextareawrap.add").html(str);
             }
         }
@@ -108,10 +109,8 @@ $(function(){
      // 重命名菜单
     $(".editmenubtn").on('click',function(){
         config.event = "editMenuName";                              //弹出框事件类型(重命名)
-
-        $("#dialog_head").html("重命名菜单");      
-         
         if(config.parent){
+        	$("#dialog_head").html("重命名菜单");       
             var menuname = config.parent.find("a strong").text();  //获取已经存在的菜单名称
 
             var str = '<p class="frm_label"><i class="fa fa-info-circle"></i>不多于4个汉字或8个字母以内</p><input type="text" class="frm_input" name="popInput" value="'+menuname+'" id="editNameInput">';
@@ -154,23 +153,21 @@ $(function(){
 
             if(config.error === false){
                 if(config.isFir === true){
-                    if(config.firtype === 1){
+                    if(config.firtype === 1){					//空目录
                         var menuFirstType = '';
                         var menusecondType = '';
-                    }else if(config.firtype ===2){
+                    }else if(config.firtype ===2){				//菜单项
                         var menuFirstType = $("#select_addmenu_selIdpar").val();
                         var menusecondType = $("#select_addmenu_selIdchil").val();
                     }
 
                     var firstMenuType = config.firtype === 1? "nullMenu": "funcMenu";
                     config.curelemId = config.curelemId === ''?0:config.curelemId;
-                    console.log(firstMenuType); 
-                    console.log(text);
-                    console.log(config.curelemId);
-                    console.log(menuFirstType);
-                    console.log(menusecondType);
+                    
                     $.ajax({
                         url:"../php/menu.php",
+                        datatype:"json",
+                        async:false,
                         data:{
                             type:"addmenu",
                             firstMenuType:firstMenuType, 
@@ -180,14 +177,19 @@ $(function(){
                             menusecondType:menusecondType 
                         },
                         success:function(data){
-                            console.log(data);
+                            // console.log(data);
+                            if(data.error === 1){
+								var str = '<dl class="menuListsub"> <dt class="menuListsublight" name="'+data.id+'"><a href="" class=" "><strong>'+text+'</strong></a><span class="menu_opr"><a href="javascript:void(0);" id="" class="addMenu sec" name="添加"><i class="fa fa-plus"></i></a><a href="javascript:void(0);" id="orderBt" class=" " name="排序" style="display:none"><i class="fa fa-sort"></i></a></span></dt></dl>';
+                    			config.parent.append(str);  
+                    			alert("添加成功");
+                            }else{
+                            	alert("添加失败");
+                            }
                         },
                         error:function(e){
                             console.error("请求出错");
                         }
                     });
-                    var str = '<dl class="menuListsub"> <dt class="menuListsublight" id=""><a href="" class=" "><strong>'+text+'</strong></a><span class="menu_opr"><a href="javascript:void(0);" id="" class="addMenu sec" name="添加"><i class="fa fa-plus"></i></a><a href="javascript:void(0);" id="orderBt" class=" " name="排序" style="display:none"><i class="fa fa-sort"></i></a></span></dt></dl>';
-                    config.parent.append(str);
                      
                 }else{
                     // 二级菜单
@@ -198,9 +200,10 @@ $(function(){
                     console.log(config.curelemId);
                     console.log(menuFirstType);
                     console.log(menusecondType);
-                    
                     $.ajax({
                         url         :   "../php/menu.php",
+                        datatype:"json",
+                        async:false,
                         data        : {
                             type    :"addmenu",
                             menuName: text,
@@ -208,13 +211,12 @@ $(function(){
                             menuFirstType:menuFirstType,
                             menusecondType:menusecondType
                         },success:function(data) {  
-                            // data = JSON.parse(data);
-                            console.log(data);
+                             
                             if(data.error == 1){
                                 var str = '<dd class="" id="subMenu_menu_1_1"><i class="icon_dot">●</i><a href="javascript:void(0);" class=""><strong>'+text+'</strong></a><span class="menu_opr"><a href="javascript:void(0);" id="orderBt" class=" " name="排序" style="display:none"><i class="fa fa-sort"></i></a></span></dd>';
                                 config.parent.append(str);
                                 alert("添加二级菜单成功");
-                            }else if(data.error == 0){
+                            }else{
                                 alert("添加二级菜单失败");
                             }
                         },error:function(e){  
@@ -224,41 +226,68 @@ $(function(){
                 }
             }
         }else if(config.event === "editMenuName"){      //重命名
-            var str = $("#editNameInput").val();
-            config.parent.find("a strong").text(str);
+            var menuNewName = $("#editNameInput").val();
+
+            var menuId = config.parent.attr("name");				//菜单ID
+            var menuName = config.parent.find("strong").text();		//菜单名称
+             
+            $.ajax({
+                url :   "../php/menu.php",
+                dataType: "json",	
+                async: false,	 
+                data        : {
+                    type    :"updatemenu",
+                    menuId: menuId,
+                    menuNewName:menuNewName
+                },success:function(data) { 
+                	console.log(data);
+                	if(data === 1){
+                	 	config.parent.find("a strong").text(menuNewName);
+                	 	alert("更新成功");
+                	}else if(data === 0){
+                		alert("更新失败")
+                	}
+                	 
+                },error:function(e){  
+                    console.log(e);
+                    console.log("请求出错");
+                } 
+            });
         }else if(config.event === "delMenu"){           //删除
-            if(config.parent.prop("tagName") == "DT"){  //删除一级菜单
-                 config.parent.parent().remove();
-            }else{  //删除二级菜单
-                var menuId = config.parent.attr("name");
-                var menuName = config.parent.find("strong").text();
-               	 
-                $.ajax({
-                    url         :   "../php/menu.php",
-                    dataType: "json",	
-                    async: false,	//同步必须使用同步才可以使用config.parent.
-                    data        : {
-                        type    :"deletemenu",
-                        menuId: menuId,
-                        menuName:menuName
-                    },success:function(data) { 
-                    	config.parent.remove();
-                    	 
-                    	alert(data.error);
-                        console.log(data);
-                       // data = JSON.parse(data);
-                    },error:function(e){  
-                        console.log(e);
-                        console.log("请求出错");
-                    } 
-                });
-                 // if(delAction === true){
-                 // 	 config.parent.remove();
-                 // }else{
-                 // 	alert("删除失败");
-                 // }   
-            }
-            config.parent = '';//重置父元素
+        	
+        	var menuId = config.parent.attr("name");				//菜单ID
+            var menuName = config.parent.find("strong").text();		//菜单名称
+           
+            $.ajax({
+                url         :   "../php/menu.php",
+                dataType: "json",
+                async: false,	
+                data        : {
+                    type    :"deletemenu",
+                    menuId: menuId,
+                    menuName:menuName
+                },success:function(data) { 
+                	console.log(data);
+                	if(data.error === "删除成功"){
+                		if(config.parent.prop("tagName") == "DT"){  //删除一级菜单
+                			config.parent.parent().remove();	
+                		}else{										//删除二级菜单
+                			config.parent.remove();
+                		}
+                		// 重置内容
+                		//更换右侧内容
+			            $(".innermaincon_wrapinfo").removeClass("disable");
+			            $(".innermaincon_wrap.textbtn,.innermaincon_wrap.editbtn,.innermaincon_wrap.delbtn,.innermaincon_wrap.addbtn").addClass("disable");
+
+			            config.parent = '';//重置父元素
+                	}
+                	alert(data.error);
+                },error:function(e){  
+                    console.log(e);
+                    console.log("请求出错");
+                } 
+            });
+            
         }
         return false;
     });

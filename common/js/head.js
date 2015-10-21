@@ -24,7 +24,7 @@ document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\"light-blue\">");
 document.writeln("                    <a href=\"#\" class=\"useraction\">");
-document.writeln("                        <img class=\"user-photo\" src=\"/wechat-subscribe/common/img/user.jpg\" alt=\"Jason\'s Photo\">");
+document.writeln("                        <img class=\"user-photo\" src=\"/wechat-subscribe-master/common/img/user.jpg\" alt=\"Jason\'s Photo\">");
 document.writeln("                        <span class=\"user-info\">");
 document.writeln("                            <small>欢迎您,</small>Jason");
 document.writeln("                        </span>");

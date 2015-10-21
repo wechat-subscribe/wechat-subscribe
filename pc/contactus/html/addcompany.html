@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/addcompany.css"/>
+    <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+    <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=o3WFxZNHoNs7bDgIPHrv0YAC"></script> -->
+</head>
+<body>
+<div class="maxwrap">
+    <!--头部-->
+    <script src="../../../common/js/head.js"></script>
+    <!--左边栏-->
+    <script src="../../../common/js/pcsidemenu.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">我们</a></li>
+                <li class="breadcrumbactive">联系我们</li>
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+            <div class="conlabel">
+                <span>子公司名称</span>
+                <input type="text" id="title" autocomplete="off">
+            </div>
+            <div class="conlabel">
+                <span>地址</span>
+                <input type="text" id="adress" autocomplete="off">
+            </div>
+            <div class="conlabel">
+                <span>联系方式</span>
+                <input type="text" id="contact" autocomplete="off">
+            </div>
+            <!--<div class="conlabelimg" id="uploadpic">-->
+                <!--<span>缩略图</span>-->
+                <!--<i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>-->
+                <!--<input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >-->
+            <!--</div>-->
+            <div class="conlabel">
+                <span>百度地图</span>
+                <div id="allmap"></div>
+            </div>
+            <div class="ownbtngroup">
+                <a href=""><i class="fa fa-check"></i>保存</a><a href=""><i class="fa fa-undo"></i>取消</a>
+            </div>
+    </div>
+    </div>
+</div>
+<script src="../../../common/js/base.js"></script>
+<script>
+    $(function(){
+        // 百度地图API功能
+        // var map = new BMap.Map("allmap");
+        // map.centerAndZoom("重庆",12);
+        // //单击获取点击的经纬度
+        // map.addEventListener("click",function(e){
+        //     alert(e.point.lng + "," + e.point.lat);
+        // });
+
+        $("li a:contains('我们')").siblings(".submenu").show();
+        $("li a:contains('联系我们')").parent().addClass("active");
+    });
+</script>
+</body>
+</html>

@@ -17,15 +17,15 @@
     <!--头部-->
     <script src="../../../common/js/head.js"></script>
     <!--左边栏-->
-    <script src="../../../common/js/sidebar.js"></script>
+    <script src="../../../common/js/pcsidemenu.js"></script>
     <!--内容区域-->
     <div class="maincontainer">
         <!--面包屑导航-->
         <div class="breadcrumbs">
             <ul class="breadcrumb">
                 <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
-                <li><a href="#">我们</a></li> <li><a href="#">企业文化</a></li>
-                <li class="breadcrumbactive">列表文章</li>
+                <li><a href="#">列表文章</a></li>
+                <li class="breadcrumbactive">图文发布</li>
             </ul>
         </div>
         <!--内容区域-->
@@ -128,9 +128,8 @@
 
       
 
-        $("li a:contains('我们')").siblings(".submenu").show();
-        $("li a:contains('企业文化')").siblings(".submenu").show();
-        $("li a:contains('列表文章')").parent().addClass("active");
+        $("li a:contains('图文发布')").siblings(".submenu").show();
+     
     })
 </script>
 </body>

@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 10px;
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.clearfix{
+    *zoom:1;
+}
+a{
+    text-decoration: none;
+    color: #2D5CB8;
+}
+a:hover{
+    color: #095f8a;
+}
+
+/*页面头部*/
+
+.head img{
+    width: 100%;
+    /*max-height: 140px;*/
+}
+.contalent{
+    margin:3px;
+    border: 1px solid #dedede;
+    height: 400px;
+}
+.contalent .contheader {
+    height: 35px;
+    line-height: 35px;
+    color: #0e90d2;
+    border-bottom: 1px solid #DEDEDE;
+}
+.contalent .contheader h2 {
+    font-size: 1.55rem;
+    margin-left: 15px;
+    color: inherit;
+}

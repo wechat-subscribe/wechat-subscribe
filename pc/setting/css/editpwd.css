@@ -1,0 +1,94 @@
+/*修改密码*/
+html{
+    background-color: #FFFFFF;
+}
+div.formgroup{
+    height: 35px;
+    line-height: 35px;
+    font-size: 13px;
+    color: #393939;
+
+    margin-top: 12px;
+}
+label.text {
+    width: 24%;
+    display: inline-block;
+    text-align: right;
+    font-size: 14px;
+    padding-right: 15px;
+}
+div.input {
+    display: inline-block;
+    width: 74%;
+
+}
+div.input input{
+    border-radius: 0;
+    border: 1px solid #d5d5d5;
+    padding: 5px 4px;
+    line-height: 1.2;
+    font-size: 14px;
+    font-family: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition-duration: .1s;
+    transition-duration: .1s;
+    width: 41.6666%;
+}
+div.input input:focus{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #696969;
+    border-color: #f59942;
+    background-color: #fff;
+    outline: 0;
+}
+div.formgroup.error{
+    color: #d16e6c;
+}
+div.formgroup.success{
+    color: #657ba0;
+}
+i.fa.fa-remove.remove {
+    position: relative;
+    left: -20px;
+    display: none;
+}
+
+i.fa.fa-check.check {
+    position: relative;
+    left: -40px;
+    display: none;
+}
+
+
+/*底部提交按钮*/
+.ownbtngroup{
+    position: relative;
+    left: 30%;
+    margin: 140px 0;
+}
+.ownbtngroup a {
+    font-size: 12px;
+    padding: 6px 18px;
+    background-color: #4090ff;
+    margin-right: 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+}
+.ownbtngroup a .fa{
+    margin-right: 3px;
+}
+.ownbtngroup a:hover{
+    background-color: #136BD9;
+}
+.ownbtngroup a:nth-child(2){
+    background-color: #ec6738;
+}
+.ownbtngroup a:nth-child(2):hover{
+    background-color: #de4f1c;
+}

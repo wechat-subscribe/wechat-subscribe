@@ -1,0 +1,274 @@
+body,h1,h2,h3{
+    margin: 0;
+    padding: 0;
+}
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-size: 10px;
+}
+a{
+    text-decoration:none;
+}
+ul li{
+    list-style: none;
+}
+body {
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.clearfix{
+    *zoom:1;
+}
+/*头部导航*/
+header {
+    height: 50px;
+    width: 100%;
+    background-color: #0E90D2;
+    color:#fff;
+    text-align: center;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 1001;
+}
+header h1{
+    /*16px = 1 em*/
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 50px;
+    letter-spacing: 1.2px;
+}
+/*公司地址头部*/
+.container {
+    margin-top: 50px;
+    margin-right: 6px;
+    margin-left: 6px;
+}
+.container .navheader {
+    margin: 10px 0px 0 5px;
+    padding: 10px 0 10px;
+    border-bottom: 1px solid #DEDEDE;
+}
+.container .navheader a{
+    color: #0e90d2;
+}
+.container .navheader a:hover{
+    color: #2D5CB8;
+}
+.container .navheader h2{
+    display: inline-block;
+    float: left;
+    font-size: 1.6rem;
+    color: inherit;
+}
+input.inputclass {
+    float: right;
+    border-radius: 15px;
+    width: 15%;
+    box-shadow:none;
+    background:none;
+    border: 1px solid #B2B2B2;
+}
+i.fa.fa-search.right {
+    color: #757575;
+    position: absolute;
+    right: 8px;
+    margin-top: 5px;
+    display: inline-block;
+    cursor: pointer;
+    width: 15px;
+}
+i.fa.fa-search.right:hover{
+    color: #0E90D2;
+    /*background-color: #DEDEDE;*/
+}
+/*公司地址列表*/
+.navcontainer ul,.navcontainer li{
+    margin: 0;
+    padding: 0;
+}
+.navcontainer ul li {
+    height: 120px;
+    background-color: #F5F5F5;
+    margin: 10px 0 0 0;
+    padding:0;
+}
+.navcontainer ul li div.company{
+    /*border: 1px solid #DEDEDE;*/
+    border-top: 1px  solid #DEDEDE;
+    border-bottom: 1px  solid #DEDEDE;
+    float: left;
+    padding-left: 10px;
+    height: inherit;
+    width: 80%;
+}
+.navcontainer ul li div.company a{
+    color: #0e90d2;
+    display: inline-block;
+    margin-top: 10px;
+}
+.navcontainer ul li div.company a h3{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.navcontainer ul li div.company a h3:hover{
+    color: #2D5CB8;
+}
+.navcontainer ul li div.company p{
+    margin:10px 0 0 0;
+    padding: 0;
+    color: #757575;
+    max-height: 30px;
+    overflow: hidden;
+    /*letter-spacing: 1px;*/
+}
+.navcontainer ul li div.company p i{
+    padding-right: 5px
+}
+.navcontainer ul li div.gobtn {
+    float: right;
+    width: 15%;
+    height: 120px;
+    overflow: hidden;
+    /*line-height: 120px; *//*这里会导致下移*/
+}
+.navcontainer ul li div.gobtn button{
+    height: inherit;
+    float: right;
+    color: #fff;
+    border: solid 0px #000;
+    background-color: #0e90d2;
+    font-weight: 700;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.navcontainer ul li div.gobtn button:hover{
+    background-color: #fff;
+    color: #0E90D2;
+    border: 1px solid #0E90D2;
+}
+/*底部导航*/
+.footbar {
+    text-align: center;
+    line-height: 6.6;
+    border-bottom: 1px solid #DBD2D2;
+}
+.footbar div.leftpre {
+    position: absolute;
+    left: 2px;
+}
+.footbar div.rightnex {
+    display: inline;
+    position: absolute;
+    right: 2px;
+}
+.footbar div a{
+    padding: .5em 1em;
+    text-decoration: none;
+    color: #0E90D2;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    margin-bottom: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+/*两种样式*/
+.footbar div a:focus,.footbar div a:hover{
+    background-color: #eaeff2;
+}
+/*.footbar div a:focus,.footbar div a:hover{*/
+    /*color: #999;*/
+    /*background-color: #fff;*/
+    /*border-color: #ddd;*/
+    /*cursor: not-allowed;*/
+    /*pointer-events: none;*/
+/*}*/
+
+
+/*查询子公司模态框*/
+.hideContent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2001;
+    background-color: #000;
+    opacity: 0.4;
+    display:none;
+}
+.comtent {
+    position: fixed;
+    /*margin:0 auto;*/
+    /*top:0; bottom:0;left:0; right:0; */
+    width:240px;
+    height: 140px;
+    border-radius: 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 2002;
+    overflow: hidden;
+    display:none;
+}
+.conheader {
+    width: 100%;
+    background-color: #E8E8E8;
+    height: 30px;
+    line-height: 30px;
+    color: #444;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.contextarea {
+    padding: 10px;
+    padding-right: 15px;
+}
+.contextarea input[type="text"] {
+    width: 100%;
+    border: 1px solid #dedede;
+    border-radius: 6px;
+    padding: 5px 0;
+}
+.btna {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    margin: 15px 0px;
+    text-align: center;
+}
+.btna > a {
+    padding: 4px 12px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+}
+.btna a.btnleft {  
+    margin-right: 10px;
+    background-color: #4090ff;
+    color: #fff;
+}
+.btna a.btnright {
+    margin-right: 10px;
+    background-color: #ec6738;
+    color: #fff;
+}
+.btna  a.btnleft:hover {
+    background-color: #136BD9;
+}
+.btna  a.btnright:hover {
+    background-color: #de4f1c;
+}
+

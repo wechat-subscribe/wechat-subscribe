@@ -312,12 +312,12 @@ if ($type=="showmenu"){
 	 * 将菜单按级别输出名字和ID
 	 */
 	//获取一级模块名称
-	$sql_menu="select id,name from wx_wechat_module where parentId=0 order by seq asc";
+	$sql_menu="select id,name,urlPC from wx_wechat_module where parentId=0 order by seq asc";
 	$res_menu=$db->execsql($sql_menu);
 	//遍历获取二级模块名称
 	foreach ($res_menu as $key_First=>$val_First){
 		//自身连接查询
-		$sql_second="select s.id,s.name from wx_wechat_module as s left join wx_wechat_module as p
+		$sql_second="select s.id,s.name,s.urlPC from wx_wechat_module as s left join wx_wechat_module as p
 				on s.parentId=p.id where p.id='{$val_First['id']}' order by s.seq asc";
 		$res_second=$db->execsql($sql_second);
 		$res_menu[$key_First]['sub']=$res_second;
@@ -326,7 +326,7 @@ if ($type=="showmenu"){
 	echo json_encode($res_menu);
 }elseif ($type=="showculture"){
 	$parentId=$_GET['parentId'];//父类按钮的菜单ID
-	$sql_culturelist="select s.id,s.name from wx_articlelist_module as s left join wx_articlelist_module as p 
+	$sql_culturelist="select s.id,s.name,s.urlPC from wx_articlelist_module as s left join wx_articlelist_module as p 
 			on s.parentId=p.id where p.id='{$parentId}'";
 	$res_culturelist=$db->execsql($sql_culturelist);
 // 	var_dump($res_culturelist);
@@ -354,12 +354,26 @@ if ($type=="showmenu"){
 			$firstMenuType=$_GET['firstMenuType'];//一级菜单是空目录还是功能菜单。"nullMenu":空目录；"funcMenu":功能菜单
 			if ($firstMenuType=="nullMenu"){
 				$menuType=0;
+				$urlPC=null;
+				$urlWechat=null;
 			}elseif ($firstMenuType=="funcMenu"){
 				//根据$menuFirstType确定菜单类型
 				if ($menuFirstType=="articlelist"){
 					$menuTypeName="文章列表";
+					$urlPC='../../article/html/articlelist.html';
+					$urlWechat=null;
 				}elseif ($menuFirstType=="activity"){
 					$menuTypeName="活动";
+					if ($menusecondType=='vote'){
+						$urlPC=null;
+						$urlWechat=null;
+					}elseif ($menusecondType=='interact') {
+						$urlPC=null;
+						$urlWechat=null;
+					}elseif ($menusecondType=='review') {
+						$urlPC=null;
+						$urlWechat=null;
+					}
 				}
 				//从wx_wechat_module_type中查找类型ID
 				$sql_typeId="select id from wx_wechat_module_type where name='{$menuTypeName}'";
@@ -367,7 +381,7 @@ if ($type=="showmenu"){
 				$menuType=$res_typeId['id'];
 			}
 			
-			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq,menuType) values ('{$menuName}',0,'{$seq}','{$menuType}')";
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq,menuType,urlPC,urlWechat) values ('{$menuName}',0,'{$seq}','{$menuType}','{$urlPC}','{$urlWechat}')";
 			$res_insert_first=$db->execsql($sql_insert_first);
 			if (mysql_affected_rows()>0){
 				/******************菜单添加成功后，根据选项为菜单添加功能************************/
@@ -401,11 +415,23 @@ if ($type=="showmenu"){
 		$res_secondId=$db->execsql($sql_secondId);
 		$secondMenuNum=count($res_secondId);
 		//若二级菜单的个数不足5个，则添加菜单；若已存在5个，则报错
-		if ($secondMenuNum<5){
-			if ($menuFirstType=="articlelist"){
-				$menuTypeName="文章列表";
-			}elseif ($menuFirstType=="activity"){
-				$menuTypeName="活动";
+		if ($secondMenuNum < 5) {
+			if ($menuFirstType == "articlelist") {
+				$menuTypeName = "文章列表";
+				$urlPC = '../../article/html/articlelist.html';
+				$urlWechat = null;
+			} elseif ($menuFirstType == "activity") {
+				$menuTypeName = "活动";
+				if ($menusecondType == 'vote') {
+					$urlPC = null;
+					$urlWechat = null;
+				} elseif ($menusecondType == 'interact') {
+					$urlPC = null;
+					$urlWechat = null;
+				} elseif ($menusecondType == 'review') {
+					$urlPC = null;
+					$urlWechat = null;
+				}
 			}
 			//从wx_wechat_module_type中查找类型ID
 			$sql_typeId="select id from wx_wechat_module_type where name='{$menuTypeName}'";
@@ -414,7 +440,7 @@ if ($type=="showmenu"){
 			
 			//将菜单信息保存在wx_wechat_module表中
 			$seq=$secondMenuNum+1;//菜单排序默认为自增一
-			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq,menuType) values ('{$menuName}','{$menuParentId}','{$seq}','{$menuType}')";
+			$sql_insert_first="insert into wx_wechat_module (name,parentId,seq,menuType,urlPC,urlWechat) values ('{$menuName}','{$menuParentId}','{$seq}','{$menuType}','{$urlPC}','{$urlWechat}')";
 // 			echo json_encode($sql_insert_first);die;
 			$res_insert_first=$db->execsql($sql_insert_first);
 			
@@ -443,14 +469,18 @@ if ($type=="showmenu"){
 	echo json_encode($add);
 }elseif ($type=="updatemenu"){
 	$menuId=$_GET['menuId'];//要修改的菜单moduleId
-	$menuNewName=$_GET['menuNewName'];//修改之前的菜单名称
-	$sql_update="select name from wx_wechat_module where id='{$menuId}'";
-	$res_update=$db->getrow($sql_update);
-	echo json_encode($res_update);
+	$menuNewName=$_GET['menuNewName'];//修改之后的菜单名称
+	$sql_update="update wx_wechat_module set name='{$menuNewName}' where id='{$menuId}'";
+	$res_update=$db->execsql($sql_update);
+	if (mysql_affected_rows()>0) {
+		echo 1;//更新成功
+	}else {
+		echo 0;//更新失败
+	}
 }elseif ($type=='updateculture'){
 	$moduleId=$_GET['moduleId'];//要修改的moduleId
 	$menuNewName=$_GET['menuNewName'];//修改之后的名称
-	$sql_update="update wx_wechat_module set name='{$menuNewName}' where id='{$moduleId}'";
+	$sql_update="update wx_articlelist_module set name='{$menuNewName}' where id='{$moduleId}'";
 	$res_update=$db->execsql($sql_update);
 	if (mysql_affected_rows()>0){
 		echo 1;//更新成功
@@ -480,7 +510,17 @@ if ($type=="showmenu"){
 			/*
 			 * 没有子菜单，只删除目前菜单的数据库(二级菜单)
 			 */
-			$del=delmenu($res_isset['menuType'], $menuId);//调用删除功能菜单的函数，返回的是数组，里面存放的是错误代码
+			if ($res_isset['menuType']==0){
+				$sql_delete_menu="delete from wx_wechat_module where id='{$menuId}'";
+				$res_delete_menu=$db->execsql($sql_delete_menu);
+				if (mysql_affected_rows()>0){
+					$del['error']= "删除成功";
+				}else {
+					$del ['error'] = "删除失败";
+				}
+			}else {
+				$del=delmenu($res_isset['menuType'], $menuId);//调用删除功能菜单的函数，返回的是数组，里面存放的是错误代码
+			}
 		}
 		else {
 			/*
@@ -513,6 +553,5 @@ if ($type=="showmenu"){
 		 */
 		$del ['error'] = "菜单信息不存在，请联系技术支持";
 	}
-	var_dump($del);
-// 	echo json_encode($del);
+	echo json_encode($del);
 }

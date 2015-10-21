@@ -274,7 +274,8 @@ body{
     border-left: 2px solid #1963aa;
 }
 .navlist>li>a .fatest{
-    margin-right: 14px;
+    /*margin-right: 14px;*/
+    width: 30px;
     font-size: 1.3rem;
 }
 .navlist>li>a .fa-angle-down{

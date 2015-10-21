@@ -18,7 +18,7 @@
  */
 
 
-header("content-type:text/json;charset=utf-8");
+header("content-type:text/html;charset=utf-8");
 require_once '../../../common/php/dbaccess.php';
 require_once '../../../common/php/uploadFiles.php';
 require_once '../../../common/php/regexTool.class.php';
@@ -30,8 +30,8 @@ $zan=new ZAN('wx_activity_zan');
 
 
 $regex=new regexTool();
-$type=$_GET['type'];
-// $type='list';
+// $type=$_GET['type'];
+$type='list';
 // $type='add';
 // $type='update';
 // $type='updateOK';
@@ -47,11 +47,11 @@ $type=$_GET['type'];
 // $type = 'updateLeavewordOK';
 if ($type=='list'){
 	/***************分页显示图片互动活动列表*******************/
-	$menuId=$_GET['menuId'];
-// 	$menuId='10';//图片互动的菜单ID
+// 	$menuId=$_GET['menuId'];
+	$menuId='10';//图片互动的菜单ID
 	if ($regex->isNumber($menuId)){
-		$page=$_GET['page'];//获得当前页码
-		// 	$page='1';//获得当前页码
+// 		$page=$_GET['page'];//获得当前页码
+			$page='1';//获得当前页码
 		$num=10;//每页显示的条数
 		
 		$sql_list1="select a.id,a.title from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
@@ -67,8 +67,8 @@ if ($type=='list'){
 		}else {
 			$list['list']=$res_list;
 		}
-		// 	var_dump($list);
-		echo json_encode($list);
+			var_dump($list);
+// 		echo json_encode($list);
 	}
 }elseif ($type=='add'){
 	/***************后台管理员新增图片互动的活动*******************/

@@ -226,8 +226,9 @@ $(function(){
         var title 		= $("#title").val();  //标题
         var leaveword 	= ($("#leaveword").attr("checked")=="checked")?1:0;
         var zan 		= ($("#zan").attr("checked")=="checked")?1:0;
-        var content 	= UE.getEditor('editor').getPlainTxt();    
+        //var content 	= UE.getEditor('editor').getPlainTxt();    
         //var content2 = UE.getEditor('editor').getAllHtml();
+        var content = ue.getContent();      //带格式的文章内容
         if(title == '' || content == ''){
         	alert("请检查数据不能为空");
         }else{
