@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../../common/css/base.css"/>
     <link rel="stylesheet" href="../css/addarticle.css"/>
     <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+    <script src="../../../common/js/jquery.session.js"></script>
     <!--ueditor-->
     <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.all.min.js"> </script>
@@ -42,7 +43,7 @@
                         <i class="fa fa-remove"></i>
                     </button>
                     <i class="fa fa-check"></i>  提示：
-                    <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                    <strong>建议字体大小为15像素,您先在本地WORD处理好排版后复制到内容区域</strong>
                 </div>
 
                 <div class="conlabel">
@@ -125,10 +126,7 @@
             $parent.slideUp();
             return false;
         });
-        $("li a:contains('我们')").siblings(".submenu").show();
-        $("li a:contains('企业文化')").siblings(".submenu").show();
-        $("li a:contains('列表文章')").parent().addClass("active");
-    })
+    });
 </script>
 </body>
 </html>

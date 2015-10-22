@@ -1,41 +1,109 @@
 <?php
-header ( "content-type:text/html;charset=utf-8" );
+header ( "content-type:text/json;charset=utf-8" );
 // echo $path;
 require_once '../../../common/php/dbaccess.php';
 $db =new DB();
 $file=array();
 $type=$_POST['type'];              //获取要求
-$type="list";
+// $type="list";
 $review_id=$_POST['id'];             //获取要显示的活动类型的ID
-//$review_id=1;
+// $review_id=1;
 /*
  * 往期回顾的列表显示
  */
 if($type=="list"){	
-	
+	$list_type=$_POST['list_type'];
+	// $list_type="manager_modify";
 	$sql_reviewName="select reviewTable from wx_activity_module where id =".$review_id; //选择往期回顾表
+// 	echo $sql_reviewName;
 	$res_reviewName=$db->getrow($sql_reviewName);
 // 	var_dump($res_reviewName);
 	$reviewName=$res_reviewName['reviewTable'];
 // 	echo $reviewName;die;
-
-// 	$page=$_POST['page'];    //获取页码
-		$page=1;
-	$num=2;                //每页的容量
+    
+	$page=$_POST['page'];    //获取页码
+	// $page=1;
+	$num=10;                //每页的容量
 	$start=($page-1)*$num;
 	
-	$sql_id="select id from ".$reviewName." where review = ".$a;
-	$result = mysql_query($sql);
+	if($list_type=="wx"){
+		$a= 1;
+		$sql="select * from ".$reviewName." where review = ".$a;
+		// 	echo $sql;die;
+		$result = mysql_query($sql);
+		// 	var_dump($result);
+		//     echo mysql_num_rows($result);
+		
+		$sql_list="select id,title,review,date from ".$reviewName." where review =
+		'{$a}' order by date desc limit ".$start.",".$num ;//选择能够往期回顾的信息
+		// 	echo $sql_list;
+		$res_list=$db->execsql($sql_list);
+		// 	var_dump($res_list);
+		$file['details_dataBase']=$reviewName;
+		$file['list']=$res_list;
+		$file['num']=mysql_num_rows($result);
+		echo json_encode($file);
+	}elseif($list_type=="manager_show"){
+		
+		$sql="select * from ".$reviewName;
+		// 	echo $sql;die;
+		$result = mysql_query($sql);
+		$sql_list="select id,title,review,date from ".$reviewName."  order by date desc limit 
+				".$start.",".$num ;                             //选择要往期回顾的信息
+		$res_list=$db->execsql($sql_list);
+		$file['list']=$res_list;
+		$file['num']=mysql_num_rows($result);
+		echo json_encode($file);
+	}elseif($list_type=="manager_delete"){
+		 
+		$projectid=$_POST['projectid'];
+		$review=$_POST['review'];
+		if($review==1){
+			$review=0;
+		}else{
+			echo $error=2;            //已经是取消往期回顾
+		}
+		// $file['$error']=$error;
+		
+		$sql_update="update ".$reviewName." set review = '{$review}' where id = '{$projectid}'";
+		$res_update= $db->execsql($sql_update);
+		$res = mysql_affected_rows();
+		if($res){
+			$error = 1; //修改成功
+		}else{
+			$error = 0;   //修改失败
+		}
+		
+		$file['error']=$error;
+		echo json_encode($file);
+	}elseif($list_type=="manager_modify"){
+		// $id=$_POST['id'];
+		$projectid=$_POST['projectid'];
+		// $id =1;
+		$review=$_POST['review'];
+		// $review=1;
+		if($review==0){
+			$review=1;
+		}else{
+			 $error=3;            //已经是设置为往期回顾
+		}
+		$file['$error']=$error;
+		
+		
+		$sql_update="update ".$reviewName." set review = '{$review}' where id = '{$projectid}'  ";
+		// echo $sql_update;
+		$res_update= $db->execsql($sql_update);
+		$res = mysql_affected_rows();
+		if($res){
+			$error = 1; //修改成功
+		}else{
+			$error = 0;   //修改失败
+		}
+		
+		$file['error']=$error;
+		echo json_encode($file);
+	}
 	
-	$a= 1;
-	$sql_list="select id,title,review from ".$reviewName." where review = 
-	'{$a}' order by date desc limit ".$start.",".$num ;//选择能够往期回顾的信息
-// 	echo $sql_list;
-	$res_list=$db->execsql($sql_list);
-// 	var_dump($res_list);	
-	$file['details_dataBase']=$reviewName;
-	$file['list']=$res_list;
-	echo json_encode($file);
 	
 	/*
 	 * 往期回顾的具体显示
@@ -44,7 +112,7 @@ if($type=="list"){
 	$details_id=$_POST['id'];       //获取要显示信息的ID
 	$details_id=1;
 	$details_dataBase=$_POST['details_dataBase'];       //获取要显示信息的数据库表
-	$details_dataBase="wx_vote_project";
+	$details_dataBase="wx_activity_interact_project";
 
 	/*
 	 * 投票活动的往期回顾
@@ -110,8 +178,18 @@ if($type=="list"){
 		 */
 		
 		         /*************获取留言用户的信息*******************/
-		$sql_leaveword="select userId,content,date from wx_leaveword where activityId =".$res_details['id'];
-// 		echo $sql_leaveword;
+		
+		$page=$_POST['page'];    //获取页码
+		$page=1;
+		$num=1;                //每页的容量
+		$start=($page-1)*$num;
+		
+		$sql_leaveword="select userId,content,date from wx_review_leaveword where activityId =
+				".$res_details['id'] ." order by date desc limit ".$start.",".$num ;         //分页显示ID 留言内容 时间
+		$sql="select * from wx_review_leaveword where activityId = ".$res_details['id'];     
+		$result = mysql_query($sql);														//获取要显示的留言数量
+// 		echo mysql_num_rows($result);
+
 		$res_leaveword=$db->execsql($sql_leaveword);
 // 		var_dump($res_leaveword);
 		$j=1;
@@ -123,11 +201,14 @@ if($type=="list"){
 			$file['details']['leaveword_info']['wechatName'][$j]=$res_user['wechatName'];
 			$file['details']['leaveword_date'][$j]=$val_leaveword['date'];
 			$file['details']['leaveword_content'][$j]=$val_leaveword['content'];
+			$file['details']['leaveword_num']=mysql_num_rows($result);
 			$j++;
 		}
 		
 		/*************获取点赞用户的信息*******************/
-		$sql_zan="select userId,date from wx_zan where activityId =".$res_details['id'];
+		$sql_zan="select userId,date from wx_review_zan where activityId =".$res_details['id'];
+		$result= mysql_query($sql_zan);
+		
 		$res_zan=$db->execsql($sql_zan);
 // 		var_dump($res_zan);
 		$k=1;
@@ -135,10 +216,11 @@ if($type=="list"){
 			$sql_user="select userName,wechatName from wx_user where openId=".$val_zan['userId'];
 			$res_user=$db->getrow($sql_user);
 			// 			var_dump($res_user);
-			$file['details']['zan_info']['userName'][$j]=$res_user['userName'];
-			$file['details']['zan_info']['wechatName'][$j]=$res_user['wechatName'];
-			$file['details']['zan_date'][$j]=$val_zan['date'];
-			$j++;
+			$file['details']['zan_info']['userName'][$k]=$res_user['userName'];
+			$file['details']['zan_info']['wechatName'][$k]=$res_user['wechatName'];
+			$file['details']['zan_date'][$k]=$val_zan['date'];
+			$file['details']['zan_num']=mysql_num_rows($result);
+			$k++;
 		}
 		
 		/*****************获取活动用户的具体信息*********************/

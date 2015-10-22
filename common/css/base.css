@@ -379,3 +379,18 @@ ul.breadcrumb {
     color: #555;
     background: inherit;
 }
+/*弹出成功对话框*/
+.popOperTip {
+    position: absolute;
+    margin:auto;
+    left:0; right:0; top:0; bottom:0;
+    width:140px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 15px;
+    background-color: #5A5A5A;
+    color: #fff;
+    z-index: 2002;
+    display:none;
+}

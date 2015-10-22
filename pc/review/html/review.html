@@ -5,13 +5,13 @@
     <title>中慧集团</title>
     <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="../../../common/css/base.css"/>
-    <link rel="stylesheet" href="../css/talentRecruit.css"/>
+    <link rel="stylesheet" href="../css/review.css"/>
     <script src="../../../common/js/jquery-2.0.3.min.js"></script>
     <script src="../../../common/js/jquery.session.js"></script>
 </head>
 <body>
 <div class="maxwrap">
-    <!--头部-->
+     <!--头部-->
     <script src="../../../common/js/head.js"></script>
     <!--左边栏-->
     <script src="../../../common/js/pcsidemenu.js"></script>
@@ -21,33 +21,34 @@
         <div class="breadcrumbs">
             <ul class="breadcrumb">
                 <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
-                <li><a href="#">测试</a></li>
-                <li class="breadcrumbactive">测试页</li>
+                <li><a href="#">我们</a></li> <li><a href="#">企业文化</a></li>
+                <li class="breadcrumbactive">文章列表</li>
             </ul>
         </div>
         <!--内容区域-->
         <div class="container">
             <div class="tablediv">
                 <table class="atticletable">
-                    <caption class="tableheader">人才招聘
-                        <span><a href="addTalent.html">添加招聘信息</a></span>
+                    <caption class="tableheader">往期回顾   
+                        <span>
+                            <select class="selecctopr">
+                                <option value="1">投票活动</option>
+                            　　<option value="2">图片互动</option>
+                            </select>
+                            <a href="javascript:void(0);" id="searchproId"><i class="fa fa-search"></i>搜索</a>
+                        </span>
                     </caption>
                     <thead>
                     <tr class="trheader">
                         <th class="checkbox" ><input type="checkbox" id="checkedall"/></th>
-                        <th>文章标题</th>
-                        <th>更新时间</th>
+                        <th>活动标题</th>
+                        <th>活动类型</th>
+                        <th>往期回顾</th>
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody id='talenttbody'>
-                    
-                    <!-- <tr>
-                        <td class="checkbox"><input type="checkbox"/></td>
-                        <td><a href="" name="2">酒店事业部--销售质控专员（五险一金+周末双休+年底双薪+要求熟练操作Excel办公软件）</a></td>
-                        <td>2007-12-03</td>
-                        <td class="actionicon"><i class="fa fa-pencil blue"></i><i class="fa fa-trash red"></i></td>
-                    </tr>-->
+                    <tbody id="tbody">
+
                     </tbody>
                 </table>
             </div>
@@ -56,7 +57,7 @@
                     <i class="fa fa-trash red" id="delid"></i>
                     <i class="fa fa-search orange"></i>
                 </div>
-                 <div class="pagegroup">
+                <div class="pagegroup">
                     <span class="fa fa-angle-double-left disable" id="firstpage"></span>
                     <span class="fa fa-angle-left disable" id="prepage"></span>
                     <input type="text" size="2" maxlength="7" value="1" role="textbox" id="pageconnum">
@@ -70,23 +71,27 @@
             </div>
         </div>
     </div>
-    <!--发表评论模态框-->
-    <div class="hideContent"></div>
-    <div class="comtent">
-        <div class="conheader"><span>删除</span></div>
-        <div class="contextarea">
-            删除所选记录？
-        </div>
-        <div class="btna">
-            <a href="" class="btnleft">确定</a>
-            <a href="" class="btnright">取消</a>
-        </div>
+</div>
+<!--删除模态框-->
+<div class="hideContent"></div>
+<div class="comtent">
+    <div class="conheader"><span>撤销往期回顾</span></div>
+    <div class="contextarea">
+        确定撤销所选记录？
+    </div>
+    <div class="btna">
+        <a href="javascript:void(0);" class="btnleft">确定</a>
+        <a href="javascript:void(0);" class="btnright">取消</a>
     </div>
 </div>
+
 <script src="../../../common/js/base.js"></script>
-<script src="../js/talentRecruit.js"></script>
+<script src="../js/review.js"></script>
 <script>
-    
+
+$(function(){
+  
+});
 </script>
 </body>
 </html>

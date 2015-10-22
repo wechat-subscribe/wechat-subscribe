@@ -72,8 +72,6 @@ if ($type=='list'){
 	}
 }elseif ($type=='add'){
 	/***************后台管理员新增图片互动的活动*******************/
-	
-	
 	$starttime=time();
 	/* $activity['title']=$_GET['title'];//活动标题
 	$menuId=$_GET['menuId'];//图片互动的菜单ID

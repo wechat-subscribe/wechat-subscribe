@@ -18,7 +18,7 @@ $(function(){
         },
         success:function(data) {  
             // data = JSON.parse(data);
-             console.log(data);
+            // console.log(data);
             $.each(data,function(i,item){
                 // console.log(item);
                 var str = '<dl class="menuListsub"><dt class="menuListsublight" name="'+item.id+'">';
@@ -196,10 +196,10 @@ $(function(){
                     var menuFirstType = $("#select_addmenu_selIdpar").val();
                     var menusecondType = $("#select_addmenu_selIdchil").val();
                     
-                    console.log(text);
-                    console.log(config.curelemId);
-                    console.log(menuFirstType);
-                    console.log(menusecondType);
+                    // console.log(text);
+                    // console.log(config.curelemId);
+                    // console.log(menuFirstType);
+                    // console.log(menusecondType);
                     $.ajax({
                         url         :   "../php/menu.php",
                         datatype:"json",
@@ -240,7 +240,7 @@ $(function(){
                     menuId: menuId,
                     menuNewName:menuNewName
                 },success:function(data) { 
-                	console.log(data);
+                	// console.log(data);
                 	if(data === 1){
                 	 	config.parent.find("a strong").text(menuNewName);
                 	 	alert("更新成功");
@@ -300,8 +300,8 @@ $(function(){
 
     // 增加菜单时点击切换文章类型
     $("body").delegate("#select_addmenu_selIdpar","change",function(){
-        console.log($(this).find("option:selected").text());
-        console.log($(this).val());  
+        // console.log($(this).find("option:selected").text());
+        // console.log($(this).val());  
         if($(this).val() == 'articlelist'){                         //文章列表
             var str = '<option value ="0">请选择栏目类型</option><option value ="picture">图文列表</option><option value ="video">视频列表</option><option value ="voice">音频列表</option>';
         }else if($(this).val() == 'activity'){                   //活动选项
