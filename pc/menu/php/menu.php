@@ -1,6 +1,7 @@
 <?php
 /**
  * $type="showmenu":用于显示微信端的菜单
+ * $type="showmenuPC":用于显示PC端左侧的菜单
  * $type="showculture":用于显示企业文化的类别菜单
  * $type="addmenu":用于增加微信端的菜单
  * $type="updatemenu":用于更新微信端的菜单名称
@@ -307,30 +308,73 @@ function delmenu($menuType,$menuId) {
  * 菜单编辑
  */
 $type=$_GET['type'];
+// $type="showmenuPC";
 if ($type=="showmenu"){
 	/*
-	 * 将菜单按级别输出名字和ID
+	 * 将菜单按级别输出名字和ID,用于展示微信端菜单
 	 */
 	//获取一级模块名称
-	$sql_menu="select id,name,urlPC from wx_wechat_module where parentId=0 order by seq asc";
+	$sql_menu="select id,name from wx_wechat_module where parentId=0 order by seq asc";
 	$res_menu=$db->execsql($sql_menu);
 	//遍历获取二级模块名称
 	foreach ($res_menu as $key_First=>$val_First){
 		//自身连接查询
-		$sql_second="select s.id,s.name,s.urlPC from wx_wechat_module as s left join wx_wechat_module as p
+		$sql_second="select s.id,s.name from wx_wechat_module as s left join wx_wechat_module as p
 				on s.parentId=p.id where p.id='{$val_First['id']}' order by s.seq asc";
 		$res_second=$db->execsql($sql_second);
 		$res_menu[$key_First]['sub']=$res_second;
 	}
 // 	print_r($res_menu);
 	echo json_encode($res_menu);
-}elseif ($type=="showculture"){
-	$parentId=$_GET['parentId'];//父类按钮的菜单ID
-	$sql_culturelist="select s.id,s.name,s.urlPC from wx_articlelist_module as s left join wx_articlelist_module as p 
-			on s.parentId=p.id where p.id='{$parentId}'";
-	$res_culturelist=$db->execsql($sql_culturelist);
-// 	var_dump($res_culturelist);
-	echo json_encode($res_culturelist);
+}elseif ($type=="showmenuPC"){
+	/*
+	 * 将菜单按级别输出名字和ID,用于PC端左侧菜单展示
+	 */
+	//获取一级模块名称
+	$sql_menu="select id,name,urlPC,menuType from wx_wechat_module where parentId=0 order by seq asc";
+	$res_menu=$db->execsql($sql_menu);
+	//遍历获取二级模块名称
+	foreach ($res_menu as $key_First=>$val_First){
+		//如果是文章列表类型的菜单，则输出moduleId
+		$sql_type="select name from wx_wechat_module_type where id='{$val_First['menuType']}'";
+		$res_type=$db->getrow($sql_type);
+// 		echo $sql_type;die;
+		if ($res_type['name']=="文章列表"){
+			
+			$sql_module="select id from wx_articlelist_module where menuId='{$val_First['id']}'";
+			$res_module=$db->getrow($sql_module);
+			$res_menu[$key_First]['moduleId']=$res_module['id'];
+		}
+		//自身连接查询
+		$sql_second="select s.id,s.name,s.urlPC,s.parentId,s.menuType from wx_wechat_module as s left join wx_wechat_module as p
+		on s.parentId=p.id where p.id='{$val_First['id']}' order by s.seq asc";
+		$res_second=$db->execsql($sql_second);
+		
+		foreach ($res_second as $key_second=>$val_second){
+			//如果是文章列表类型的菜单，则输出moduleId
+			$sql_type="select name from wx_wechat_module_type where id='{$val_second['menuType']}'";
+			$res_type=$db->getrow($sql_type);
+			if ($res_type['name']=="文章列表"){
+// 				echo $val_second['name'];die;
+				$sql_module="select id from wx_articlelist_module where menuId='{$val_second['id']}'";
+				$res_module=$db->getrow($sql_module);
+				$res_second[$key_second]['moduleId']=$res_module['id'];
+			}
+			if (($val_second['parentId']!=0)&&($val_second['menuType'])==0){
+				$sql_culturelist="select s.id as moduleId,s.name,s.urlPC from wx_articlelist_module as s left join wx_articlelist_module as p
+				on s.parentId=p.id where p.menuId='{$val_second['id']}'";
+				$res_culturelist=$db->execsql($sql_culturelist);
+				$res_second[$key_second]['sub']=$res_culturelist;
+			}
+			unset($res_second[$key_second]['parentId']);
+			unset($res_second[$key_second]['menuType']);
+		}
+		$res_menu[$key_First]['sub']=$res_second;
+		unset($res_menu[$key_First]['menuType']);
+	}
+// 		print_r($res_menu);
+	echo json_encode($res_menu);
+	
 }elseif ($type=="addmenu"){
 	$menuName=$_GET['menuName'];//所添加菜单的名称
 	$menuFirstType=$_GET['menuFirstType'];//选择的菜单一级类型。"articlelist":文章列表；"activity":活动

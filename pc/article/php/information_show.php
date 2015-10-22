@@ -26,7 +26,7 @@ require_once '../../../common/php/uploadFiles.php';
 require_once '../../../common/php/regexTool.class.php';
 require_once '../../../common/php/leaveword.class.php';
 require_once '../../../common/php/zan.class.php';
-// $type=$_GET['type'];//list:列表显示；details:具体内容显示
+$type=$_GET['type'];//list:列表显示；details:具体内容显示
 // $type='list';
 // $type='details';
 // $type='leaveword';
@@ -41,15 +41,37 @@ $db = new DB ();
 $lwd=new LWD('wx_leaveword');
 $zan=new ZAN('wx_zan');
 $regex=new regexTool();
+/* function getmodule(){
+	global  $db;
+	global  $regex;
+// 	$menuId=$_GET['moduleId'];//获取菜单ID
+	$menuId=1;//获取菜单ID
+	
+	if ($regex->isNumber($menuId)){
+		//判断是否为企业文化
+ 		$sql="select p.name from wx_wechat_module as p left join wx_wechat_module as s on p.id=s.parentId where s.id='{$menuId}'";
+		$res=$db->getrow($sql);
+		echo $sql;die;
+		if ($res['name']=='企业文化'){
+			$moduleId=$menuId;
+		}else {
+			$sql_module="select id from wx_articlelist_module where menuId='{$menuId}'";
+			$res_module=$db->getrow($sql_module);
+			$moduleId=$res_module['id'];
+		}
+		return $moduleId;
+	}
+} */
+
 if ($type == 'list') {
 	/**
 	 * ************显示文章信息列表***************
 	 */
 	// echo "test";
 	$page=$_GET['page'];
-	$moduleId=$_GET['moduleId'];//获取模块ID
-// 	$moduleId = 1; // 获取模块ID
 // 	$page=3;
+	$moduleId=$_GET['moduleId'];
+// 	echo $moduleId;die;
 	$list = array ();
 	$num=10;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置

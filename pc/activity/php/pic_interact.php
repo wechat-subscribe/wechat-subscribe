@@ -31,8 +31,8 @@ $zan=new ZAN('wx_activity_zan');
 
 $regex=new regexTool();
 // $type=$_GET['type'];
-$type='list';
-// $type='add';
+// $type='list';
+$type='add';
 // $type='update';
 // $type='updateOK';
 // $type='join';
@@ -47,59 +47,70 @@ $type='list';
 // $type = 'updateLeavewordOK';
 if ($type=='list'){
 	/***************分页显示图片互动活动列表*******************/
-// 	$menuId=$_GET['menuId'];
-	$menuId='10';//图片互动的菜单ID
+	$menuId=$_GET['menuId'];
+// 	$menuId='10';//图片互动的菜单ID
 	if ($regex->isNumber($menuId)){
-// 		$page=$_GET['page'];//获得当前页码
-			$page='1';//获得当前页码
+		$page=$_GET['page'];//获得当前页码
+// 			$page='1';//获得当前页码
 		$num=10;//每页显示的条数
 		
-		$sql_list1="select a.id,a.title from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
+		$sql_list1="select a.id from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
 		$res_list1=$db->execsql($sql_list1);
-		// 	echo $sql_list;die;
+// 			echo $sql_list1;die;
 		$list['PageNum']=ceil(count($res_list1)/$num);//总页数
 		$start=($page-1)*$num;
-		$sql_list="select a.id,a.title from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}' order by date desc limit ".$start.",".$num;
+		$sql_list="select a.id,a.title,a.start,a.end from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}' order by a.start desc limit ".$start.",".$num;
 		$res_list=$db->execsql($sql_list);
-		// 	echo $sql_list;die;
+// 			echo $sql_list;die;
 		if (empty($res_list)){
 			$list['error']=2;//当前页为空
 		}else {
 			$list['list']=$res_list;
 		}
-			var_dump($list);
-// 		echo json_encode($list);
+// 			var_dump($list);
+		echo json_encode($list);
 	}
 }elseif ($type=='add'){
 	/***************后台管理员新增图片互动的活动*******************/
 	
-	$activity['title']=$_GET['title'];//活动标题
+	
+	$starttime=time();
+	/* $activity['title']=$_GET['title'];//活动标题
 	$menuId=$_GET['menuId'];//图片互动的菜单ID
 	$activity['content']=$_GET['content'];//活动描述
 	$activity['num']=$_GET['num'];//允许一次性上传图片的最大数量
-	$activity['type']=$_GET['type'];//活动上传的多媒体文件类型为“图片”
-	$activity['date']=date('Y-m-d H:i:s',time());//活动发起的时间
-	/* $activity['title']='图片互动活动5';//活动标题
-	$activity['content']='图片互动活动5的活动描述';//活动描述
+	$activity['type']=$_GET['activitytype'];//活动上传的多媒体文件类型为“图片”
+	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
+	$activity['end']=$_GET['end'];//活动的截止时间 */
+	$activity['title']='图片互动活动6';//活动标题
+	$activity['content']='图片互动活动6的活动描述';//活动描述
 	$activity['num']=5;//允许一次性上传图片的最大数量
-	$activity['date']=date('Y-m-d H:i:s',time());//活动发起的时间
+	
+	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
+	$activity['end']=$_GET['end'];//活动的截止时间
 	$activity['type']=0;//活动上传的多媒体文件类型为“图片”
-	$menuId='10';//图片互动的菜单ID */
+	$menuId='10';//图片互动的菜单ID
+// 	echo date('Y-m-d H:i:s',strtotime('+6 month'));//距今半年的日期
 	$activity['review']=0;//默认为不用于往期回顾
-	if ($regex->isNumber($menuId)){
-		if (empty($activity['title'])||empty($activity['content'])||empty($activity['num'])){
-			echo 2;//请检查空项
-		}else {
-			$sql_activity_moduleId="select id from wx_activity_module where menuId='{$menuId}'";
-// 			echo $sql_activity_moduleId;die;
-			$res_activity_moduleId=$db->getrow($sql_activity_moduleId);
-			$activity['moduleId']=$res_activity_moduleId['id'];
-			$insert_activity=$db->insert('wx_activity_interact_project', $activity);
-			if ($insert_activity){
-				echo 1;//添加成功
-			}else {
-				echo 0;//添加失败
+	if ($regex->isNumber ( $menuId )) {
+		if (empty ( $activity ['title'] ) || empty ( $activity ['content'] ) || empty ( $activity ['num'] )) {
+			echo 2; // 请检查空项
+		} elseif (($starttime < strtotime ( $activity ['end'] )) && (strtotime ( $activity ['end'] ) <= strtotime ( '+6 month' ))) {
+			/**
+			 * ***************截止日期为当前日期之后，距今半年之前***************************
+			 */
+			$sql_activity_moduleId = "select id from wx_activity_module where menuId='{$menuId}'";
+			// echo $sql_activity_moduleId;die;
+			$res_activity_moduleId = $db->getrow ( $sql_activity_moduleId );
+			$activity ['moduleId'] = $res_activity_moduleId ['id'];
+			$insert_activity = $db->insert ( 'wx_activity_interact_project', $activity );
+			if ($insert_activity) {
+				echo 1; // 添加成功
+			} else {
+				echo 0; // 添加失败
 			}
+		} else {
+			echo 3; // 截止日期为当前日期之后，距今半年之前
 		}
 	}
 }elseif ($type=='delete'){
