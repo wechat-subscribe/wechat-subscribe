@@ -32,7 +32,7 @@ $type=$_GET['type'];//list:列表显示；details:具体内容显示
 // $type='leaveword';
 // $type = 'zan';
 // $type = 'deleteInfo';
-//$type = 'updateInfo';
+// $type = 'updateInfo';
 // $type = 'deleteLeaveword';
 // $type = 'updateLeaveword';
 // $type = 'updateLeavewordOK';
@@ -41,27 +41,6 @@ $db = new DB ();
 $lwd=new LWD('wx_leaveword');
 $zan=new ZAN('wx_zan');
 $regex=new regexTool();
-/* function getmodule(){
-	global  $db;
-	global  $regex;
-// 	$menuId=$_GET['moduleId'];//获取菜单ID
-	$menuId=1;//获取菜单ID
-	
-	if ($regex->isNumber($menuId)){
-		//判断是否为企业文化
- 		$sql="select p.name from wx_wechat_module as p left join wx_wechat_module as s on p.id=s.parentId where s.id='{$menuId}'";
-		$res=;
-		echo $sql;die;
-		if ($res['name']=='企业文化'){
-			$moduleId=$menuId;
-		}else {
-			$sql_module="select id from wx_articlelist_module where menuId='{$menuId}'";
-			$res_module=$db->getrow($sql_module);
-			$moduleId=$res_module['id'];
-		}
-		return $moduleId;
-	}
-} */
 
 if ($type == 'list') {
 	/**
@@ -71,7 +50,7 @@ if ($type == 'list') {
 	$page=$_GET['page'];
 // 	$page=3;
 	$moduleId=$_GET['moduleId'];
-	echo $moduleId;die;
+// 	echo $moduleId;die;
 	$list = array ();
 	$num=10;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置
@@ -190,9 +169,9 @@ if ($type == 'list') {
 	 * *****************后台管理员编辑、修改文章信息的具体内容,点击“修改”按钮**********************
 	 */
 	$infoId=$_GET['infoId'];//获取显示具体内容的文章信息ID
-	//$infoId = 5; // 获取显示具体内容的文章信息ID
+// 	$infoId = 5; // 获取显示具体内容的文章信息ID
 	if ($regex->isNumber($infoId)){
-		$sql_updateInfo="select title,content,is_leaveword,is_zan,thumb from wx_info where id='{$infoId}'";
+		$sql_updateInfo="select title,content,is_leaveword,is_zan,thumb,media from wx_info where id='{$infoId}'";
 		$res_updateInfo=$db->getrow($sql_updateInfo);
 		/* // 	将查询出的media的url根据“；”分开，单独存放
 		 $updateInfo_media=explode(';', $res_updateInfo['media']);
@@ -204,7 +183,8 @@ if ($type == 'list') {
 		$updateInfo['is_leaveword']=$res_updateInfo['is_leaveword'];
 		$updateInfo['is_zan']=$res_updateInfo['is_zan'];
 		$updateInfo['thumb']=$res_updateInfo['thumb'];
-		//var_dump($updateInfo);
+		$updateInfo['media']=$res_updateInfo['media'];
+// 		var_dump($updateInfo);
 		echo json_encode($res_updateInfo);
 	}
 	
