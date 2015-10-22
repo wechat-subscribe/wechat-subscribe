@@ -130,16 +130,12 @@ $(function(){
         url         :   "../php/talent_philosophy.php?type=show",
         datatype    :   "json",
         type      	:   'POST',         //默认为GET方式
-        async       :   false,          //异步
-        data        : {
-            
-        },
+        async       :   true,          //异步
+       
         success:function(data) {  
             data = JSON.parse(data);
-            console.log(data);
-            data = data.show;
-            console.log(data);
-            if(data[0].title != null){
+            if(data.empty != true){
+                data = data.show;
             	$("#title").val(data[0].title);  //标题
 	            ue.addListener("ready", function () {		//内容
 	                UE.getEditor('editor').execCommand('insertHtml', data[0].content);

@@ -3,6 +3,11 @@ $(function(){
     var page = 1;           //页码标识符
     var allpage = 1;        //总页码标识符
 
+    var moduleId = GetQueryString("moduleId");
+    var menuName = escape(GetQueryString("menuName"));
+    var submenuName = escape(GetQueryString("submenuName"));
+    $("#jumpAddUrl").attr("href","addTalent.html?moduleId="+moduleId+"&menuName="+menuName+"&submenuName="+submenuName)
+
     getPageContent(1);      //初始化第一页数据
     
     // 请求人才招聘列表
@@ -19,6 +24,7 @@ $(function(){
             success:function(data) {  
                 // 分页大小10条数据
                 // 文章数量赋值
+                console.log(data);
                 allnum = data.num;
                 allpage = Math.ceil(allnum /10);
                 $("#allpage").html(allpage);
@@ -26,7 +32,7 @@ $(function(){
                 $("#talenttbody").html('');
                 $.each(data.list,function(i,item){       
                     var str = '<tr><td class="checkbox"><input type="checkbox"/></td>';
-                    str += '<td><a href="addTalent.html?articleid='+item.id+'">'+item.title+'</a></td>';
+                    str += '<td><a href="addTalent.html?articleid='+item.id+'&menuName='+menuName+'&submenuName='+submenuName+'" >'+item.title+'</a></td>';
                     str += '<td>'+item.date+'</td>';
                     str += ' <td class="actionicon"><a href="addTalent.html?articleid='+item.id+'" name="'+item.id+'"><i class="fa fa-pencil blue"></i></a><i class="fa fa-trash red"></i></td></tr>';
                     $("#talenttbody").append(str);

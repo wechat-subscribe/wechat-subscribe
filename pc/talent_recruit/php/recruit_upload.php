@@ -23,7 +23,9 @@ if($type=="list"){
 	$start=($page-1)*$num;
 	$sql = "SELECT * FROM wx_talent_recruit";
 	$result = mysql_query($sql);
+	// $sql_list="select * from wx_talent_recruit order by date desc limit ".$start.",".$num;
 	$sql_list="select title,date,id from wx_talent_recruit order by date desc limit ".$start.",".$num;
+	// echo $sql_list;die;
 	$res_list=$db->execsql($sql_list);
 	$file['list']=$res_list;
 	$file['num']=mysql_num_rows($result);

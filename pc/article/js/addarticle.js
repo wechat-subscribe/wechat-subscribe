@@ -255,13 +255,15 @@ $(function(){
                     }
                 });
             }else{
+                var moduleId = GetQueryString("moduleId") ;
+                
                 $.ajax({
                     url         :   "../php/information_upload.php",
                     datatype    :   "json", 
                     type        :   'POST',         
                     async       :   true,          //异步
                     data        : {
-                        "moduleId"      : 1,
+                        "moduleId"      : moduleId,
                         "title"         : title,
                         "leaveword"  : leaveword,
                         "zan"        : zan,

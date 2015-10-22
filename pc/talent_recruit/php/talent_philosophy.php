@@ -16,7 +16,12 @@ if($type=="show"){
 		$sql_show="select * from wx_talent_philosophy ";
 		$res_show=$db->execsql($sql_show);
 		// 	var_dump($res_show);
-		$file['show']=$res_show;
+		if(empty($res_show)){
+			$file['empty']=true;
+		}else{
+			$file['empty']=false;
+			$file['show']=$res_show;
+		}
 		echo json_encode($file);
 }elseif ($type == 'updateInfo') {
 	/**

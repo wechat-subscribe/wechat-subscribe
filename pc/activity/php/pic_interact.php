@@ -31,8 +31,8 @@ $zan=new ZAN('wx_activity_zan');
 
 $regex=new regexTool();
 // $type=$_GET['type'];
-// $type='list';
-$type='add';
+$type='list';
+// $type='add';
 // $type='update';
 // $type='updateOK';
 // $type='join';
@@ -47,11 +47,11 @@ $type='add';
 // $type = 'updateLeavewordOK';
 if ($type=='list'){
 	/***************分页显示图片互动活动列表*******************/
-	$menuId=$_GET['menuId'];
-// 	$menuId='10';//图片互动的菜单ID
+// 	$menuId=$_GET['menuId'];
+	$menuId='10';//图片互动的菜单ID
 	if ($regex->isNumber($menuId)){
-		$page=$_GET['page'];//获得当前页码
-// 			$page='1';//获得当前页码
+// 		$page=$_GET['page'];//获得当前页码
+			$page='1';//获得当前页码
 		$num=10;//每页显示的条数
 		
 		$sql_list1="select a.id from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
@@ -67,28 +67,30 @@ if ($type=='list'){
 		}else {
 			$list['list']=$res_list;
 		}
-// 			var_dump($list);
-		echo json_encode($list);
+			var_dump($list);
+// 		echo json_encode($list);
 	}
 }elseif ($type=='add'){
 	/***************后台管理员新增图片互动的活动*******************/
 	$starttime=time();
-	/* $activity['title']=$_GET['title'];//活动标题
+	
+	$activity['title']=$_GET['title'];//活动标题
 	$menuId=$_GET['menuId'];//图片互动的菜单ID
 	$activity['content']=$_GET['content'];//活动描述
 	$activity['num']=$_GET['num'];//允许一次性上传图片的最大数量
 	$activity['type']=$_GET['activitytype'];//活动上传的多媒体文件类型为“图片”
 	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
-	$activity['end']=$_GET['end'];//活动的截止时间 */
-	$activity['title']='图片互动活动6';//活动标题
-	$activity['content']='图片互动活动6的活动描述';//活动描述
-	$activity['num']=5;//允许一次性上传图片的最大数量
-	
-	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
 	$activity['end']=$_GET['end'];//活动的截止时间
+	
+/* 	$activity['title']='图片互动活动9';//活动标题
+	$activity['content']='图片互动活动9的活动描述';//活动描述
+	$activity['num']=5;//允许一次性上传图片的最大数量
+	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
+// 	$activity['end']=date('Y-m-d H:i:s',strtotime('+2 day'));//活动的截止时间
+	$activity['end']=date('Y-m-d H:i:s',strtotime("2016-4-22 11:02:00"));//活动的截止时间
 	$activity['type']=0;//活动上传的多媒体文件类型为“图片”
-	$menuId='10';//图片互动的菜单ID
-// 	echo date('Y-m-d H:i:s',strtotime('+6 month'));//距今半年的日期
+	$menuId='10';//图片互动的菜单ID */
+	
 	$activity['review']=0;//默认为不用于往期回顾
 	if ($regex->isNumber ( $menuId )) {
 		if (empty ( $activity ['title'] ) || empty ( $activity ['content'] ) || empty ( $activity ['num'] )) {
@@ -108,7 +110,10 @@ if ($type=='list'){
 				echo 0; // 添加失败
 			}
 		} else {
-			echo 3; // 截止日期为当前日期之后，距今半年之前
+			/* echo $starttime.'<br/>';
+			echo strtotime ( $activity ['end'] ).'<br/>';
+			echo strtotime ( '+6 month' ).'<br/>'; */
+			echo 3; // 截止日期为当前日期之后，半年之内
 		}
 	}
 }elseif ($type=='delete'){
@@ -121,6 +126,10 @@ if ($type=='list'){
 	$sql_media="select multimediaFile from wx_activity_interact where projectId=".projectId;
 	$res_media=$db->execsql($sql_media);
 	
+	//查出图片互动活动项的缩略图
+	$sql_thumb="select picture from wx_activity_interact_project where id='{$projectId}'";
+	$res_thumb=$db->getrow($sql_thumb);
+	
 	//联合删除
 	$sql_del="delete a,b,c,d from wx_activity_interact_project as a left join wx_activity_interact as b on a.id=b.projectId
 																	left join wx_activity_leaveword as c on b.id=c.activityId
@@ -128,6 +137,8 @@ if ($type=='list'){
 																    where a.id='{$projectId}'";
 	$res_del=$db->execsql($sql_del);
 	if (mysql_affected_rows()>0){
+		//将该图片互动活动项的缩略图删除
+		unlink($res_thumb['picture']);
 		//将参与该活动的所有的图片文件删除
 		foreach ($res_media as $val_media){
 			$media=explode(';', $val_media['multimediaFile']);

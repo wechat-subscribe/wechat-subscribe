@@ -27,6 +27,10 @@ $(function(){
 	});  
 });  
 $(function(){
+	var moduleId = GetQueryString("moduleId");
+	var menuName = escape(GetQueryString("menuName"));
+	var submenuName = escape(GetQueryString("submenuName"));
+	$("#jumpAddUrl").attr("href","addarticle.html?moduleId="+moduleId+"&menuName="+menuName+"&submenuName="+submenuName)
 
     var config = {
         articleid:"",	//文章ID
@@ -45,18 +49,19 @@ $(function(){
             async       :   true,          //同步
             data        : {
                 'type'      : "list",
-                'moduleId'  : 1,
+                'moduleId'  : moduleId,
                 "page"      : page
             },
             success:function(data) {  
                 data = JSON.parse(data);
-                 console.log(data);
+                // console.log(data);
                 $("#tbody").html('');
                 //添加列表内容
                 $.each(data, function(idx, obj) {
                     if(obj.id != undefined){
                          var  str = '<tr><td class="checkbox"><input type="checkbox"/></td>';
-                        str += '<td><a href="addarticle.html?articleid='+obj.id+'">'+obj.title+'</a></td>';
+                        // str += '<td><a href="addarticle.html?articleid='+obj.id+'">'+obj.title+'</a></td>';
+                        str += '<td><a href="addarticle.html?articleid='+obj.id+'&menuName='+menuName+'&submenuName='+submenuName+'" >'+obj.title+'</a></td>';
                         str += '<td>'+obj.date+'</td>';
                         str += '<td class="actionicon"><a href="addarticle.html?articleid='+obj.id+'" name="'+obj.id+'"> <i class="fa fa-pencil blue editarticle"></i></a> <i class="fa fa-trash red remove"></i></td>';
                          

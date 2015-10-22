@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 //验证码类
 class Captcha
 {
@@ -23,19 +26,21 @@ class Captcha
         $this->setDisturb();
         //设置验证码
         $this->setCaptcha();
+        // 把验证码放置到session里面
+        $_SESSION['captchaCode']=$this->code;
         //输出图片
         $this->outputImg();
     }
  
     function getCaptcha()
     {
-        return $this->code;
+        return $this->code;  
     }
  
     private function createImg()
     {
         $this->im = imagecreatetruecolor($this->width, $this->height);
-        $bgColor = imagecolorallocate($this->im, 0, 0, 0);
+        $bgColor = imagecolorallocate($this->im, 22,22,22);
         imagefill($this->im, 0, 0, $bgColor);
     }
  
@@ -49,10 +54,10 @@ class Captcha
             imagesetpixel($this->im, rand(1, $this->width - 2), rand(1, $this->height - 2), $color);
         }
         //加入弧线
-        for ($i = 0; $i <= 5; $i++) {
-            $color = imagecolorallocate($this->im, rand(128, 255), rand(125, 255), rand(100, 255));
-            imagearc($this->im, rand(0, $this->width), rand(0, $this->height), rand(30, 300), rand(20, 200), 50, 30, $color);
-        }
+        // for ($i = 0; $i <= 5; $i++) {
+        //     $color = imagecolorallocate($this->im, rand(128, 255), rand(125, 255), rand(100, 255));
+        //     imagearc($this->im, rand(0, $this->width), rand(0, $this->height), rand(30, 300), rand(20, 200), 50, 30, $color);
+        // }
     }
  
     private function createCode()
@@ -95,10 +100,11 @@ class Captcha
  
 }
 
-$captcha = new Captcha(80,30,4);
- 
-$captcha->showImg();
-
+$type=$_GET['type'];
+if($type == "getValidate"){
+  $captcha = new Captcha(80,30,4); 
+  $captcha->showImg();
+}
 /*
 //验证码类
 class ValidateCode {
