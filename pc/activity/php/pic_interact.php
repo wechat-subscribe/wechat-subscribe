@@ -30,8 +30,8 @@ $zan=new ZAN('wx_activity_zan');
 
 
 $regex=new regexTool();
-// $type=$_GET['type'];
-$type='list';
+$type=$_GET['type'];
+// $type='list';
 // $type='add';
 // $type='update';
 // $type='updateOK';
@@ -46,29 +46,61 @@ $type='list';
 // $type = 'updateLeaveword';
 // $type = 'updateLeavewordOK';
 if ($type=='list'){
-	/***************分页显示图片互动活动列表*******************/
-// 	$menuId=$_GET['menuId'];
-	$menuId='10';//图片互动的菜单ID
-	if ($regex->isNumber($menuId)){
-// 		$page=$_GET['page'];//获得当前页码
-			$page='1';//获得当前页码
-		$num=10;//每页显示的条数
-		
-		$sql_list1="select a.id from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
-		$res_list1=$db->execsql($sql_list1);
-// 			echo $sql_list1;die;
-		$list['PageNum']=ceil(count($res_list1)/$num);//总页数
-		$start=($page-1)*$num;
-		$sql_list="select a.id,a.title,a.start,a.end from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}' order by a.start desc limit ".$start.",".$num;
-		$res_list=$db->execsql($sql_list);
-// 			echo $sql_list;die;
-		if (empty($res_list)){
-			$list['error']=2;//当前页为空
-		}else {
-			$list['list']=$res_list;
+	/***************将过期的活动关闭，并分页显示图片互动活动列表*******************/
+	
+	//将活动中的过期的活动关闭
+	//wx_activity_interact_project表
+	$sql_valid_activity="select valid,end,id from wx_activity_interact_project";
+	$res_valid_activity=$db->execsql($sql_valid_activity);
+	// 	var_dump($res_valid_activity);
+	$nowTime=time();
+	// 	echo $nowTime;die;
+	foreach ($res_valid_activity as $val_valid_activity){
+		if ($val_valid_activity['valid']==1){
+			if (strtotime($val_valid_activity['end'])<=$nowTime){
+				// 				echo "90";
+				$sql_update_activity="update wx_activity_interact_project set valid=0 where id='{$val_valid_activity['id']}'";
+				$res_update_activity=$db->execsql($sql_update_activity);
+			}
 		}
-			var_dump($list);
-// 		echo json_encode($list);
+	}
+	/* //wx_vote_project表
+	$sql_valid_vote="select valid,end,id from wx_vote_project";
+	$res_valid_vote=$db->execsql($sql_valid_vote);
+	// 	var_dump($res_valid_vote);
+	$nowTime=time();
+	// 	echo $nowTime;die;
+	foreach ($res_valid_vote as $val_valid_vote){
+		if ($val_valid_vote['valid']==1){
+			if (strtotime($val_valid_vote['end'])<=$nowTime){
+				// 				echo "90";
+				$sql_update_vote="update wx_vote_project set valid=0 where id='{$val_valid_vote['id']}'";
+				$res_update_vote=$db->execsql($sql_update_vote);
+			}
+		}
+	} */
+	
+	$menuId=$_GET['menuId'];
+// 	$menuId='10';//图片互动的菜单ID
+	if ($regex->isNumber ( $menuId )) {
+		$page=$_GET['page'];//获得当前页码
+// 		$page = '1'; // 获得当前页码
+		$num = 10; // 每页显示的条数
+		$sql_list1 = "select a.id from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='{$menuId}'";
+		$res_list1 = $db->execsql ( $sql_list1 );
+		// echo $sql_list1;die;
+		$list ['PageNum'] = ceil ( count ( $res_list1 ) / $num ); // 总页数
+		$start = ($page - 1) * $num;
+		$sql_list = "select a.id,a.title,a.start,a.end,a.valid from wx_activity_interact_project as a left join wx_activity_module as b on a.moduleId=b.id where b.menuId='10' order by a.valid desc ,a.start desc limit " . $start . "," . $num;
+		$res_list = $db->execsql ( $sql_list );
+		// echo $sql_list;die;
+		if (empty ( $res_list )) {
+			$list ['error'] = 2; // 当前页为空
+		} else {
+			$list ['list'] = $res_list;
+		}
+// 		var_dump ( $list );
+		echo json_encode($list);
 	}
 }elseif ($type=='add'){
 	/***************后台管理员新增图片互动的活动*******************/
@@ -120,8 +152,8 @@ if ($type=='list'){
 	/***************后台管理员删除图片互动的活动*******************/
 	
 	//尝试联合删除
-// 	 $projectId=$_GET['projectId'];
-	 $projectId='1';//活动项Id
+	 $projectId=$_GET['projectId'];
+// 	 $projectId='1';//活动项Id
 	//查出参与该活动的所有记录中的多媒体文件url
 	$sql_media="select multimediaFile from wx_activity_interact where projectId=".projectId;
 	$res_media=$db->execsql($sql_media);
@@ -165,31 +197,40 @@ if ($type=='list'){
 	}
 }elseif ($type=='update'){
 	/***************后台管理员修改图片互动的活动,点击“修改”按钮的操作*******************/
-// 	$projectId=$_GET['projectId'];
-	$projectId='1';
-	$sql_check_update="select title,content,num from wx_activity_interact_project where id=".$projectId;
+	$projectId=$_GET['projectId'];
+// 	$projectId='1';
+	$sql_check_update="select title,content,num,end from wx_activity_interact_project where id=".$projectId;
 	$res_check_update=$db->getrow($sql_check_update);
-	var_dump($res_check_update);
-// 	echo json_encode($res_check_update);
+// 	var_dump($res_check_update);
+	echo json_encode($res_check_update);
 }elseif ($type=='updateOK'){
 	/***************后台管理员修改图片互动的活动,点击“提交”按钮的操作*******************/
-	/* $projectId=$_GET['projectId'];
+	$projectId=$_GET['projectId'];
 	$title=$_GET['title'];//活动标题
 	$content=$_GET['content'];//活动描述
-	$num=$_GET['num'];//允许一次性上传图片的最大数量 */
-	$projectId='1';
+	$num=$_GET['num'];//允许一次性上传图片的最大数量
+	$end==$_GET['end'];//活动的截止时间
+/* 	$projectId='1';
 	$title='修改后的活动标题';//活动标题
 	$content='修改内容';//活动描述
 	$num='5';//允许一次性上传图片的最大数量
+	$end==$_GET['end'];//活动的截止时间 */
 	if (empty($title)||empty($content)||empty($num)){
 		echo 2;//请检查空项
 	}else {
-		$sql_update="update wx_activity_interact_project set title='{$title}',content='{$content}',num='{$num}' where id=".$projectId;
-		$res_update=$db->execsql($sql_update);
-		if (mysql_affected_rows()>0){
-			echo 1;//更新成功
+		$sql_start="select start from wx_activity_interact_project where id=".$projectId;
+		$res_start=$db->getrow($sql_start);
+		$start=$res_start['start'];
+		if ((strtotime($start)<strtotime($end)) && (strtotime($end)<=strtotime( '+6 month' ))){
+			$sql_update="update wx_activity_interact_project set title='{$title}',content='{$content}',num='{$num}' where id=".$projectId;
+			$res_update=$db->execsql($sql_update);
+			if (mysql_affected_rows()>0){
+				echo 1;//更新成功
+			}else {
+				echo 0;//更新失败
+			}
 		}else {
-			echo 0;//更新失败
+			echo 3;//// 截止日期为当前日期之后，半年之内
 		}
 	}
 }elseif ($type == 'deleteLeaveword') {
@@ -212,10 +253,10 @@ if ($type=='list'){
 	/**
 	 * *****************后台管理员编辑、修改文章信息的评论内容,点击“提交”按钮**********************
 	 */
-// 	$lwdId=$_GET['lwdId'];//评论ID
-	$lwdId=10;
-// 	$content=$_GET['content'];//修改后的评论内容
-	$content='封装修改评论内容6666666666';
+	$lwdId=$_GET['lwdId'];//评论ID
+// 	$lwdId=10;
+	$content=$_GET['content'];//修改后的评论内容
+// 	$content='封装修改评论内容6666666666';
 	echo $lwd->updateLwdOK($lwdId,$content);
 }elseif ($type=='check'){
 	/***************查看某项活动的用户参与情况 *******************/
