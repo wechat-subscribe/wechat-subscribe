@@ -15,6 +15,7 @@
  * $type = 'deleteLeaveword';//后台管理员删除某篇文章的评论
  * $type = 'updateLeaveword';//后台管理员编辑、修改文章信息的评论内容,点击“修改”按钮
  * $type = 'updateLeavewordOK';//后台管理员编辑、修改文章信息的评论内容,点击“提交”按钮
+ * $type = 'valid';//后台管理员关闭某项活动
  */
 
 
@@ -30,7 +31,7 @@ $zan=new ZAN('wx_activity_zan');
 
 
 $regex=new regexTool();
-$type=$_GET['type'];
+  $type=$_GET['type'];
 // $type='list';
 // $type='add';
 // $type='update';
@@ -45,6 +46,7 @@ $type=$_GET['type'];
 // $type = 'deleteLeaveword';
 // $type = 'updateLeaveword';
 // $type = 'updateLeavewordOK';
+//$type = 'valid';
 if ($type=='list'){
 	/***************将过期的活动关闭，并分页显示图片互动活动列表*******************/
 	
@@ -113,7 +115,8 @@ if ($type=='list'){
 	$activity['type']=$_GET['activitytype'];//活动上传的多媒体文件类型为“图片”
 	$activity['start']=date('Y-m-d H:i:s',$starttime);//活动发起的时间
 	$activity['end']=$_GET['end'];//活动的截止时间
-	
+	$activity['valid']=1;//活动默认为开启状态
+	//echo strtotime("2015-10-22 16:19");die;
 /* 	$activity['title']='图片互动活动9';//活动标题
 	$activity['content']='图片互动活动9的活动描述';//活动描述
 	$activity['num']=5;//允许一次性上传图片的最大数量
@@ -122,6 +125,9 @@ if ($type=='list'){
 	$activity['end']=date('Y-m-d H:i:s',strtotime("2016-4-22 11:02:00"));//活动的截止时间
 	$activity['type']=0;//活动上传的多媒体文件类型为“图片”
 	$menuId='10';//图片互动的菜单ID */
+/* 	echo $starttime;
+	echo strtotime ( $activity ['end'] );
+	echo strtotime ( '+6 month' );die; */
 	
 	$activity['review']=0;//默认为不用于往期回顾
 	if ($regex->isNumber ( $menuId )) {
@@ -199,7 +205,8 @@ if ($type=='list'){
 	/***************后台管理员修改图片互动的活动,点击“修改”按钮的操作*******************/
 	$projectId=$_GET['projectId'];
 // 	$projectId='1';
-	$sql_check_update="select title,content,num,end from wx_activity_interact_project where id=".$projectId;
+	//$sql_check_update="select title,content,num,end from wx_activity_interact_project where id=".$projectId;
+	$sql_check_update="select * from wx_activity_interact_project where id=".$projectId;
 	$res_check_update=$db->getrow($sql_check_update);
 // 	var_dump($res_check_update);
 	echo json_encode($res_check_update);
@@ -209,8 +216,9 @@ if ($type=='list'){
 	$title=$_GET['title'];//活动标题
 	$content=$_GET['content'];//活动描述
 	$num=$_GET['num'];//允许一次性上传图片的最大数量
-	$end==$_GET['end'];//活动的截止时间
-/* 	$projectId='1';
+	$end=$_GET['end'];//活动的截止时间
+
+	 /* 	$projectId='1';
 	$title='修改后的活动标题';//活动标题
 	$content='修改内容';//活动描述
 	$num='5';//允许一次性上传图片的最大数量
@@ -221,6 +229,9 @@ if ($type=='list'){
 		$sql_start="select start from wx_activity_interact_project where id=".$projectId;
 		$res_start=$db->getrow($sql_start);
 		$start=$res_start['start'];
+		/* echo strtotime($start)."</br>";
+		echo strtotime($end)."</br>";
+		echo strtotime('+6 month' )."</br>";die; */
 		if ((strtotime($start)<strtotime($end)) && (strtotime($end)<=strtotime( '+6 month' ))){
 			$sql_update="update wx_activity_interact_project set title='{$title}',content='{$content}',num='{$num}' where id=".$projectId;
 			$res_update=$db->execsql($sql_update);
@@ -378,4 +389,19 @@ if ($type=='list'){
 // 	$activityId = 1; // //获取评论对象的ID
 // 	$_SESSION['user']['id']=2;
 	echo $zan->zanAdd($activityId);
+}elseif ($type=="valid"){
+	/**
+	 * ************后台管理员关闭某项活动*****************
+	 */
+	$projectId=$_GET['projectId'];//活动项的ID
+// 	$projectId='1';//活动项的ID
+	if ($regex->isNumber($projectId)){
+		$sql_valid="update wx_activity_interact_project set valid=0 where id=".$projectId;
+		$res_valid=$db->execsql($sql_valid);
+		if (mysql_affected_rows()>0){
+			echo 1;//活动已关闭
+		}else {
+			echo 0;//活动关闭失败
+		}
+	}
 }

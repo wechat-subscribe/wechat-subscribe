@@ -1,56 +1,85 @@
-/*
-*vote front
-*writer  ly
-*/
-
-//加载一个工程
-url="../php/activity.php?handle=activitylist"
-url2="../php/vote.php?handle=showItem"
-url3="../php/vote_interact.php"
-voteId=getPar("voteId");
-data="";
-data2="";
-$.post(url,{"id":voteId},function(d,s){ 
-	d=JSON.parse(d);
-	$(".headpic>img").attr("src",d.picture);
-	$(".votetitle>h4").html(d.title);
-	$(".content>p").html(d.content);
-	data=d;
-});
-$.post(url2,{"voteId":voteId},function(d,s){ 
-d=JSON.parse(d);
-	$.each(d,function(k,v){
+ var user='123456';
+voteId=getPar('voteId');
+datatmp={'type':"getFather","projectId":voteId};
+var father=loadData(datatmp);
+if(father.title==undefined){
+	alert("非法操作");
+	location.href="./votelist.html";
+}
+ else{
+			$(".headpic>img").attr("src",father.picture);
+			$(".votetitle>h4").html(father.title);
+			$(".content>p").html(father.content); 
+ }
+ 
+ data={'type':'list','page':1,'voteId':voteId};
+ var d=loadData(data); 
+ pageWrite(d);
+ 
+ 
+ function pageWrite(d){
+ 
+ $.each(d.list,function(k,v){
 		str=""; 
 		str+=' <div class="votepeo">';
 		str+='<img src="'+v.picture+'" width="50px" >';
-		str+='<div class="votepeotitle upspace"><a href="">'+v.name+'</a></div>';
+		str+='<div class="votepeotitle upspace"><a href="">'+v.title+'</a></div>';
 		str+='<div class="voteaction upspace">';
-		str+='<a onClick="vote(111111111,'+v.id+')"><i class="fa fa-thumbs-o-up"></i>投票</a>';
-		str+='<p id="vote_'+v.id+'">0票</p>';
+		str+='<a onClick="vote('+v.id+')"><i class="fa fa-thumbs-o-up"></i>投票</a>';
+		str+='<p  >'+sumVoteItem(v.id)+'票</p>';
 		str+='</div>';
 		str+='</div>';
 		$("#list").append(str);
-		voteSum(v.id);
-	});
-	data2=d;
-});
-
-
-function voteSum(id){ 
-	 
-	$.post(url3,{"voteSum":1,"id":id},function(d,s){
-		if(d){
-			d=JSON.parse(d);
-			//conlog(d);
-			 $("#vote_"+id+"").html(d+"票")
-		}
-		else{
-			//conlog(d);
-			 
-		}
 		
 	});
-	 
+ }
+ 
+function loadData(data){ 
+    var  re;
+	$.ajax({
+            url         :   "../php/vote_option_list.php",
+            datatype    :   "json",
+            type      :   'GET',         //默认为GET方式
+            async       :   false,          //同步
+            data        :  data,
+            success:function(data) { 
+                console.log(data);	/////////////////////////////////////////////////////////////		
+                re=JSON.parse(data);
+				
+             
+                           
+            },
+            error:function(e){  
+                console.log("请求出错");
+            } 
+        });
+	return re;
+}
+function loadInteractData(data){ 
+    var  re;
+	$.ajax({
+            url         :   "../php/vote_interact.php",
+            datatype    :   "json",
+            type      :   'GET',         //默认为GET方式
+            async       :   false,          //同步
+            data        :  data,
+            success:function(data) { 
+                console.log(data);	/////////////////////////////////////////////////////////////		
+                re=JSON.parse(data);
+				
+             
+                           
+            },
+            error:function(e){  
+                console.log("请求出错");
+            } 
+        });
+	return re;
+} 
+
+function sumVoteItem(id){
+	    data={'voteSum':'voteSum','id':id};
+		return loadInteractData(data); 
 }
 //投票简介
  $(".content>p").css("display","none");//先隐藏简介
@@ -68,16 +97,16 @@ $(".up_down").on("click",up_down);
 	
 }
 //投票
-function vote(user,id){
-	$.post(url3,{"user":user,"id":id,"voteId":getPar("voteId")},function(d,s){
-		d=JSON.parse(d);
-		if(d){
-			alert("投票成功！");
-		}
-		else{
-			alert("您已投票请不要重复投票！");
-		}
-	});
+function vote(id){
+	data={"user":user,"id":id,"voteId":voteId}
+	d=loadInteractData(data);
+	 if(d){
+		 alert("成功");
+		 location.replace(true);
+	 }
+	 else{
+		 alert("请不要刷票");
+	 }
 }
 //获取get参数
 function getPar(par){
@@ -97,9 +126,4 @@ function getPar(par){
     }
     return get_par;
 }
- 
-//调试日志
-		function conlog(str)
-		{
-			alert(str);
-		}
+  

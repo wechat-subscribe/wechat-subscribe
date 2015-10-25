@@ -2,7 +2,7 @@
 /*
 活动列表模型
 */
-Class vote_option extends DB{
+Class vote_project extends DB{
     private $table; 
     private $filter;
     private $limit;
@@ -16,8 +16,8 @@ Class vote_option extends DB{
         $this->where="1"; 
         $this->limit="0 , 10"; 
 		$this->condition=" ";
-		 
-        $this->table=$first."vote_option";
+		$this->order="date desc";
+        $this->table=$first."vote_project";
     }
 	//统计所有数据条数
 	public function num(){
@@ -32,7 +32,7 @@ Class vote_option extends DB{
     }
 	//获取所有数据
     public function gets(){
-        $sql="select ".$this->filter." from ".$this->table." where "." ".$this->where . " limit ".$this->limit ;
+        $sql="select ".$this->filter." from ".$this->table." where "." ".$this->where ."" ." order by ".$this->order." limit ".$this->limit ;
 	
 		 return  $this->execsql($sql); 
     }
@@ -64,21 +64,13 @@ Class vote_option extends DB{
 	}
 	//insert操作
     public function add($array){ 
-       if(empty($array['voteId'])){
-			return 0;//没有voteId
-		}
-        //$array['date']=date('Y-m-d H:i:s');
-        return $this->insert($this->table,$array);
+        $array['date']=date('Y-m-d H:i:s');
 		             
        return $this->insert($this->table,$array); 
     }
 	//update操作
     public function update($array,$condition){
-		if(empty($array['voteId'])){
-			return 0;//没有voteId
-		}
-        //$array['date']=date('Y-m-d H:i:s');
-      
+		//$array['date']=date('Y-m-d H:i:s');
         if( !is_array($array) || count($array)<=0) {
             return false;
         }

@@ -15,7 +15,7 @@ pageWrite(d);
 function loadData(data){ 
     var  re;
 	$.ajax({
-            url         :   "../php/pic_interact.php",
+            url         :   "../php/votelist.php",
             datatype    :   "json",
             type      :   'GET',         //默认为GET方式
             async       :   false,          //同步
@@ -40,8 +40,8 @@ function pageWrite(data){
 	 i=(page-1)*10+1;
 	 $("#tbody").html(str);
 	 $.each(data.list, function(idx, obj) { 
-						href1="interactlist2.html?";
-						href2="";
+						href1="vote_option_list.html?voteId=";
+						href2="../front/vote1.html?voteId=";
                         str = '<tr><td class="checkbox">'+ i++ +'</td>';
                         str += '<td><span  >'+obj.title+'</span></td>'; 
                        
@@ -49,9 +49,9 @@ function pageWrite(data){
                         str += '<td>'+obj.end+'</td>';
 						 str += '<td>'+runRadio(1)+'</td>';
                         str += '<td class="actionicon"><a  onClick="add_('+obj.id+')" name="'+obj.id+'"> <i title="编辑" class="fa fa-pencil blue editarticle"></i></a>';
-						str += '<a href="'+href1+'"   ><i title="管理下一级"  class="fa fa-list   "></i></a> ';
-						str += '<a href="'+href2+'"   ><i title="管理下一级"  class="fa fa-paypal   "></i></a> '; 
-						str += '<i class="fa fa-trash red remove" title="删除"></i></td>';
+						str += '<a href="'+href1+obj.id+'"   ><i title="管理下一级"  class="fa fa-list   "></i></a> ';
+						str += '<a href="'+href2+obj.id+'"   ><i title="管理前台"  class="fa fa-paypal   "></i></a> '; 
+						str += '<i class="fa fa-trash red remove"   title="删除"></i></td>';
                          
                         $("#tbody").append(str);
                     
@@ -201,7 +201,7 @@ function pageWrite(data){
 		 
 		var str="";
 		$("#html").find("img").each(function(){  str+=this.src+"|";   }) ; 
-		alert(str);
+		//alert(str);
 		
 		
 		
@@ -209,11 +209,11 @@ function pageWrite(data){
 		
         //发送第二次删除请求
         $(".btnleft").click(function(){
-            // 取消模态框
-            $(".hideContent,.comtent").css("display","none");
-			data={'type':'deleteactivity',"id" : activityid,"src":imgSrc,'menuId':menuId};
+            
+            $(".hideContent,.comtent").css("display","none");alert(data);
+			data={"type":"delete","id":id};
 			var d=loadData(data);  
-			 
+			 alert(data);
              return false;
         });
         //取消操作
@@ -230,13 +230,14 @@ function add_(id){
 	//var url = window.document.location.href.toString();
     //var u = url.split("?") 
 	if(id==undefined){
-	location.href= "./addinteract.html?menuId="+menuId;
+	location.href= "./addvote.html?menuId="+menuId;
 		
 	}else{
-	location.href= "./addinteract.html?menuId="+menuId+"&&projectId="+id;
+	location.href= "./addvote.html?menuId="+menuId+"&&projectId="+id;
 	
 	}
 }
+
 function runRadio(id){
 				//data={'type':'list','page':page,'menuId':menuId};
 				//var d=loadData(data);

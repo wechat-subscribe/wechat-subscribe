@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>中慧集团</title>
+    <link rel="stylesheet" href="../../../common/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../../../common/css/base.css"/>
+    <link rel="stylesheet" href="../css/addarticle.css"/>
+    <link rel="stylesheet" href="../css/jquery-calendar.css"/>
+    <script src="../../../common/js/jquery-2.0.3.min.js"></script>
+	<script src="../js/jquery-calendar.js"></script>
+    <script src="../../../common/js/jquery.session.js"></script>
+	<!--引入baidu ue-->
+   <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/ueditor.all.min.js"> </script> 
+    <script type="text/javascript" charset="utf-8" src="../../../common/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<!--引入baidu ue-->
+</head>
+<body>
+<div class="maxwrap">
+     <!--头部-->
+    <script src="../../../common/js/head.js"></script>
+    <!--左边栏-->
+    <script src="../../../common/js/pcsidemenu.js"></script>
+    <!--内容区域-->
+    <div class="maincontainer">
+        <!--面包屑导航-->
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                
+				 
+				 <!--
+				 
+				 <li><i class=" fa fa-home home-icon"></i><a href="#">主页</a></li>
+                <li><a href="#">我们</a></li> <li><a href="#">企业文化</a></li>
+                <li class="breadcrumbactive">文章列表</li>
+				 -->
+
+            </ul>
+        </div>
+        <!--内容区域-->
+        <div class="container">
+
+            <ul class="navtable" >
+                <li class=""> <a data-toggle="tab" href="article" class="active">投票管理</a></li>
+               <!-- <li class=""><a data-toggle="tab" href="comment" class="">评论管理</a></li>--->
+            </ul>
+            <div class="tabcontent article">
+              <form>
+                <div class="alert word">
+                    <button type="button" class="close">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                    <i class="fa fa-check"></i>  提示：
+                    <strong>建议您先在本地WORD处理好排版后复制到内容区域</strong>
+                </div>
+
+                <div class="conlabel">
+                    <span>投票标题</span>
+					<input type="hidden" name="projectId">
+					<input type="hidden" name="picture">
+                    <input type="text" name="title" autocomplete="off">
+                </div>
+				 
+				 <div class="conlabel">
+                    <span>开始时间</span> 
+                    	<input type="text" name="start"   maxlength="16" onfocus="$(this).calendar()" readonly="" >
+				   </div>
+				   <div class="conlabel">
+                    <span>结束时间</span> 
+                    	<input type="text" name="end"  maxlength="16" onfocus="$(this).calendar()" readonly=""  >
+				   </div>
+                <div class="conlabelimg" id="uploadpic">
+                    <span>缩略图</span>
+                    <i class="fa fa-picture-o"  onclick="getElementById('thumbpic').click()"></i>
+                    <input id="thumbpic" type="file" name="thumbpic" style="opacity:0;filter:alpha(opacity=0);" >
+                     <input type="hidden" name="picture"/>                   
+				   <!--<div id="feedback"></div>-->
+                </div>
+            
+			    <input name="moduleId" type="hidden"/>
+				 
+                <div class="conlabel">
+                    <span>设置</span>
+                    <span class="normall">是否往期回顾<input name="review" type="checkbox" value="1"   id="comment"></span>
+                    <span class="normall">是否运行<input type="checkbox" value="1" name="valid" id="comment"></span>
+                        </div>
+			 
+                </div>
+                <div class="conlabel">
+                    <span>活动内容</span>
+                    <input type="hidden" name="content">
+					<script id="editor"  type="text/plain" style="width:1024px;height:400px; line-height: normal;"></script>
+                </div>
+					</form>
+                <div class="ownbtngroup">
+                    <a href="" id="submit"  onclick ="return false;"><i class="fa fa-check"></i>发布</a><a  onclick ="return false;" href="" id="reset"><i class="fa fa-undo"></i>取消</a>
+                </div>
+			
+            </div>
+
+           </div>
+    </div>
+</div>
+<script src="../../../common/js/base.js"></script>
+<script src="../js/addvote.js"></script>
+<script>
+    $(function(){
+        //提示框
+        $(".close").bind("click",function(){
+            var $parent = $(this).parent();
+            $parent.slideUp();
+            return false;
+        });
+        // $("li a:contains('我们')").siblings(".submenu").show();
+        // $("li a:contains('企业文化')").siblings(".submenu").show();
+        // $("li a:contains('列表活动')").parent().addClass("active");
+    })
+</script>
+</body>
+</html>

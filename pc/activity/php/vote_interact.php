@@ -7,15 +7,13 @@
  
 header ( 'content-type:text/json;charset=utf-8' );
 require_once '../../../common/php/dbaccess.php';
-require_once '../../../common/php/uploadFiles.php';
-require_once './request.php';//删除测试日志文件
+require_once '../../../common/php/uploadFiles.php'; 
 session_start ();
 $db = new DB (); // 实例化
  
 $first="wx_"; 
 
-$param=$_POST;
-unset($_POST);
+$param=$_GET; 
 if(!empty($param['id'])&&!empty($param['user'])&&!empty($param['voteId']))
 {
 	interact($param['user'],$param['voteId'],$param['id']);
