@@ -30,15 +30,19 @@
         <div class="container">
             <div class="conlabel">
                 <span>子公司名称</span>
-                <input type="text" id="title" autocomplete="off">
+                <input type="text" id="subcompany" autocomplete="off">
             </div>
             <div class="conlabel">
                 <span>地址</span>
-                <input type="text" id="adress" autocomplete="off">
+                <input type="text" id="address" autocomplete="off">
             </div>
             <div class="conlabel">
                 <span>联系方式</span>
                 <input type="text" id="contact" autocomplete="off">
+            </div>
+             <div class="conlabel">
+                <span>邮箱</span>
+                <input type="text" id="email" autocomplete="off">
             </div>
             <!--<div class="conlabelimg" id="uploadpic">-->
                 <!--<span>缩略图</span>-->
@@ -50,12 +54,13 @@
                 <div id="allmap"></div>
             </div>
             <div class="ownbtngroup">
-                <a href=""><i class="fa fa-check"></i>保存</a><a href=""><i class="fa fa-undo"></i>取消</a>
+                <a href="javascript:void(0);" id="submit"><i class="fa fa-check"></i>保存</a><a href="javascript:void(0);"><i class="fa fa-undo"></i>取消</a>
             </div>
     </div>
     </div>
 </div>
 <script src="../../../common/js/base.js"></script>
+<script src="../js/addcompany.js"></script>
 <script>
     $(function(){
         // 百度地图API功能
@@ -65,9 +70,6 @@
         // map.addEventListener("click",function(e){
         //     alert(e.point.lng + "," + e.point.lat);
         // });
-
-        // $("li a:contains('我们')").siblings(".submenu").show();
-        // $("li a:contains('联系我们')").parent().addClass("active");
     });
 </script>
 </body>

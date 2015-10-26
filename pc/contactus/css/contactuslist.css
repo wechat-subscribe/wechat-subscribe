@@ -99,10 +99,10 @@ table tr th:nth-child(2),table tr td:nth-child(2){
 table tr th:nth-child(3),table tr td:nth-child(3){
     width: 35%;
 }
-table tr th:nth-child(3),table tr td:nth-child(4){
+table tr th:nth-child(4),table tr td:nth-child(4){
     width: 15%;
 }
-table tr th:nth-child(4),table tr td:nth-child(5){
+table tr th:nth-child(5),table tr td:nth-child(5){
     width: 10%;
 }
 table tr td.checkbox,table tr th.checkbox{

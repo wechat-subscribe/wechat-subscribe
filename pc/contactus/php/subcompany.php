@@ -14,26 +14,26 @@ require_once '../../../common/php/dbaccess.php';
 require_once '../../../common/php/regexTool.class.php';//正则表达式匹配的类文件
 $db=new DB();
 $regex = new regexTool();
-// $type=$_GET['type'];
+$type=$_GET['type'];
 // $type='add';
 // $type='del';
 // $type='update';
 // $type='checkPage';
 // $type='checkFuzzy';
-   $type='checkOne';
+// $type='checkOne';
 if ($type=='add'){
 	/**********************后台管理员新增子公司信息**************************/
 	$subcom=array();
-	/* $subcom['companyName']=$_GET['companyName'];
+	$subcom['companyName']=$_GET['companyName'];
 	$subcom['address']=$_GET['address'];
 	$subcom['phone']=$_GET['phone'];
 	$subcom['email']=$_GET['email'];
-	$subcom['coordinate']=$_GET['coordinate']; */
-	$subcom['companyName']='子公司名称32';
-	$subcom['address']='山东省青岛市黄岛区32号';
-	$subcom['phone']='13897789090';
-	$subcom['email']='324328904@qq.com';
-	$subcom['coordinate']='89.5341,87.145646';
+	$subcom['coordinate']=$_GET['coordinate']; 
+	// $subcom['companyName']='子公司名称32';
+	// $subcom['address']='山东省青岛市黄岛区32号';
+	// $subcom['phone']='13897789090';
+	// $subcom['email']='324328904@qq.com';
+	// $subcom['coordinate']='89.5341,87.145646';
 	if (empty($subcom['companyName']) ||empty($subcom['address'])||empty($subcom['phone'])||empty($subcom['email'])){
 		echo 2;//请检查空值
 	}else {
@@ -61,8 +61,8 @@ if ($type=='add'){
 	}
 }elseif ($type=='del'){
 	/**********************后台管理员删除子公司信息**************************/
-// 	$id=$_POST['id'];
-	$id=5;
+	$id=$_GET['id'];
+	// $id=5;
 	$sql_del="delete from wx_map where id='{$id}'";
 	$res_del=$db->execsql($sql_del);
 	if (mysql_affected_rows()){
@@ -72,18 +72,18 @@ if ($type=='add'){
 	}
 }elseif ($type=='update'){
 	/**********************后台管理员更新子公司信息**************************/
-	/* $id=$_POST['id'];
+	$id=$_GET['id'];
 	$companyName=$_GET['companyName'];
 	$address=$_GET['address'];
 	$phone=$_GET['phone'];
 	$email=$_GET['email'];
-	$coordinate=$_GET['coordinate']; */
-	$id=4;
-	$companyName='子公司名称5';
-	$address='山东省青岛市黄岛区5号';
-	$phone='18897789090';
-	$email='824328904@qq.com';
-	$coordinate='88.5341,88.145646';
+	$coordinate=$_GET['coordinate']; 
+	// $id=4;
+	// $companyName='子公司名称5';
+	// $address='山东省青岛市黄岛区5号';
+	// $phone='18897789090';
+	// $email='824328904@qq.com';
+	// $coordinate='88.5341,88.145646';
 	if (empty($companyName) ||empty($address)||empty($phone)||empty($email)){
 		echo 2;//请检查空值
 	}else {
@@ -96,7 +96,7 @@ if ($type=='add'){
 		}else{
 			$sql_update="update wx_map set companyName='{$companyName}',address='{$address}',phone='{$phone}',email='{$email}',coordinate='{$coordinate}' where id='{$id}'";
 			$res_update=$db->execsql($sql_update);
-// 			echo $sql_update;die;
+			// echo $sql_update;die;
 			if (mysql_affected_rows()){
 				echo 1;//更新成功
 			}else {
@@ -106,23 +106,32 @@ if ($type=='add'){
 	}
 }elseif ($type=='checkPage'){
 	/**********************分页查询公司信息**************************/
-// 	$page=$_GET['page'];
-	$page=5;
+	$check_data=array();
+
+	$page=$_GET['page'];
+	// $page=5;
 	$num=10;//每页显示10条
 	$start=($page-1)*$num;//本页显示的起始位置	
 	$sql_check="select * from wx_map limit ".$start.",".$num;
 	$res_check=$db->execsql($sql_check);
+
+	// 获取总数据
+	$sql_info_num = "select * from wx_map ";
+	$res_info_num=$db->execsql($sql_info_num);
+	$check_data['PageNum']=ceil(count($res_info_num)/$num);
+
 // 	echo $sql_check;die;
-	$check_data=array();
+
 	$num_res=count($res_check);
 	if ($num_res==0){
-		$check_data['error']=0;//最后一页或第一页
+		$check_data['error']=0;//数据为空
 	}else {
 		$check_data['check']=$res_check;
-		$check_data['error']=1;//可以向下或向上翻页
+		// $check_data['num']=$numall_res;
+		$check_data['error']=1;//数据不为空
 	}
 // 	var_dump($check_data);
-	echo json_encode($res_check);
+	echo json_encode($check_data);
 }elseif ($type=='checkFuzzy'){
 	/**********************模糊查询公司名称**************************/
 // 	$keyword=$_GET['keyword'];
@@ -138,6 +147,11 @@ if ($type=='add'){
 	$companyName='子公司名称5';
 	$sql_company="select * from wx_map";
 	$res_company=$db->getrow($sql_company);
-	var_dump($res_company);
-// 	echo json_encode($res_company);
+	// var_dump($res_company);
+	echo json_encode($res_company);
+}elseif($type == 'detail'){
+	$id=$_GET['id'];
+	$sql_select = "select * from wx_map where id = ".$id;
+	$res_checkFuzzy=$db->execsql($sql_select);
+	echo json_encode($res_checkFuzzy);
 }
