@@ -31,7 +31,7 @@ function add_(){
 		$data['picture']=$param['picture']; 
 		$data['start']=$param['start']; 
 		$data['end']=$param['end']; 
-		$VP->add($data);
+		echo $VP->add($data);
 }
 
 function update_(){

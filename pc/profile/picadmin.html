@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="cn">
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/index.css" rel="stylesheet">
+
+<title>图片管理</title>
+</head>
+<style>
+
+
+</style>
+<body>
+<div class="container">
+<!--
+<div class="row">
+<header id="header">
+
+<ul id="main-nav" class="clearfix">
+	<li><a href="#">首页</a></li>
+	<li><a href="#">主题</a></li>
+	<li><a href="#">分类</a> </li>
+	<li><a href="#">设计</a></li>
+</ul>
+<form id="searchform">
+	<input type="search" id="s" placeholder="信息搜索">
+</form>
+</header>
+</div>
+-->
+<div id="pics">
+<!--
+<ul>
+<li>
+<div class="row">
+<div id="content" class="col-md-6 col-md-offset-3">
+		
+			<header>
+				<a class="btn btn-danger" >删除</a>
+				
+			</header>
+			<figure class="post-image"> 
+				<img src="images/1.jpg" width="100%" /> 
+			</figure>
+</div>
+
+</div>
+</li>
+
+<li>
+<div class="row">
+<div id="content" class="col-md-6 col-md-offset-3">
+		
+			<header>
+				<a class="btn btn-danger" >删除</a>
+				
+			</header>
+			<figure class="post-image"> 
+				<img src="images/2.jpg" width="100%" /> 
+			</figure>
+</div>
+
+</div>
+</li>
+
+<li>
+<div class="row">
+<div id="content" class="col-md-6 col-md-offset-3">
+		
+			<header>
+				<a class="btn btn-danger" >删除</a>
+				
+			</header>
+			<figure class="post-image"> 
+				<img src="images/3.jpg" width="100%" /> 
+			</figure>
+</div>
+
+</div>
+</li>
+</ul>
+-->
+</div>
+
+<div class="row navbar-fixed-top" id="foot-nav">
+<header>
+<h3>企业图片播放后台管理</h3>
+				
+</header>
+<ul id="foot" >
+<li>
+<button id="forward" class="btn btn-large btn-primary" type="button">前 &nbsp;  &nbsp;&nbsp;&nbsp;  移</button>
+</li>
+<li><button id="backward" class="btn btn-large btn-primary" type="button">后   &nbsp;  &nbsp;&nbsp;&nbsp;  移</button>
+</li>
+<li>
+<button id="upload" class="btn btn-large btn-primary" type="button">上传图片</button>
+</li>
+<li>
+<button id="save" class="btn btn-large btn-primary" type="button">保存设置</button>
+</li>
+
+</ul>
+
+</div>
+
+
+
+
+
+
+	
+
+</div>
+
+<div id="myModal" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+<form enctype="multipart/form-data" action="php/picadmin.php" method="post" name="uploadform">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>上传图片</h3>
+  </div>
+  <div class="modal-body">
+  <input type="hidden" name="MAX_FILE_SIZE" value="104857600">
+    <p><input type="file" name="file0" id="file0" multiple="multiple" /><br><img src="" id="img0" ></p>
+	<div id="uploadstatus"></div>
+  </div>
+  <div class="modal-footer">
+    
+    <button class="btn btn-primary" id="fileupload" name="upload" >上传</button>
+	 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+  </form>
+  </div>
+  </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+	<script src="./js/picadmin.js"></script>
+</body>
+</html>

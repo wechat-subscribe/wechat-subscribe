@@ -33,6 +33,13 @@
 			 'valid':$("input[name='valid']").val() ,
 			 'num':$("input[name='num']").val() 
 			 };
+		 d=loadData(data);//执行
+		 if(d){
+			 alert("更新成功");
+		 }
+		 else{
+			 alert("更新失败");
+		 }
 		 	
 		}else{
 		data={'type':'add',
@@ -45,10 +52,16 @@
 			 'review':$("input[name='review']").val() ,
 			 'valid':$("input[name='valid']").val() 
 		};
+		 d=loadData(data);//执行
+		 if(d){
+			 alert("添加成功");
+		 }
+		 else{
+			 alert("添加失败");
+		 }
 		 	
 		}
-		 d=loadData(data);//执行
-		 
+		
         }
         return false;
     });
@@ -96,7 +109,7 @@ function loadData(data){
 						
 				console.log(data);			
                 re=JSON.parse(data);
-				
+//				console.log(re);
                            
             },
             error:function(e){  

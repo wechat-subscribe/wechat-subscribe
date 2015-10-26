@@ -1,0 +1,17 @@
+﻿@charset "utf-8";
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+body{font:12px/180% "Arial","微软雅黑";color:#666666;background-color:#ffffff;}
+a,a:hover{color:#666666;text-decoration:none;border:0px;}
+
+/* focusBar */
+#focusBar{width:100%;top:10%;clear:both;position:absolute;background:#242424;overflow:hidden;text-align:center}
+#focusBar li{width:100%;clear:both;display:none;position:absolute;/* position:relative;*/}
+#focusBar .focus{position:absolute;z-index:9;/*left:-1000px;*/ top:0px;left:-10000px;margin-left:50%;height:100%;width:100%}
+
+
+a.arrL,a.arrR{display:block;width:52px;height:134px;position:absolute;top:40%;z-index:99;cursor:pointer;background:url(../images/bt_arr.png) no-repeat;}
+a.arrL{left:0px;background-position:0px 0px;}
+a.arrR{right:0px;background-position:-68px 0px;}
+a.arrL:hover{background-position:0px -144px;}
+a.arrR:hover{background-position:-68px -144px;}

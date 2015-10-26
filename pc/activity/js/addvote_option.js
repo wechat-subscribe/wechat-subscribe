@@ -108,9 +108,9 @@ function loadData(data){
             data        :  data,
             success:function(data) { 
 						
-				console.log(data);			
+//				console.log(data);			
                 re=JSON.parse(data);
-				
+//				console.log(re);
                            
             },
             error:function(e){  

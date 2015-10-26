@@ -17,7 +17,7 @@ $db=new DB();
  * @$menuName:添加的菜单名称
  * @$menuFirstType：选择的菜单一级类型。"articlelist":文章列表；"activity":活动
  * @$menusecondType：选择的菜单二级类型。若一级为文章列表，则"picture":图文；"video":视频；"voice":音频
- *                                若一级为活动，则"vote":投票；"interact":图片互动
+ *                                若一级为活动，则"vote":投票；"picture":图片互动;"voice":音频互动;"video":视频互动
  * @$menuId:添加菜单的ID
  */
 function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
@@ -58,6 +58,7 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 			switch ($menusecondType){
 				case 'vote':
 					$reviewTable='wx_vote_project';
+					$type=0;
 					//判断是否存在投票类型的按钮，若存在，则不能添加
 					$sql_isset="select id from wx_activity_module where reviewTable='wx_vote_project'";
 					$res_isset=$db1->execsql($sql_isset);
@@ -65,16 +66,25 @@ function addmenu($menuName,$menuFirstType,$menusecondType,$menuId){
 						return false;
 					}
 					break;
-				case 'interact':
+				case 'picture':
+					$type=1;
 					$reviewTable='wx_activity_interact_project';
 					break;
+				case 'voice':
+					$type=2;
+					$reviewTable='wx_activity_interact_project';
+					break;
+				case 'video':
+					$type=3;
+					$reviewTable='wx_activity_interact_project';
+					break;/* 
 				case 'review':
 					$reviewTable='wx_activity_interact_project';
-					break;
+					break; */
 				default:
 					break;
 			}
-		    $sql_insert_second="insert into wx_activity_module (name,reviewTable,menuId) values ('{$menuName}','{$reviewTable}','{$menuId}')";
+		    $sql_insert_second="insert into wx_activity_module (name,reviewTable,menuId,type) values ('{$menuName}','{$reviewTable}','{$menuId}','{$type}')";
 // 		    echo json_encode($sql_insert_second);die;
 		    $res_insert_second=$db1->execsql($sql_insert_second);
 			
@@ -379,7 +389,8 @@ if ($type=="showmenu"){
 	$menuName=$_GET['menuName'];//所添加菜单的名称
 	$menuFirstType=$_GET['menuFirstType'];//选择的菜单一级类型。"articlelist":文章列表；"activity":活动
 	$menusecondType=$_GET['menusecondType'];//选择的菜单二级类型。若一级为文章列表，则"picture":图文；"video":视频；"voice":音频
-	                                       //若一级为活动，则"interact":图片互动;"vote":投票;"review";"往期回顾"
+	                                       // 若一级为活动，则"vote":投票；"picture":图片互动;"voice":音频互动;"video":视频互动
+	                                       
 	$menuParentId=$_GET['parentId'];//所添加菜单的父类菜单名称，若为0，则表示该菜单为一级菜单
 	if ($menuParentId==0){
 		/*
@@ -409,15 +420,21 @@ if ($type=="showmenu"){
 				}elseif ($menuFirstType=="activity"){
 					$menuTypeName="活动";
 					if ($menusecondType=='vote'){
+						$urlPC='../../activity/html/votelist.html';
+						$urlWechat=null;
+					}elseif ($menusecondType=='picture') {
+						$urlPC='./interactlist.html?type=';
+						$urlWechat=null;
+					}elseif ($menusecondType=='voice') {
 						$urlPC=null;
 						$urlWechat=null;
-					}elseif ($menusecondType=='interact') {
+					}elseif ($menusecondType=='video') {
 						$urlPC=null;
 						$urlWechat=null;
-					}elseif ($menusecondType=='review') {
+					}/* elseif ($menusecondType=='review') {
 						$urlPC=null;
 						$urlWechat=null;
-					}
+					} */
 				}
 				//从wx_wechat_module_type中查找类型ID
 				$sql_typeId="select id from wx_wechat_module_type where name='{$menuTypeName}'";

@@ -70,7 +70,7 @@ Class vote_option extends DB{
         //$array['date']=date('Y-m-d H:i:s');
         return $this->insert($this->table,$array);
 		             
-       return $this->insert($this->table,$array); 
+//        return $this->insert($this->table,$array); 
     }
 	//update操作
     public function update($array,$condition){
