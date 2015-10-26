@@ -35,6 +35,12 @@ div.input input{
     transition-duration: .1s;
     width: 41.6666%;
 }
+div.success div.input input{
+    border-color: #92bf65;
+}
+div.error div.input input{
+    border-color: #d16e6c;
+}
 div.input input:focus{
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -47,17 +53,18 @@ div.formgroup.error{
     color: #d16e6c;
 }
 div.formgroup.success{
-    color: #657ba0;
+    /*color: #657ba0;*/
+    color: #92bf65;
 }
 i.fa.fa-remove.remove {
     position: relative;
-    left: -20px;
+    /*left: -20px;*/
     display: none;
 }
 
 i.fa.fa-check.check {
     position: relative;
-    left: -40px;
+    /*left: -40px;*/
     display: none;
 }
 

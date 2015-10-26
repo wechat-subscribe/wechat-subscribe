@@ -27,33 +27,34 @@
         </div>
         <!--内容区域-->
         <div class="container">
-            <div class="formgroup error">
-                <label class="text" for="filed-1">原始密码</label>
+            <div class="formgroup" id="oldpasswddiv">
+                <label class="text" for="oldpasswd">原始密码</label>
                 <div class="input">
-                    <input type="text" id="filed-1"/>
-                    <!--<i class="fa fa-remove remove"></i>-->
-                    <!--<i class="fa fa-check check"></i>-->
+                    <input type="text" id="oldpasswd"/>
+                    <i class="fa fa-remove remove">密码错误</i>
+                    <i class="fa fa-check check">密码正确</i>
                 </div>
             </div>
             <div class="formgroup">
-                <label class="text" for="filed-2">新密码</label>
+                <label class="text" for="newpasswd">新密码</label>
                 <div class="input">
-                    <input type="text" id="filed-2"/>
+                    <input type="text" id="newpasswd"/>
                 </div>
             </div>
             <div class="formgroup">
-                <label class="text" for="filed-3">重复新密码</label>
+                <label class="text" for="newpasswd2">重复新密码</label>
                 <div class="input">
-                    <input type="text" id="filed-3"/>
+                    <input type="text" id="newpasswd2"/>
                 </div>
             </div>
             <div class="ownbtngroup">
-                <a href=""><i class="fa fa-check"></i>更改</a> <a href=""><i class="fa fa-undo"></i>取消</a>
+                <a href="javascript:void(0);" id="submit"><i class="fa fa-check"></i>更改</a> <a href="javascript:void(0);"><i class="fa fa-undo"></i>取消</a>
             </div>
         </div>
     </div>
 </div>
 <script src="../../../common/js/base.js"></script>
+<script src="../js/editpwd.js"></script>
 <script>
     $(function(){
 
